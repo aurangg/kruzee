@@ -1,0 +1,62 @@
+.back-button{
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+.back-button-prop{
+    padding:10px 8px;
+    border-radius: 4px;
+    transition: 0.3s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: max-content;
+}
+.back-button .back-button-prop:hover{
+    background-color: var(--gray200);
+}
+.back-button .back-button-name{
+    margin-bottom: 0px;
+    font-family: 'Merriweather', serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 14px;
+    text-align: center;
+    color: var(--gray800);
+    margin-left:3px;
+}
+.kruzee-logo{
+    flex-grow: 8;
+}
+.no-padding{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+.steps-border{
+    padding-bottom: 17px;
+    border-bottom:1px solid var(--gray200);
+    margin-bottom:-12px;
+}
+.steps{
+    display: flex;
+    align-items: center;
+    margin-top:12px;
+}
+.steps .step-name{
+    margin-bottom: 0px;
+    font-family: 'HKGrotesk-Regular';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    font-feature-settings: 'liga' off;
+    margin-right:2px;
+}
+.complete{
+    display: block;
+}
+.in-progress{
+    display: none;
+}
+
