@@ -10,6 +10,7 @@ import Loader from '../Common/Loader';
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption, ComboboxPopover } from '@reach/combobox';
 import "@reach/combobox/styles.css";
 import { Link } from 'react-router-dom';
+import { getLocationScreenHeading } from '../localStorage';
 
 
 const containerStyle = {
@@ -84,6 +85,7 @@ function Map(){
 
 
 function Search({setPlace}){
+    const locationScreenHeading = getLocationScreenHeading().replace(/"/g, '');
     const [loadingClass, setLoadingClass] = useState(false)
     const [mapButton, setMapButton] = useState(true)
     useEffect(() => {
@@ -119,7 +121,7 @@ function Search({setPlace}){
             <div className='row'>
                 <div className='col-lg-4 map-search-box'>
                     <div className='map-box'>
-                        <h2 className='map-heading'>Where can we pick you up for your first lesson?</h2>
+                        <h2 className='map-heading'>{locationScreenHeading}</h2>
                         <Combobox onSelect={async (address) => {
                             setValue(address, false);
                             clearSuggestions()

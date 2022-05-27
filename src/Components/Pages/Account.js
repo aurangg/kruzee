@@ -8,6 +8,10 @@ import Toolbar from "../Common/Toolbar";
 import './onboarding.css';
 import './radio-button.css';
 import { getWeekStartDate } from "../localStorage";
+import TermsOfUse from '../../Terms of Use.pdf';
+import PrivacyPolicy from '../../Privacy Policy.pdf';
+
+
 function Account() {
  
     const [email, setEmail] = useState('');
@@ -40,11 +44,11 @@ function Account() {
     const [slot, setSlot] = useState('')
     const [date, setDate] = useState('')
 
+    const [weekStartDate, setWeekStartDate] = useState('')
+
     const [buttonLoading, setButtonLoading] = useState(false)
 
     const navigate = useNavigate();
-
-    const weekStartDate = getWeekStartDate().replace(/"/g, '');
 
     useEffect(()=> {
         document.title = "Create An Account | Kruzee"
@@ -90,6 +94,9 @@ function Account() {
         }
         if(localStorage.getItem("date")){
             setDate(localStorage.getItem("date").replace(/"/g, ''))
+        }
+        if(localStorage.getItem("weekStartDate")){
+            setWeekStartDate(getWeekStartDate().replace(/"/g, ''))
         }
         
     },[])
@@ -294,10 +301,10 @@ function Account() {
                                     </button>
                                 </Link> */}
                                     <button className={`create-account-btn ${disable ? "opacity-03": "opacity-01"}`} disabled={disable} type="submit">
-                                        Create Account!
+                                        Create Account
                                         <span className={`${buttonLoading === false ? '' : 'spinner-border spinner-border-sm'} `} style={{marginLeft:"5px"}}></span>
                                     </button>
-                                {/* <p className="create-tos color-gray700">By clicking continue you agree to our <Link to="/"><span className="color-blue700">Terms</span></Link>, <span className="color-blue700">Privacy Policy</span>, and <span className="color-blue700"> Content Policy</span> </p> */}
+                                <p className="create-tos color-gray700">By clicking continue you agree to our <a href={TermsOfUse} download="Terms of Use"><span className="color-blue700">Terms</span></a> and <a href={PrivacyPolicy} download="Privacy Policy"><span className="color-blue700">Privacy Policy</span></a>.</p>
                             </div>
                        </form>
                     </div>

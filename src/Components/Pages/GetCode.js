@@ -35,7 +35,11 @@ function GetCode(){
         localStorage.removeItem('userName')
         localStorage.removeItem('weekStartDate')
         localStorage.removeItem('date')
+        localStorage.removeItem('day')
+        localStorage.removeItem('lessonId')
         localStorage.removeItem('instructorId')
+        localStorage.removeItem('locationScreenHeading')
+        localStorage.removeItem('slot')
     }, [postalCode])
     const handleChange = (postalCode) => {
         setPostalCode(postalCode.toUpperCase())

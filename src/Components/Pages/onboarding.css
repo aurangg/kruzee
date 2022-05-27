@@ -982,11 +982,13 @@
 }
 .map-input-search{
     position: relative;
+    z-index: 1;
 }
 .map-input-exit{
     position: absolute;
     right: 10px;
-    top:13px;
+    top:6px;
+    z-index: 2;
     cursor: pointer;
 }
 .map-input{

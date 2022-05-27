@@ -82,15 +82,22 @@ function Pricing(){
 
 
     function handleFullPackage(){
+        localStorage.setItem("locationScreenHeading", JSON.stringify("Where can we pick you up for your first lesson?"))
         localStorage.setItem("packageName", JSON.stringify("Full Packages"))
-        const perks = ["10 hours of in-car driving lessons with a Kruzee instructor", "Get licensed sooner — 8 months instead of 12", "Potential 15% reduction on your drivers insurance", "Online, self-paced learning"]
+        const perks = [
+            "10 hours of in-car driving lessons with a Kruzee driving instructor",
+            "Get licensed sooner — With our MTO certificate course, you can unlock the ability to get your G2 in 8 months instead of 12", 
+            "10-20% reduction on your auto insurance (varies by insurer - terms & conditions apply)", 
+            "Online, self-paced learning"
+        ]
         localStorage.setItem("perks", JSON.stringify(perks))
         localStorage.setItem("price", JSON.stringify(695))
         localStorage.setItem("package", JSON.stringify("Basic"))
         localStorage.setItem("lesson", JSON.stringify(7))
     }
 
-    function handleRoadTest(){
+    function handleRoadTest(){        
+        localStorage.setItem("locationScreenHeading", JSON.stringify("Where can we pick you up for your road test?"))
         localStorage.setItem("packageName", JSON.stringify("Road Test Support + Test Prep"))
         const perks2 = ["Use of instructor's vehicle for road test", "30 min refresher lesson before test", "Free pickup and drop-off from test"]
         localStorage.setItem("perks", JSON.stringify(perks2))
@@ -99,8 +106,9 @@ function Pricing(){
     }
 
     function handleIndiviualLessons(){
+        localStorage.setItem("locationScreenHeading", JSON.stringify("Where can we pick you up for your first lesson?"))
         localStorage.setItem("packageName", JSON.stringify("Driving Practice Lessons"))
-        const perks3 = ["In-car lessons with Kruzee instructor"]
+        const perks3 = ["Book one, five, or ten hours of lessons - it's totally up to you", "Free pickup and drop-off", "Book and schedule your in-car lessons fully online"]
         localStorage.setItem("perks", JSON.stringify(perks3))
         localStorage.setItem("package", JSON.stringify("Basic"))
     }
@@ -139,19 +147,19 @@ function Pricing(){
                                         <div className="plan-benefits">
                                             <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/benefits.svg'} alt="benefits" />
                                             <p className="benefits-info">
-                                                10 hours of in-car driving lessons with a Kruzee instructor
+                                                10 hours of in-car driving lessons with a Kruzee driving instructor
                                             </p>
                                         </div>
                                         <div className="plan-benefits">
                                             <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/benefits.svg'} alt="benefits" />
                                             <p className="benefits-info">
-                                                Get licensed sooner — 8 months instead of 12
+                                                Get licensed sooner — With our MTO certificate course, you can unlock the ability to get your G2 in 8 months instead of 12
                                             </p>
                                         </div>
                                         <div className="plan-benefits">
                                             <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/benefits.svg'} alt="benefits" />
                                             <p className="benefits-info">
-                                                Potential 15% reduction on your drivers insurance
+                                                10-20% reduction on your auto insurance (varies by insurer - terms & conditions apply)
                                             </p>
                                         </div>
                                         <div className="plan-benefits">
@@ -172,6 +180,49 @@ function Pricing(){
                             </div>
                     </div>
 
+                    <div className="col-lg-4 pricing-padding">
+                        <div className='pricing-box'>
+                            <div style={{display:"flex", flexDirection:"column", justifyContent:"space-between", height:"100%"}}>
+                                <div>
+                                    <h6 className="pricing">$65<span className="pricing-span">/ hr + HST</span></h6>
+                                    <h6 className="package-name">
+                                        Driving Practice Lessons
+                                    </h6>
+                                    <div className="align-items-center">
+                                        <p className="package-description">
+                                            In-car lessons with an MTO-certified Kruzee instructor
+                                        </p>
+                                    </div>
+                                    <div className="plan-benefits">
+                                        <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/benefits.svg'} alt="benefits" />
+                                        <p className="benefits-info">
+                                            Book one, five, or ten hours of lessons - it's totally up to you
+                                        </p>
+                                    </div>
+                                    <div className="plan-benefits">
+                                        <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/benefits.svg'} alt="benefits" />
+                                        <p className="benefits-info">
+                                            Free pickup and drop-off
+                                        </p>
+                                    </div>
+                                    <div className="plan-benefits">
+                                        <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/benefits.svg'} alt="benefits" />
+                                        <p className="benefits-info">
+                                            Book and schedule your in-car lessons fully online
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="align-center">
+                                    <Link to="/indiviual-lesson" state={{heading_name:"Book your first driving lesson"}} onClick={handleIndiviualLessons}>
+                                        <div className="pricing-btn">
+                                            Select
+                                        </div>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <div className="col-lg-4 pricing-padding">
                         <div className='pricing-box'>
@@ -179,7 +230,7 @@ function Pricing(){
                                 <div>
                                     <h6 className="pricing">$245<span className="pricing-span">/ pack + HST</span></h6>
                                     <h6 className="package-name">
-                                        Road Test Support + Test Prep
+                                        Vehicle for Road Test and Simulation
                                     </h6>
                                     <div className="align-items-center">
                                         <p className="package-description">
@@ -189,7 +240,7 @@ function Pricing(){
                                     <div className="plan-benefits">
                                         <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/benefits.svg'} alt="benefits" />
                                         <p className="benefits-info">
-                                            Use of instructor’s vehicle for road test
+                                            Use a Kruzee instructor’s vehicle for road test
                                         </p>
                                     </div>
                                     <div className="plan-benefits">
@@ -215,43 +266,6 @@ function Pricing(){
                             </div>
                         </div>
                     </div>
-
-
-
-                    <div className="col-lg-4 pricing-padding">
-                        <div className='pricing-box'>
-                            <div style={{display:"flex", flexDirection:"column", justifyContent:"space-between", height:"100%"}}>
-                                <div>
-                                    <h6 className="pricing">$65<span className="pricing-span">/ hr + HST</span></h6>
-                                    <h6 className="package-name">
-                                        Driving Practice Lessons
-                                    </h6>
-                                    <div className="align-items-center">
-                                        <p className="package-description">
-                                            In-car lessons with an MTO-certified Kruzee instructor
-                                        </p>
-                                    </div>
-                                    <div className="plan-benefits">
-                                        <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/benefits.svg'} alt="benefits" />
-                                        <p className="benefits-info">
-                                            In-car lessons with a Kruzee instructor
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="align-center">
-                                    <Link to="/indiviual-lesson" state={{heading_name:"Book your first driving lesson"}} onClick={handleIndiviualLessons}>
-                                        <div className="pricing-btn">
-                                            Select
-                                        </div>
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
 
                 </div>
             </div>

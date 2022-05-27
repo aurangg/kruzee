@@ -58,7 +58,13 @@ export const createStudent = async () => {
   const weekStartDate = getWeekStartDate();
   const slot = getSlotSelected();
   const zip = getPostalCode();
-  const instructorId = getInstructorId().replace(/"/g, '');
+  let instructorId = ''
+  if(getInstructorId() !== null){
+    instructorId = getInstructorId().replace(/"/g, '');
+  }
+  else{
+    instructorId = ''
+  }
 
   const createStudentBodyData = {
     instructorId: instructorId.replace(/"/g, ''),
@@ -200,7 +206,7 @@ export const addStudentPayment = async (studentData) => {
         }
       }
   );
-  const resAddStudentPayment = data.json();
+  const resAddStudentPayment = await data.json();
   console.log(resAddStudentPayment)
 };
 

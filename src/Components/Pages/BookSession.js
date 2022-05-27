@@ -11,6 +11,7 @@ import { format, getMonth } from "date-fns";
 import { callTime } from "../Common/utils";
 import SmallLoader from '../Common/SmallLoader';
 import FourOFour from '../Common/404';
+import { getPostalCode } from '../localStorage';
 
 
 function BookSession(){
@@ -48,7 +49,7 @@ function BookSession(){
     const [errorRes, setErrorRes] = useState(false)
 
     const [schedule, setSchedule] = useState([])
-    const postalCode = localStorage.getItem("postalCode")
+    const postalCode = getPostalCode().replace(/"/g, '');
     const [data, setData] = useState([])
     const location = useLocation()
     const [instructor, setInstructorId] = useState('')
@@ -161,7 +162,7 @@ function BookSession(){
     const handleTimeSlot = (index) => {
         setActiveState(index)
         setBtn(true)
-        localStorage.setItem("day", JSON.stringify(slotDay))
+        localStorage.setItem("day", JSON.stringify(slotDay.toLowerCase()))
         localStorage.setItem("slot", JSON.stringify(index))
     }
 
@@ -259,14 +260,13 @@ function BookSession(){
 
 
     if(loading){
-        // return <NoResult />
         return <Loader />
+    }
+    if(data.length === 0){
+        return <NoResult />
     }
     if(errorRes){
         return <FourOFour />
-    }
-    if(!data){
-        return <NoResult />
     }
     return(
         <section className='simple-bg h-100vh'>

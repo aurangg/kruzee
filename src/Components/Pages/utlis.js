@@ -24,7 +24,7 @@ import { getDateSelected, getDaySelected, getSlotSelected, getWeekStartDate } fr
 
 export const instructorSlotBooked = async (instructorId) => {
 
-  const date = getDateSelected().replace(/"/g, '');
+  // const date = getDateSelected().replace(/"/g, '');
   const day = getDaySelected().replace(/"/g, '');
   const slot = Number(getSlotSelected().replace(/"/g, ''));
   const weekStartDate = getWeekStartDate().replace(/"/g, '');
@@ -40,20 +40,11 @@ export const instructorSlotBooked = async (instructorId) => {
   const resInstructorData = await instructorSlots.json();
   console.log("Res Data", resInstructorData)
 
-  function checkBookedSlots(){
-    if(resInstructorData?.data?.bookedSlots.length !== 0){
-      const getSlots = resInstructorData?.data?.bookedSlots?.find((item) => {
-        return item.startDate.split("T")[0] === weekStartDate
-      })
-    
-      getSlots[day].push(slot)
-    }
-    else{
-      return false;
-    }
-  }
-  checkBookedSlots();
-  return resInstructorData?.data.bookedSlots
+  const getSlots = await resInstructorData.data?.bookedSlots?.find((item) => {
+      return item.startDate.split("T")[0] === weekStartDate;
+  });
+  await getSlots[day].push(slot)
+  return resInstructorData?.data?.bookedSlots
 }
 
 // export const instructorRescheduleSlotBooked = async (

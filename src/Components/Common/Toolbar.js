@@ -22,7 +22,7 @@ function Toolbar(props){
             </div>
             <div className='col-6'>
                 <div className='kruzee-logo align-items-center'>
-                    <img src={process.env.PUBLIC_URL + '/images/kruzee-logo.png'}></img>
+                    <img style={{width:"125px", height:"41px"}} src={process.env.PUBLIC_URL + '/images/Logotype_blue.svg'}></img>
                 </div>
             </div>
             <div className='col-3'></div>

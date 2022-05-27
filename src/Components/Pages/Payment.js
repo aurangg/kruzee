@@ -29,7 +29,6 @@ function Payment() {
     const password = getPassword()
     const userName = getUserName();
     const phoneNumber = getPhoneNumber();
-    // const fullName = getUserName();
     const bde = getBDE();
     const priceOfLesson = getPackagePrice();
     const lesson = getLessons();
@@ -78,6 +77,7 @@ function Payment() {
     const pickUp = localStorage.getItem("pick-up").replace(/"/g, '')
     const perks = JSON.parse(localStorage.getItem("perks") || "[]")
 
+
     let hst = parseFloat((13/100)*packagePrice).toFixed(2)
     let sum = String(Number(packagePrice) + Number(hst) + Number(roadTestVehicle))
 
@@ -120,8 +120,8 @@ function Payment() {
         const dataNew = await data.json()
         setStripeCustomerId(dataNew.data.id)
         localStorage.setItem("stripeCustomerId", JSON.stringify(dataNew.data.id))
-        const payment = 1
-        // const payment = Number(sum)
+        // const payment = 1
+        const payment = Number.parseInt(sum)
         const bodyData = {
             payment:payment,
             customerId:dataNew.data.id,

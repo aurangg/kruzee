@@ -89,3 +89,7 @@ export const setStripeCustomerId = () => {
 export const getWeekStartDate = () => {
     return localStorage.getItem("weekStartDate")
 }
+
+export const getLocationScreenHeading = () => {
+    return localStorage.getItem("locationScreenHeading")
+}
