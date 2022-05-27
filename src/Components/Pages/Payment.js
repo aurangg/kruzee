@@ -177,12 +177,12 @@ function Payment() {
             console.log("Payment Succeeded")
             const studentData = student?.data;
             const lessons = await addLessons(studentData);
-            console.log(lessons)
+            console.log(localStorage.getItem("lessonId"))
+            console.log("Fnal",studentData)
             // const lessonId = lessons?.data
-            // addStudentPayment(studentData);
+            addStudentPayment(studentData);
         }
-        const testdata = createStudentAndPayment();
-        // console.log(testdata, "Test Data")
+        createStudentAndPayment();
         // setLoading(false)
         // navigate('/')
     }

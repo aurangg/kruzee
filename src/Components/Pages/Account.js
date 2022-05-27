@@ -7,6 +7,7 @@ import {isEmail, isStrongPassword, isMobilePhone, isMobilePhoneLocales} from 'va
 import Toolbar from "../Common/Toolbar";
 import './onboarding.css';
 import './radio-button.css';
+import { getWeekStartDate } from "../localStorage";
 function Account() {
  
     const [email, setEmail] = useState('');
@@ -43,6 +44,8 @@ function Account() {
 
     const navigate = useNavigate();
 
+    const weekStartDate = getWeekStartDate().replace(/"/g, '');
+
     useEffect(()=> {
         document.title = "Create An Account | Kruzee"
         checkPassword()
@@ -58,15 +61,18 @@ function Account() {
     })
 
     useEffect(() => {
+        localStorage.removeItem("email")
+        localStorage.removeItem("password")
+        localStorage.removeItem("userName")
+        localStorage.removeItem("phoneNumber")
+    }, [])
+    useEffect(() => {
         if(localStorage.getItem("phoneNumber")){
             setNumber(localStorage.getItem("phoneNumber").replace(/"/g, ''))
         }
         if(localStorage.getItem("userName")){
             setUserName(localStorage.getItem("userName").replace(/"/g, ''))
         }
-        // if(localStorage.getItem("email")){
-        //     setEmail(localStorage.setItem("email", JSON.stringify("email").replace(/"/g, '')))
-        // }
         if(localStorage.getItem("postalCode")){
             setPostalCode(localStorage.getItem("postalCode").replace(/"/g, ''))
         }
@@ -84,9 +90,6 @@ function Account() {
         }
         if(localStorage.getItem("date")){
             setDate(localStorage.getItem("date").replace(/"/g, ''))
-        }
-        if(localStorage.getItem("password")){
-            setDate(localStorage.getItem("password").replace(/"/g, ''))
         }
         
     },[])
@@ -184,7 +187,7 @@ function Account() {
             slot:{
                 day:day.toLowerCase(),
                 slot:slot,
-                date:date,
+                date:weekStartDate,
             },
             zip:postalCode
         }

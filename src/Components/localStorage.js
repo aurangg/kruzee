@@ -85,3 +85,7 @@ export const getLessonPrice = () => {
 export const setStripeCustomerId = () => {
     return localStorage.getItem("stripeCustomerId")
 }
+
+export const getWeekStartDate = () => {
+    return localStorage.getItem("weekStartDate")
+}

@@ -9,6 +9,7 @@ import {
   getInstructorId,
   setUserLogin,
   getDateSelected,
+  getWeekStartDate,
   getLat,
   getLng,
   getPickUp,
@@ -16,11 +17,12 @@ import {
   getPhoneNumber,
   getLessons,
   getPackage,
+  getDaySelected,
 } from "../localStorage";
 
-// import { instructorSlotBooked } from "../helper/utils";
+import { instructorSlotBooked } from "./utlis";
 
-const instructorSlotBooked = 2
+// const instructorSlotBooked = 2
 
 export const studentLogin = async (email, password) => {
   localStorage.clear();
@@ -51,8 +53,12 @@ export const createStudent = async () => {
   const fullName = getUserName();
   const lessons = getLessons();
   const isBDE = getBDE();
+  const day = getDaySelected();
+  // const date = getDateSelected();
+  const weekStartDate = getWeekStartDate();
+  const slot = getSlotSelected();
   const zip = getPostalCode();
-  const instructorId = getInstructorId();
+  const instructorId = getInstructorId().replace(/"/g, '');
 
   const createStudentBodyData = {
     instructorId: instructorId.replace(/"/g, ''),
@@ -90,10 +96,12 @@ export const addLessons = async (student) => {
   const lat = getLat();
   const lng = getLng();
   const pickupLoc = getPickUp();
-  const slots = getSlotSelected();
-  const date = getDateSelected();
+  const slot = getSlotSelected();
+  const day = getDaySelected();
+  // const date = getDateSelected();
+  const weekStartDate = getWeekStartDate();
 
-  const newDate = date.replaceAll("-", "/");
+  const newDate = weekStartDate.replaceAll("-", "/").replace(/"/g, '');
 
   const lessonsArray = Array.from(Array(+lessons).keys());
 
@@ -106,8 +114,9 @@ export const addLessons = async (student) => {
         studentName: student.fullName,
         studentLessonNumber: index + 1,
         totalLessons: +lessons,
-        instructor: instructorId,
+        instructor: instructorId.replace(/"/g, ''),
       }
+      console.log("POST")
       const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addLesson`, {
         method:"POST",
         body:JSON.stringify({...addLessonData}),
@@ -117,30 +126,32 @@ export const addLessons = async (student) => {
       });
 
       const resLessonArrayData = await data.json()
-
-      lessonId = data?.data?.data?._id;
+      console.log(resLessonArrayData)
+      lessonId = resLessonArrayData.data?._id;
+      localStorage.setItem("lessonId", JSON.stringify(lessonId))
       const bookedSlots = await instructorSlotBooked(instructorId);
+      // console.log(bookedSlots)
       const addBookingData = {
-        instructorId: instructorId,
-        lessonId: lessonId,
+        instructorId: instructorId.replace(/"/g, ''),
+        lessonId: lessonId.replace(/"/g, ''),
         bookings: bookedSlots,
-        time: +slots.slot,
-        day: slots.day,
-        latitude: lat,
-        longitude: lng,
+        time: +slot,
+        day: day.replace(/"/g, ''),
+        latitude: Number(lat.replace(/"/g, '')),
+        longitude: Number(lng.replace(/"/g, '')),
         date: newDate,
-        weekStartDate: slots.date,
-        pickupLocation: pickupLoc,
+        weekStartDate: weekStartDate.replace(/"/g, ''),
+        pickupLocation: pickupLoc.replace(/"/g, ''),
         notes: "",
       }
       const dataForBooking = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addBooking`, {
         method:"POST",
-        body:JSON.stringify({addBookingData}),
+        body:JSON.stringify({...addBookingData}),
         headers:{
           "Content-Type" : "application/json"
         }
       });
-      const resDataForBooking = dataForBooking.json();
+      const resDataForBooking = await dataForBooking.json();
       console.log(resDataForBooking)
     } else {
       const addAllLessonData = {
@@ -148,17 +159,18 @@ export const addLessons = async (student) => {
         studentName: student.fullName,
         studentLessonNumber: index + 1,
         totalLessons: +lessons,
-        instructor: instructorId,
+        instructor: instructorId.replace(/"/g, ''),
       }
       const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addLesson`, {
         method:"POST",
-        body:JSON.stringify({addAllLessonData}),
+        body:JSON.stringify({...addAllLessonData}),
         headers:{
           "Content-Type" : "application/json"
         }
       });
 
-      const resAddLesson = data.json();
+      const resAddLesson = await data.json();
+      console.log(resAddLesson)
     }
   });
 
@@ -171,7 +183,7 @@ export const addStudentPayment = async (studentData) => {
   const addStudentPayment = {
     studentName: studentData.fullName,
     studentId: studentData._id,
-    package:packages,
+    package:packages.replace(/"/g, ''),
     totalStudentLessons: +lessons,
     // amount:
     //   +lessons === 5
@@ -182,7 +194,7 @@ export const addStudentPayment = async (studentData) => {
   }
   const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addStudentPayments`, {
     method:"POST",
-        body:JSON.stringify({addStudentPayment}),
+        body:JSON.stringify({...addStudentPayment}),
         headers:{
           "Content-Type" : "application/json"
         }

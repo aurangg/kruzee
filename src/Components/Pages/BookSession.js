@@ -54,8 +54,9 @@ function BookSession(){
     const [instructor, setInstructorId] = useState('')
 
     const [selected, setSelected] = useState(0)
-    const [ slot, setSlot ] = useState(0);
+    const [slot, setSlot ] = useState(0);
     const [date, setDate] = useState(0)
+    const [weekStartDate, setWeekStartDate] = useState('')
     const [bookedSlots, setBookedSlots] = useState(0)
     const [firstDay, setFirstDay] = useState(0)
     const [firstDay2, setFirstDay2] = useState(0)
@@ -74,6 +75,7 @@ function BookSession(){
         localStorage.removeItem("day")
         localStorage.removeItem("slot")
         localStorage.removeItem("instructorId")
+        localStorage.removeItem("weekStartDate")
     },[])
 
     const fetchTopThreeInstructor = async () => {
@@ -93,6 +95,7 @@ function BookSession(){
             setLoading(false);
           }
     }
+
 
     useEffect(() => {
         let ignore = false;
@@ -121,6 +124,9 @@ function BookSession(){
             setSchedule(scheduleJsonData.data.bookings)
             setSlots(scheduleJsonData.data.slots)
             setBookedSlots(scheduleJsonData.data.bookedSlots)
+            console.log(scheduleJsonData.data.bookedSlots)
+            console.log(scheduleJsonData.data.slots)
+            console.log(scheduleJsonData.data.bookings)
         } catch(error){
             setErrorRes(true)
         } finally{
@@ -203,7 +209,6 @@ function BookSession(){
     }, [firstDay, lastDay, week, handleFirstDay]);
 
 
-    
 
     function handleDate(index){
         let currentWeek = Number(week * 7);
@@ -211,8 +216,6 @@ function BookSession(){
         var currNext = new Date(curr.getTime() + currentWeek * 24 * 60 * 60 * 1000);
         var firstday = new Date(currNext.setDate(currNext.getDate() - currNext.getDay() + index));
         const Day = format(firstday, "yyyy-MM-dd")
-        // const newDate = new Date(Day)
-        // console.log(newDate.getDate())
         return Day
     }
 
@@ -250,11 +253,9 @@ function BookSession(){
         if(date !== ''){
             setDateSelected(date)
             localStorage.setItem("date", JSON.stringify(date))
+            localStorage.setItem("weekStartDate", JSON.stringify(firstDay))
         }
     }
-
-
-    // console.log(dateSelected)
 
 
     if(loading){
@@ -322,7 +323,6 @@ function BookSession(){
                                         <SmallLoader />
                                         :<div className='available-slots'>
                                             {slots[`${slotDay.toLowerCase()}`]?.map((slot, index) => {
-                                                // {console.log()}
                                                 const numberSlot = Math.abs(slot.startTime - slot.endTime);
                                                 const numberSlotArray = Array.from(Array(numberSlot).keys());
                                                 return numberSlotArray.map((item, index_2) => {
@@ -332,12 +332,10 @@ function BookSession(){
                                                             booked = slotsBooked[`${slotDay.toLowerCase()}`];
                                                     }
                                                     const isBooked = booked?.includes(time);
-                                                    // console.log(isBooked)
                                                     const key = `${slotDay.toLowerCase()}-${time}`;
                                                     const isPrevious = currentDate() >= handleDate(index)[1];
                                                     return (
                                                         <div key={item}>
-                                                            {console.log(time)}
                                                             {isBooked ? <></> :
                                                                 <div value={item} className={`available-slot-box ${activeState === time ? 'active-slot-box' : ''}`} onClick={(e) => {onPackageClick(key, index, isBooked, isPrevious); handleTimeSlot(time);}}>
                                                                     <p className='time-available color-gray900'>
