@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProgressBar from "../Common/ProgressBar";
 import Toolbar from "../Common/Toolbar";
 import Map from "./Map";
 function Pickup(){
+    useEffect(() => {
+        document.title = "Pick Up Locations | Kruzee"
+    }, [])
     return(
         <React.Fragment>
             <section className="special-bg">

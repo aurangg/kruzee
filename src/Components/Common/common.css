@@ -59,4 +59,49 @@
 .in-progress{
     display: none;
 }
-
+.loader-main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.loader-mini{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding:10px 0px;
+}
+.loader {
+    border: 2px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 2px solid #3498db;
+    width: 40px;
+    height: 40px;
+    -webkit-animation: spin 1s linear infinite; /* Safari */
+    animation: spin 1s linear infinite;
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  
+}
+.four-o-four-text{
+    margin-left: 16px;
+    font-family: 'HKGrotesk-Regular';
+    font-style: normal;
+    font-weight: 400;
+    margin-top: 20px;
+    font-size: 22px;
+    line-height: 19px;
+    text-align: center;
+    color: #222222;
+    margin-bottom: 0px;
+    width: 100%;
+}

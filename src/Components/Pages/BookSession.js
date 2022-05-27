@@ -5,343 +5,267 @@ import Toolbar from '../Common/Toolbar';
 import LargeHeading from '../Common/LargeHeading';
 import ProgressBar from '../Common/ProgressBar';
 import NoResult from './NoResult';
-import { Link as Linked, Button, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
-import ButtonLink from '../Common/Button';
+import {useLocation} from 'react-router-dom';
+import Loader from '../Common/Loader';
+import { format, getMonth } from "date-fns";
+import { callTime } from "../Common/utils";
+import SmallLoader from '../Common/SmallLoader';
+import FourOFour from '../Common/404';
+
 
 function BookSession(){
     const [dateId, setDateId] = useState(0)
     const [activeState, setActiveState] = useState(false)
     const [btn, setBtn] = useState(false)
-    const week =[
-        {
-            id:0,
-            day:"Sun",
-            date:1,
-            current:true,
-            available:true,
-            timeSlots : [
-                {
-                    id:0,
-                    startingTime:"1am",
-                    endingTime:"10am",
-                    active:true,
-                },
-                {
-                    id:1,
-                    startingTime:"10am",
-                    endingTime:"11am",
-                    active:false,
-                },
-                {
-                    id:2,
-                    startingTime:"11:30am",
-                    endingTime:"12:30pm",
-                    active:false,
-                },
-                {
-                    id:3,
-                    startingTime:"2pm",
-                    endingTime:"3pm",
-                    active:false,
-                },
-                {
-                    id:4,
-                    startingTime:"4pm",
-                    endingTime:"5pm",
-                    active:false,
-                },
-            ]
-        },
-        {
-            id:1,
-            day:"Mon",
-            date:22,
-            current:false,
-            available:true,
-            timeSlots : [
-                {
-                    id:0,
-                    startingTime:"822am",
-                    endingTime:"10am",
-                    active:true,
-                },
-                {
-                    id:1,
-                    startingTime:"11pm",
-                    endingTime:"12am",
-                    active:false,
-                },
-                {
-                    id:2,
-                    startingTime:"11:30am",
-                    endingTime:"12:30pm",
-                    active:false,
-                },
-                {
-                    id:3,
-                    startingTime:"2pm",
-                    endingTime:"3pm",
-                    active:false,
-                },
-                {
-                    id:4,
-                    startingTime:"4pm",
-                    endingTime:"5pm",
-                    active:false,
-                },
-            ]
-        },
-        {
-            id:2,
-            day:"Tues",
-            date:2,
-            current:false,
-            available:false,
-            timeSlots : [
-                {
-                    id:0,
-                    startingTime:"0",
-                    endingTime:"0",
-                    active:false,
-                },
-                {
-                    id:1,
-                    startingTime:"0",
-                    endingTime:"0",
-                    active:false,
-                },
-                {
-                    id:2,
-                    startingTime:"0",
-                    endingTime:"0",
-                    active:false,
-                },
-                {
-                    id:3,
-                    startingTime:"0",
-                    endingTime:"0",
-                    active:false,
-                },
-                {
-                    id:4,
-                    startingTime:"0",
-                    endingTime:"0",
-                    active:false,
-                },
-            ]
-        },
-        {
-            id:3,
-            day:"Wed",
-            date:3,
-            current:false,
-            available:true,
-            timeSlots : [
-                {
-                    id:0,
-                    startingTime:"3am",
-                    endingTime:"10am",
-                    active:true,
-                },
-                {
-                    id:1,
-                    startingTime:"10am",
-                    endingTime:"11am",
-                    active:false,
-                },
-                {
-                    id:2,
-                    startingTime:"11:30am",
-                    endingTime:"12:30pm",
-                    active:false,
-                },
-                {
-                    id:3,
-                    startingTime:"2pm",
-                    endingTime:"3pm",
-                    active:false,
-                },
-                {
-                    id:4,
-                    startingTime:"4pm",
-                    endingTime:"5pm",
-                    active:false,
-                },
-            ]
-        },
-        {
-            id:4,
-            day:"Thu",
-            date:5,
-            current:false,
-            available:true,
-            timeSlots : [
-                {
-                    id:0,
-                    startingTime:"5am",
-                    endingTime:"10am",
-                    active:true,
-                },
-                {
-                    id:1,
-                    startingTime:"10am",
-                    endingTime:"11am",
-                    active:false,
-                },
-                {
-                    id:2,
-                    startingTime:"11:30am",
-                    endingTime:"12:30pm",
-                    active:false,
-                },
-                {
-                    id:3,
-                    startingTime:"2pm",
-                    endingTime:"3pm",
-                    active:false,
-                },
-                {
-                    id:4,
-                    startingTime:"4pm",
-                    endingTime:"5pm",
-                    active:false,
-                },
-            ]
-        },
-        {
-            id:5,
-            day:"Fri",
-            date:26,
-            current:false,
-            available:false,
-            timeSlots : [
-                {
-                    id:0,
-                    startingTime:"0",
-                    endingTime:"0",
-                    active:false,
-                },
-                {
-                    id:1,
-                    startingTime:"0",
-                    endingTime:"0",
-                    active:false,
-                },
-                {
-                    id:2,
-                    startingTime:"0",
-                    endingTime:"0",
-                    active:false,
-                },
-                {
-                    id:3,
-                    startingTime:"0",
-                    endingTime:"0",
-                    active:false,
-                },
-                {
-                    id:4,
-                    startingTime:"0",
-                    endingTime:"0",
-                    active:false,
-                },
-            ]
-        },
-        {
-            id:6,
-            day:"Sat",
-            date:4,
-            current:false,
-            available:true,
-            timeSlots : [
-                {
-                    id:0,
-                    startingTime:"4am",
-                    endingTime:"10am",
-                    active:true,
-                },
-                {
-                    id:1,
-                    startingTime:"61am",
-                    endingTime:"11am",
-                    active:false,
-                },
-                {
-                    id:2,
-                    startingTime:"11:30am",
-                    endingTime:"12:30pm",
-                    active:false,
-                },
-                {
-                    id:3,
-                    startingTime:"2pm",
-                    endingTime:"3pm",
-                    active:false,
-                },
-                {
-                    id:4,
-                    startingTime:"4pm",
-                    endingTime:"5pm",
-                    active:false,
-                },
-            ]
-        },
-    ]
-
-
-    useEffect(() => {})
-    
-
-    const instructor = true
     const [start, setStart] = useState('')
     const [end, setEnd] = useState('')
-    const handleTimeSlot = useCallback((k, start, end) => {
-        return (e) => {
-            setStart(start)
-            setEnd(end)
-            setActiveState(k)
-            setBtn(true)
+    const [week, setWeek] = useState(0);
+
+    const [slots, setSlots] = useState(0)
+
+
+
+    const currentDate = () => {
+        const curr = new Date();
+        return curr;
+      };
+
+    const daysInWeek = [
+        { day: "Sunday" },
+        { day: "Monday" },
+        { day: "Tuesday" },
+        { day: "Wednesday" },
+        { day: "Thursday" },
+        { day: "Friday" },
+        { day: "Saturday" },
+    ];
+
+
+    const weeks = [
+        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+    ]
+    const [loading, setLoading] = useState(true)
+    const [errorRes, setErrorRes] = useState(false)
+
+    const [schedule, setSchedule] = useState([])
+    const postalCode = localStorage.getItem("postalCode")
+    const [data, setData] = useState([])
+    const location = useLocation()
+    const [instructor, setInstructorId] = useState('')
+
+    const [selected, setSelected] = useState(0)
+    const [ slot, setSlot ] = useState(0);
+    const [date, setDate] = useState(0)
+    const [bookedSlots, setBookedSlots] = useState(0)
+    const [firstDay, setFirstDay] = useState(0)
+    const [firstDay2, setFirstDay2] = useState(0)
+    const [lastDay, setLastDay] = useState(0)
+    const [lastDay2, setLastDay2] = useState(0)
+
+    const [instructorName, setInstructorName] = useState('')
+
+    const [timeLoader, setTimeLoader] = useState(false)
+
+
+    useEffect(() => {
+        document.title = "Book A Lesson | Kruzee"
+        localStorage.removeItem('instructorName')
+        localStorage.removeItem("date")
+        localStorage.removeItem("day")
+        localStorage.removeItem("slot")
+        localStorage.removeItem("instructorId")
+    },[])
+
+    const fetchTopThreeInstructor = async () => {
+        try {
+            const instructorData = await fetch(process.env.REACT_APP_TOP_THREE_INSTRUCTOR, {
+                method:"POST",
+                body:JSON.stringify({postalCode}),
+                headers:{
+                    "Content-Type":"application/json",
+                },
+            })
+            const json = await instructorData.json();
+            setData(json.data);
+          } catch (error) {
+            setErrorRes(true)
+          } finally {
+            setLoading(false);
+          }
+    }
+
+    useEffect(() => {
+        let ignore = false;
+        if(!ignore) fetchTopThreeInstructor(postalCode)
+        return() => {ignore = true}
+    },[])
+
+
+    useEffect(() => {
+        if(instructor != ''){
+            fetchSchedule(instructor)
+            localStorage.setItem("instructorId", JSON.stringify(instructor))
         }
-    })
+        return() => {}
+    },[instructor])
 
-
-    const scrollToLeft = () => {
-        scroller.scrollTo('test1',{
-            duration:800,
-            smooth:"easeIn",
-        })
+    const fetchSchedule = async () => {
+        try{
+            const scheduleData = await fetch(`${process.env.REACT_APP_GET_INSTRUCTOR_DETAIL}${instructor}`, {
+                method:"GET",
+                headers:{
+                    "Content-Type":"application/json"
+                }
+            })
+            const scheduleJsonData = await scheduleData.json()
+            setSchedule(scheduleJsonData.data.bookings)
+            setSlots(scheduleJsonData.data.slots)
+            setBookedSlots(scheduleJsonData.data.bookedSlots)
+        } catch(error){
+            setErrorRes(true)
+        } finally{
+            setLoading(false)
+            setTimeLoader(true)
+        }
     }
 
 
+    
+    const nextWeek = () => {
+        if (week < 23) {
+            setWeek(week + 1);
+            handleFirstDay();
+            // setActiveIndex(0)
+        }
+    };
 
-    if(!instructor){
-        return <NoResult />
+    const previousWeek = () => {
+        if (week > 0) {
+            setWeek(week - 1);
+            handleFirstDay();
+            setActiveIndex(0)
+        }
+    };
+
+
+
+    const [slotDay, setSlotDay] = useState('Sunday')
+
+
+    const handleTimeSlot = (index) => {
+        setActiveState(index)
+        setBtn(true)
+        localStorage.setItem("day", JSON.stringify(slotDay))
+        localStorage.setItem("slot", JSON.stringify(index))
     }
+
     const overlayFnOn = () => {
         document.getElementById("overlay").style.display="flex";
     }
+
     const overlayFnOff = () => {
         document.getElementById("overlay").style.display="none";
     }
-    const handleDateChange = () => {
-        const result = week.filter(w => w.id === dateId)
-        const newArr = [...result[0].timeSlots]
-        return (
-            <div>
-                {newArr.map(((k, index) => (
-                    <div 
-                        className={activeState === index ? 'available-slot-box active-slot-box' : 'available-slot-box'} 
-                        key={k.id} 
-                        onClick={handleTimeSlot(index, k.startingTime, k.endingTime)}
-                    >
-                        <p className='time-available color-gray900'>
-                            {k.startingTime} - {k.endingTime}
-                        </p>
-                    </div>
-                )))}
-            </div>
+
+    const handleFirstDay = useCallback(() => {
+        let currentWeek = Number(week * 7);
+        var curr = new Date();
+        var currNext = new Date(curr.getTime() + currentWeek * 24 * 60 * 60 * 1000);
+        var weekFirstDay = new Date(
+          currNext.setDate(currNext.getDate() - currNext.getDay() + 0)
         );
-        
+        var weekLastDay = new Date(
+          currNext.setDate(currNext.getDate() - currNext.getDay() + 6)
+        );
+        const dayFirst = format(weekFirstDay, "yyyy-MM-dd");
+        const dayLast = format(weekLastDay, "yyyy-MM-dd");
+        const dayFirst2 = format(weekFirstDay, "MMMM dd");
+        const dayLast2 = format(weekLastDay, "MMMM dd");
+        setFirstDay2(dayFirst2);
+        setLastDay2(dayLast2);
+        setFirstDay(dayFirst);
+        setLastDay(dayLast);
+    }, [week]);
+
+    const getBookedSlots = (staTime) => {
+        if(bookedSlots){
+            const bookedSlotsData = bookedSlots?.find((item) => {
+                return item.startDate.split("T")[0] === staTime;
+        });
+            return bookedSlotsData;
+        }
+    };
+
+    const slotsBooked = getBookedSlots(firstDay);
+
+    useEffect(() => {
+        handleFirstDay();
+    }, [firstDay, lastDay, week, handleFirstDay]);
+
+
+    
+
+    function handleDate(index){
+        let currentWeek = Number(week * 7);
+        var curr = new Date();
+        var currNext = new Date(curr.getTime() + currentWeek * 24 * 60 * 60 * 1000);
+        var firstday = new Date(currNext.setDate(currNext.getDate() - currNext.getDay() + index));
+        const Day = format(firstday, "yyyy-MM-dd")
+        // const newDate = new Date(Day)
+        // console.log(newDate.getDate())
+        return Day
+    }
+
+    const onPackageClick = (key, day, isDisabled, isPrevious) => {
+        if (!isDisabled && !isPrevious) {
+          setSelected(key);
+          setSlot({
+            date: firstDay,
+            day: key.split("-")[0],
+            slot: key.split("-")[1],
+          });
+          setDate(handleDate(day)[2]);
+        }
+    };
+
+
+    const [activeIndex, setActiveIndex] = useState(0)
+
+    const handleIndex = (index) => {
+        setActiveIndex(index)
+    }
+
+    
+    function setSelectedInstructorInfo(){
+        localStorage.setItem("instructorName", JSON.stringify(instructorName))
+    }
+
+    const [dateSelected, setDateSelected] = useState('')
+
+    useEffect(() => {
+        handleDateSelected(handleDate(weeks.findIndex(e => e === slotDay)))
+    })
+
+    function handleDateSelected(date){
+        if(date !== ''){
+            setDateSelected(date)
+            localStorage.setItem("date", JSON.stringify(date))
+        }
+    }
+
+
+    // console.log(dateSelected)
+
+
+    if(loading){
+        // return <NoResult />
+        return <Loader />
+    }
+    if(errorRes){
+        return <FourOFour />
+    }
+    if(!data){
+        return <NoResult />
     }
     return(
         <section className='simple-bg h-100vh'>
@@ -371,32 +295,64 @@ function BookSession(){
                                             </h5>
                                         </div>
                                         <div className='col-4 flex-end'>
-                                            <button className='time-slot-btn left-time-btn'>
+                                            <button className='time-slot-btn left-time-btn' onClick={previousWeek}>
                                                 <img src={process.env.PUBLIC_URL + '/images/left.svg'} alt="left-img" />
                                             </button>
-                                            <button className='time-slot-btn right-time-btn'>
+                                            <button className='time-slot-btn right-time-btn' onClick={nextWeek}>
                                                 <img src={process.env.PUBLIC_URL + '/images/right.svg'} alt="right-img" />
                                             </button>
                                         </div>
                                     </div>
                                     <div className='time-slot-spacing' style={{width:"100%"}}>
-                                        {week.map((i => (
-                                            <button className='week color-gray700' onClick={() => setDateId(i.id)} disabled={!i.available} key={i.id}>
-                                                {i.day}
-                                                <div className={i.current ? 'blue-date-box date-box' : 'date-box white-date-box'}>
-                                                {/* <div className='date-box white-date-box'> */}
-                                                    <p className={i.available ? 'color-gray900 date' : 'date color-gray700'}>
-                                                        {i.date}
-                                                    </p>
-                                                </div>
-                                            </button>
-                                        )))}
+                                        {daysInWeek.map((dayInWeek, index) => (
+                                            <React.Fragment key={index}>
+                                                <button className='week color-gray700'>
+                                                    {dayInWeek.day.slice(0,3)}
+                                                    <div className={`date-box ${ activeIndex === index ? 'blue-date-box' : 'white-date-box'}`} onClick={() => {setSlotDay(dayInWeek.day); handleIndex(index);}}>
+                                                        <p className='date'>
+                                                            {handleDate(index).slice(8, 10)}
+                                                        </p>
+                                                    </div>
+                                                </button>
+                                            </React.Fragment>
+                                        ))}
                                     </div>
-                                    <div className='available-slots'>
-                                        {handleDateChange()}
-                                    </div>
-                                    <Link to="/pick-up">
-                                        <div className={btn ? 'time-slot-continue-btn bg-blue500 display-block' : 'time-slot-continue-btn bg-blue500 display-none'}>
+                                    {
+                                        timeLoader === false ? 
+                                        <SmallLoader />
+                                        :<div className='available-slots'>
+                                            {slots[`${slotDay.toLowerCase()}`]?.map((slot, index) => {
+                                                // {console.log()}
+                                                const numberSlot = Math.abs(slot.startTime - slot.endTime);
+                                                const numberSlotArray = Array.from(Array(numberSlot).keys());
+                                                return numberSlotArray.map((item, index_2) => {
+                                                    const time = slot.startTime + item;
+                                                    var booked = "";
+                                                    if (slotsBooked) {
+                                                            booked = slotsBooked[`${slotDay.toLowerCase()}`];
+                                                    }
+                                                    const isBooked = booked?.includes(time);
+                                                    // console.log(isBooked)
+                                                    const key = `${slotDay.toLowerCase()}-${time}`;
+                                                    const isPrevious = currentDate() >= handleDate(index)[1];
+                                                    return (
+                                                        <div key={item}>
+                                                            {console.log(time)}
+                                                            {isBooked ? <></> :
+                                                                <div value={item} className={`available-slot-box ${activeState === time ? 'active-slot-box' : ''}`} onClick={(e) => {onPackageClick(key, index, isBooked, isPrevious); handleTimeSlot(time);}}>
+                                                                    <p className='time-available color-gray900'>
+                                                                        {callTime(time)} - {callTime(time + 1)}
+                                                                    </p>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    );
+                                                });
+                                            })}
+                                        </div>
+                                    }
+                                    <Link to="/pick-up" onClick={setSelectedInstructorInfo}>
+                                        <div className={`time-slot-continue-btn bg-blue500 ${btn ? ' display-block' : 'display-none'}`}>
                                             Continue
                                         </div>
                                     </Link>
@@ -427,223 +383,86 @@ function BookSession(){
                         }]}
                     />
                     <div className='col-12'>
-                        <LargeHeading large_heading="Book your first driving lesson" />
+                        <LargeHeading large_heading={location.state.heading_name} />
                         <p className='onboarding-description'>
-                            Showing <span className='color-blue700 weight-700'>2</span> instructors within <span className='color-blue700 weight-700'>10km</span> of you
+                            Showing <span className='color-blue700 weight-700'>{data.length}</span> {data.length === 1 ? 'instructor' : 'instructors'} within <span className='color-blue700 weight-700'>10km</span> of you
                         </p>
-                        {/* <ButtonLink /> */}
                     </div>
                 </div>
             </div>
             <div className='container'>
-                <div className='row'>
-                    <div className='col-lg-4'>
-                        <div className='instructor-box'>
-                            <div className='instructor-start-info'>
-                                <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/driver-img.png'} alt="driver-img" />
-                                <img className='instructor-picture instructor-picture-2' src={process.env.PUBLIC_URL + '/images/driver-car.png'} alt="driver-car" />
-                                <h6 className='instructor-name color-gray900'>
-                                    Phil Jacobson
-                                </h6>
-                            </div>
-                            <div className='instruction-description-box'>
-                                <p className='instructor-description color-gray900'>
-                                    Hey everyone. My name is phil and I’m a driving instructor for Kitchener Ontario. I’ve been doing this for five years and I am really enjoying it.
-                                </p>
-                            </div>
-                            <div className='features-box'>
-                                <div>
-                                    <img src={process.env.PUBLIC_URL + '/images/features-1.svg'} alt="feature-1" />
-                                </div>
-                                <p className='feature-info color-gray900'>
-                                    2010 Toyota Highlander
-                                </p>
-                            </div>
-                            <div className='features-box'>
-                                <div>
-                                    <img src={process.env.PUBLIC_URL + '/images/features-2.svg'} alt="feature-2" />
-                                </div>
-                                <p className='feature-info color-gray900'>
-                                    Speaks English, French, and German
-                                </p>
-                            </div>
-                            <div className='features-box'>
-                                <div>
-                                    <img src={process.env.PUBLIC_URL + '/images/features-3.svg'} alt="feature-3" />
-                                </div>
-                                <p className='feature-info color-gray900'>
-                                    Automatic Transmission
-                                </p>
-                            </div>
-                            <h6 className='student-reviews color-gray900'>
-                                Student Reviews
-                            </h6>
-                            <div className='review-container'>
-                                <div className='review-box bg-gray100'>
-                                    <p className='review color-gray900'>
-                                        Phil was the best. I couldn’t have imagined doing this with another instructor. Thanks!
-                                    </p>
-                                    <div className='space-between-baseline'>
-                                        <h6 className='review-name'>
-                                            Maria Hernandez
-                                        </h6>
-                                        <div className='ratings'>
-                                            <p className='rating-score color-gray900'>4.5</p>
-                                            <div>
-                                                <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
-                                                <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
-                                                <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
-                                                <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
-                                                <img src={process.env.PUBLIC_URL + '/images/half-star.svg'} alt="star" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button className='see-schedule-btn bg-blue500' onClick={overlayFnOn}>
-                                    See Schedule
-                            </button>
-                        </div>
-                    </div>
+                <div className='row instructor-box-row'>
                     
-                    <div className='col-lg-4'>
-                        <div className='instructor-box'>
-                            <div className='instructor-start-info'>
-                                <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/driver-img.png'} alt="driver-img" />
-                                <img className='instructor-picture instructor-picture-2' src={process.env.PUBLIC_URL + '/images/driver-car.png'} alt="driver-car" />
-                                <h6 className='instructor-name color-gray900'>
-                                    Phil Jacobson
-                                </h6>
-                            </div>
-                            <div className='instruction-description-box'>
-                                <p className='instructor-description color-gray900'>
-                                    Hey everyone. My name is phil and I’m a driving instructor for Kitchener Ontario. I’ve been doing this for five years and I am really enjoying it.
-                                </p>
-                            </div>
-                            <div className='features-box'>
-                                <div>
-                                    <img src={process.env.PUBLIC_URL + '/images/features-1.svg'} alt="feature-1" />
+                    {data.map(((i, index) => (
+                        <div className='col-lg-4' key={index}>
+                            <div className='instructor-box'>
+                                <div className='instructor-start-info'>
+                                    <img className='instructor-picture' src={`kruzee-backend.herokuapp.com${i.instructorImage}`} alt="driver-img" />
+                                    <img className='instructor-picture instructor-picture-2' src={`kruzee-backend.herokuapp.com${i.vehicleDetails.image}`} alt="driver-car" />
+                                    <h6 className='instructor-name color-gray900'>
+                                        {i.fullName}
+                                    </h6>
                                 </div>
-                                <p className='feature-info color-gray900'>
-                                    2010 Toyota Highlander
-                                </p>
-                            </div>
-                            <div className='features-box'>
-                                <div>
-                                    <img src={process.env.PUBLIC_URL + '/images/features-2.svg'} alt="feature-2" />
-                                </div>
-                                <p className='feature-info color-gray900'>
-                                    Speaks English, French, and German
-                                </p>
-                            </div>
-                            <div className='features-box'>
-                                <div>
-                                    <img src={process.env.PUBLIC_URL + '/images/features-3.svg'} alt="feature-3" />
-                                </div>
-                                <p className='feature-info color-gray900'>
-                                    Automatic Transmission
-                                </p>
-                            </div>
-                            <h6 className='student-reviews color-gray900'>
-                                Student Reviews
-                            </h6>
-                            <div className='review-container'>
-                                <div className='review-box bg-gray100'>
-                                    <p className='review color-gray900'>
-                                        Phil was the best. I couldn’t have imagined doing this with another instructor. Thanks!
+                                <div className='instruction-description-box'>
+                                    <p className='instructor-description color-gray900'>
+                                        {i.bio}
                                     </p>
-                                    <div className='space-between-baseline'>
-                                        <h6 className='review-name'>
-                                            Maria Hernandez
-                                        </h6>
-                                        <div className='ratings'>
-                                            <p className='rating-score color-gray900'>4.5</p>
-                                            <div>
-                                                <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
-                                                <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
-                                                <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
-                                                <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
-                                                <img src={process.env.PUBLIC_URL + '/images/half-star.svg'} alt="star" />
+                                </div>
+                                <div className='features-box'>
+                                    <div>
+                                        <img src={process.env.PUBLIC_URL + '/images/features-1.svg'} alt="feature-1" />
+                                    </div>
+                                    <p className='feature-info color-gray900'>
+                                        {i.vehicleDetails.year} {i.vehicleDetails.make} {i.vehicleDetails.model}
+                                    </p>
+                                </div>
+                                <div className='features-box'>
+                                    <div>
+                                        <img src={process.env.PUBLIC_URL + '/images/features-2.svg'} alt="feature-2" />
+                                    </div>
+                                    <p className='feature-info color-gray900'>
+                                        Speaks {i.languages[0]}
+                                    </p>
+                                </div>
+                                <div className='features-box'>
+                                    <div>
+                                        <img src={process.env.PUBLIC_URL + '/images/features-3.svg'} alt="feature-3" />
+                                    </div>
+                                    <p className='feature-info color-gray900'>
+                                        {i.vehicleDetails.transmission} Transmission
+                                    </p>
+                                </div>
+                                <h6 className='student-reviews color-gray900'>
+                                    Student Reviews
+                                </h6>
+                                <div className='review-container'>
+                                    <div className='review-box bg-gray100'>
+                                        <p className='review color-gray900'>
+                                            Phil was the best. I couldn’t have imagined doing this with another instructor. Thanks!
+                                        </p>
+                                        <div className='space-between-baseline'>
+                                            <h6 className='review-name'>
+                                                Maria Hernandez
+                                            </h6>
+                                            <div className='ratings'>
+                                                <p className='rating-score color-gray900'>4.5</p>
+                                                <div>
+                                                    <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
+                                                    <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
+                                                    <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
+                                                    <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
+                                                    <img src={process.env.PUBLIC_URL + '/images/half-star.svg'} alt="star" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <button className='see-schedule-btn bg-blue500' onClick={() => {overlayFnOn(); setInstructorId(i._id); setInstructorName(i.fullName)}}>
+                                        See Schedule
+                                </button>
                             </div>
-                            <button className='see-schedule-btn bg-blue500' onClick={overlayFnOn}>
-                                    See Schedule
-                            </button>
                         </div>
-                    </div>
-
-                    <div className='col-lg-4'>
-                        <div className='instructor-box'>
-                            <div className='instructor-start-info'>
-                                <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/driver-img.png'} alt="driver-img" />
-                                <img className='instructor-picture instructor-picture-2' src={process.env.PUBLIC_URL + '/images/driver-car.png'} alt="driver-car" />
-                                <h6 className='instructor-name color-gray900'>
-                                    Phil Jacobson
-                                </h6>
-                            </div>
-                            <div className='instruction-description-box'>
-                                <p className='instructor-description color-gray900'>
-                                    Hey everyone. My name is phil and I’m a driving instructor for Kitchener Ontario. I’ve been doing this for five years and I am really enjoying it.
-                                </p>
-                            </div>
-                            <div className='features-box'>
-                                <div>
-                                    <img src={process.env.PUBLIC_URL + '/images/features-1.svg'} alt="feature-1" />
-                                </div>
-                                <p className='feature-info color-gray900'>
-                                    2010 Toyota Highlander
-                                </p>
-                            </div>
-                            <div className='features-box'>
-                                <div>
-                                    <img src={process.env.PUBLIC_URL + '/images/features-2.svg'} alt="feature-2" />
-                                </div>
-                                <p className='feature-info color-gray900'>
-                                    Speaks English, French, and German
-                                </p>
-                            </div>
-                            <div className='features-box'>
-                                <div>
-                                    <img src={process.env.PUBLIC_URL + '/images/features-3.svg'} alt="feature-3" />
-                                </div>
-                                <p className='feature-info color-gray900'>
-                                    Automatic Transmission
-                                </p>
-                            </div>
-                            <h6 className='student-reviews color-gray900'>
-                                Student Reviews
-                            </h6>
-                            <div className='review-container'>
-                                <div className='review-box bg-gray100'>
-                                    <p className='review color-gray900'>
-                                        Phil was the best. I couldn’t have imagined doing this with another instructor. Thanks!
-                                    </p>
-                                    <div className='space-between-baseline'>
-                                        <h6 className='review-name'>
-                                            Maria Hernandez
-                                        </h6>
-                                        <div className='ratings'>
-                                            <p className='rating-score color-gray900'>4.5</p>
-                                            <div>
-                                                <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
-                                                <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
-                                                <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
-                                                <img src={process.env.PUBLIC_URL + '/images/star.svg'} alt="star" />
-                                                <img src={process.env.PUBLIC_URL + '/images/half-star.svg'} alt="star" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button className='see-schedule-btn bg-blue500' onClick={overlayFnOn}>
-                                    See Schedule
-                            </button>
-                        </div>
-                    </div>
-
+                    )))}
                 </div>
             </div>
         </section>

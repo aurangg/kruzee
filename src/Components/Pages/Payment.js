@@ -1,22 +1,89 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LargeHeading from "../Common/LargeHeading";
 import ProgressBar from "../Common/ProgressBar";
 import Toolbar from "../Common/Toolbar";
 import './onboarding.css';
+
+import {CardElement, useStripe, useElements, CardNumberElement, CardCvcElement, CardExpiryElement} from '@stripe/react-stripe-js';
+import { addLessons, createStudent, addStudentPayment } from "./APIs";
+
+
+import {
+    getEmail,
+    getPassword,
+    getPhoneNumber,
+    getUserName,
+    getLessons,
+    getPackagePrice,
+    getBDE,
+    // getIndividualPackage,
+    // setAccountCreatedMsg,
+  } from "../localStorage";
+
 function Payment() {
 
-    
-    const promo = 'ngsgd38sdf'
+    const navigate = useNavigate();
 
+    const email = localStorage.getItem("email").replace(/"/g, '')
+    const password = getPassword()
+    const userName = getUserName();
+    const phoneNumber = getPhoneNumber();
+    // const fullName = getUserName();
+    const bde = getBDE();
+    const priceOfLesson = getPackagePrice();
+    const lesson = getLessons();
+
+    const [stripeCustomerId, setStripeCustomerId] = useState('')
+
+    const [instructorName, setInstructorName] = useState('')
+    const [displayInstructor, setDisplayInstructor] = useState(false)
+
+    const [roadTestVehicle, setRoadTestVehicle] = useState('')
+    const [roadTestVehicleAvailable, setRoadTestVehicleAvailable] = useState(false)
+
+    const [lessonCount, setLessonCount] = useState('')
+    const [isLessonAvailable, SetIsLessonAvailable] = useState(false)
+
+    const [totalSum, setTotalSum] = useState(0)
+    
+
+    useEffect(() => {
+        document.title = "Checkout | Kruzee"
+        if(localStorage.getItem("instructorName")){
+            setInstructorName(localStorage.getItem("instructorName").replace(/"/g, ''))
+            setDisplayInstructor(true)
+        }
+        if(localStorage.getItem("roadTestVehicle")){
+            setRoadTestVehicle(parseFloat(localStorage.getItem("roadTestVehicle")).toFixed(2))
+            setRoadTestVehicleAvailable(true)
+        }
+        if(localStorage.getItem("lesson")){
+            setLessonCount(localStorage.getItem("lesson"))
+            SetIsLessonAvailable(true)
+        }
+    }, [])
+
+
+    const promo = 'ngsgd38sdf'
 
     const [cardName, setCardName] = useState('');
     const [month, setMonth] = useState('')
     const [cvc, setCVC] = useState('')
 
+    const [loading, setLoading] = useState(false)
+
+    const packageName = localStorage.getItem("packageName").replace(/"/g, '')
+    const packagePrice = parseFloat(localStorage.getItem("price")).toFixed(2)
+    const pickUp = localStorage.getItem("pick-up").replace(/"/g, '')
+    const perks = JSON.parse(localStorage.getItem("perks") || "[]")
+
+    let hst = parseFloat((13/100)*packagePrice).toFixed(2)
+    let sum = String(Number(packagePrice) + Number(hst) + Number(roadTestVehicle))
+
+    // console.log(sum, Number(sum), typeof Number(sum))
 
     const [card, setCard] = useState('')
-
 
     const [applyPromoCode, setApplyPromoCode] = useState(true)
     const [enterPromoCode, setEnterPromoCode] = useState(false)
@@ -27,9 +94,98 @@ function Payment() {
     const [price, setPrice] = useState(728.84)
     const [disable, setDisable] = useState(true);
 
+
+
+    // const userName = localStorage.getItem("name")
+    const [paymentIntent, setPaymentIntent] = useState();
+
+    const stripe = useStripe();
+    const elements = useElements();
+
     useEffect(() => {
         checkDisable()
     })
+
+    if(!stripe || !elements){
+        return ""
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true)
+        const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/createStripeCustomer`, {
+            method:"POST",
+            body:JSON.stringify({email})
+        })
+        const dataNew = await data.json()
+        setStripeCustomerId(dataNew.data.id)
+        localStorage.setItem("stripeCustomerId", JSON.stringify(dataNew.data.id))
+        const payment = 1
+        // const payment = Number(sum)
+        const bodyData = {
+            payment:payment,
+            customerId:dataNew.data.id,
+            email:email,
+        }
+        // console.log(JSON.stringify(bodyData))
+        const cardNumberElement = elements.getElement(CardNumberElement);
+        const PaymentData = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/makeStripePayment`, {
+            method:'POST',
+            body:JSON.stringify({...bodyData}),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
+
+        const resPaymentData = await PaymentData.json()
+        // const client_secret = resPaymentData.client_secret
+
+        if(PaymentData?.status !== 200){
+            setLoading(false)
+            return <p>Internal Server Error</p>
+        }
+
+        // console.log(resPaymentData.client_secret)
+        const name = userName.replace(/"/g, '')
+        let {error, paymentIntent} = await stripe.confirmCardPayment(
+            resPaymentData.client_secret,{
+                payment_method: {
+                    card: cardNumberElement,
+                    billing_details: {
+                      name: name,
+                      email: email,
+                    },
+                },
+            }
+        )
+
+        if(error){
+            console.log(error.message)
+            setLoading(false)
+            return <p>{error.message} // Payment Error</p>
+        }
+        else{
+            setPaymentIntent(paymentIntent)
+        }
+    }
+
+
+    if (paymentIntent && paymentIntent.status === "succeeded"){
+        const createStudentAndPayment = async () => {
+            const student = await createStudent();
+            console.log(student)
+            console.log("Payment Succeeded")
+            const studentData = student?.data;
+            const lessons = await addLessons(studentData);
+            console.log(lessons)
+            // const lessonId = lessons?.data
+            // addStudentPayment(studentData);
+        }
+        const testdata = createStudentAndPayment();
+        // console.log(testdata, "Test Data")
+        // setLoading(false)
+        // navigate('/')
+    }
 
     function handleCardName(e) {
         setCardName(e.target.value)
@@ -122,26 +278,28 @@ function Payment() {
                                 <h6 className='email-heading color-gray900'>
                                     Card Number
                                 </h6>
-                                <input className={`email-input ${invalidCardNumber ? "error-border" : ""}`} type="text" pattern="[0-9]{16}" autoComplete="cc-number" onChange={handleCard} value={card} required/>
-                                {/* {invalidCardNumber ? <p className="error-class">Card Length exceeded</p>: <div></div>} */}
+                                <CardNumberElement className="email-input"  />
+                                {/* <input className={`email-input ${invalidCardNumber ? "error-border" : ""}`} type="text" pattern="[0-9]{16}" autoComplete="cc-number" onChange={handleCard} value={card} required/> */}
                             </div>
                             <div className="row">
                                 <div className="col-6">
                                     <div className='email-container'>
                                         <div className="email-heading color-gray900">MM/YY</div>
-                                        <input className='email-input' type="month" min="2022-05"  onChange={handleMonth} value={month} maxLength={6} required/>
+                                        {/* <input className='email-input' type="month" min="2022-05"  onChange={handleMonth} value={month} maxLength={6} required/> */}
+                                        <CardExpiryElement className="email-input" />
                                     </div>
                                 </div>
                                 <div className="col-6">
                                     <div className='email-container'>
                                         <div className="email-heading color-gray900">CVC</div>
-                                        <input className='email-input' type="text" length={3} pattern="[0-9]{3}" onChange={handleCVC} value={cvc} maxLength={3} max={3} required/>
+                                        {/* <input className='email-input' type="text" length={3} pattern="[0-9]{3}" onChange={handleCVC} value={cvc} maxLength={3} max={3} required/> */}
+                                        <CardCvcElement className="email-input" />
                                     </div>
                                 </div>
                             </div>
                             <div className='email-container'>
                                 <Link to="/payment-success">
-                                    <button className={`pay-btn ${disable ? "opacity-03": "opacity-01"}`} disabled={disable}>Pay ${price} CAD</button>
+                                    <button className={`pay-btn ${disable ? "opacity-03": "opacity-01"}`} disabled={disable}>Pay ${sum} CAD</button>
                                 </Link>
                             </div>
                             <div onClick={activatePromoCode} className={applyPromoCode === true ? "promo-code color-gray800" : "promo-code color-gray800 display-none"}>+Apply Promo Code</div>
@@ -166,6 +324,9 @@ function Payment() {
                                     Discount of $20 Applied
                                 </p>
                             </div>
+                            <button onClick={handleSubmit}>
+                                Check
+                            </button>
                         </form>
                     </div>
                     <div className="col-lg-2"></div>
@@ -179,40 +340,49 @@ function Payment() {
 
                             <div className="summary-package">
                                 <h6 className="summary-package-name color-gray900">
-                                    Full Package (Core)
+                                    {packageName}
+                                    {isLessonAvailable ? 
+                                        <span style={{display:"inline-block"}}>
+                                            <p style={{marginBottom:"0px", marginLeft:"5px", fontWeight:"400", color:"var(--gray700)"}}>({lessonCount} Lessons)</p>
+                                        </span>
+                                        :<></>
+                                    }
                                 </h6>
                                 <h6 className="package-price">
-                                    $645.00
+                                    ${packagePrice}
                                 </h6>
                             </div>
 
                             <div style={{marginTop:"16px", marginBottom:"20px"}}>
-                                <div className='summary-box'>
-                                    <img src={process.env.PUBLIC_URL + '/images/driving-test-check.svg'} alt="check" />
-                                    <p className='summary-info color-gray900'>
-                                        MTO Certificate
-                                    </p>
-                                </div>
-                                <div className='summary-box'>
-                                    <img src={process.env.PUBLIC_URL + '/images/driving-test-check.svg'} alt="check" />
-                                    <p className='summary-info color-gray900'>
-                                        10 hours of driving lessons
-                                    </p>
-                                </div>
-                                <div className='summary-box'>
-                                    <img src={process.env.PUBLIC_URL + '/images/driving-test-check.svg'} alt="check" />
-                                    <p className='summary-info color-gray900'>
-                                    20 hours of in-class training (online)
-                                    </p>
-                                </div>
+                                {perks.map(((i, index) => (
+                                    <div className='summary-box' key={index}>
+                                        <img src={process.env.PUBLIC_URL + '/images/driving-test-check.svg'} alt="check" />
+                                        <p className='summary-info color-gray900'>
+                                            {i}
+                                        </p>
+                                    </div>
+                                )))}
                             </div>
+
+                            {roadTestVehicleAvailable ?
+                                <div className="summary-package">
+                                    <h6 className="summary-package-name color-gray900">
+                                        Road Test Vehicle
+                                    </h6>
+                                    <h6 className="package-price">
+                                        ${roadTestVehicle}
+                                    </h6>
+                                </div>
+                                :<></>
+                            }
+
 
                             <div className="summary-package">
                                 <h6 className="summary-package-name color-gray900">
                                     HST (13%)
                                 </h6>
                                 <h6 className="package-price">
-                                    $83.85
+                                    ${hst}
                                 </h6>
                             </div>
 
@@ -221,7 +391,7 @@ function Payment() {
                                     Total
                                 </h6>
                                 <h6 className="package-price">
-                                    $728.84
+                                    ${sum}
                                 </h6>
                             </div>
 
@@ -232,26 +402,29 @@ function Payment() {
                                     Pickup Location
                                 </h6>
                                 <p className="pickup-address color-gray900">
-                                    540 Buckingham Blvd, Waterloo ON
+                                    {pickUp}
                                 </p>
                             </div>
 
                             <div className="gray-border-line"></div>
 
-                            <div className="summary-pickup-box align-items-space-between">
-                                <div>
-                                    <h6 className="pickup-location color-gray900">
-                                        Instructor
-                                    </h6>
-                                    <p className="pickup-address color-gray900">
-                                        John Anderson
-                                    </p>
+                            {displayInstructor ? 
+                                <div className="summary-pickup-box align-items-space-between">
+                                    <div>
+                                        <h6 className="pickup-location color-gray900">
+                                            Instructor
+                                        </h6>
+                                        <p className="pickup-address color-gray900">
+                                            {instructorName}
+                                        </p>
+                                    </div>
+                                    <div className=''>
+                                        <img className='instructor-img instructor-img-2' src={process.env.PUBLIC_URL + '/images/driver-img.png'} alt="driver-img" />
+                                        <img className='instructor-img' src={process.env.PUBLIC_URL + '/images/driver-car.png'} alt="driver-car" />
+                                    </div>
                                 </div>
-                                <div className=''>
-                                    <img className='instructor-img instructor-img-2' src={process.env.PUBLIC_URL + '/images/driver-img.png'} alt="driver-img" />
-                                    <img className='instructor-img' src={process.env.PUBLIC_URL + '/images/driver-car.png'} alt="driver-car" />
-                                </div>
-                            </div>
+                                : <></>
+                            }
 
                             <div className="note-box">
                                 <p className="note-text color-gray800">

@@ -7,23 +7,38 @@ import Toolbar from '../Common/Toolbar';
 import './onboarding.css';
 
 function GetCode(){
-    const [otp, setOtp] = useState('')
+    const [postalCode, setPostalCode] = useState('')
     const [disabled, setDisable] = useState(true)
     useEffect(() => {
-        if(otp.length === 6){
+        document.title = "Enter Postal Code | Kruzee"
+        if(postalCode.length === 6){
             setDisable(false)
         }
         else{
             setDisable(true)
         }
-        localStorage.setItem("postalCode", JSON.stringify(otp))
-    }, [otp])
-    const handleChange = (otp) => {
-        setOtp(otp.toUpperCase())
+        localStorage.removeItem('packageName')
+        localStorage.removeItem('perks')
+        localStorage.removeItem('price')
+        localStorage.removeItem('postalCode')
+        localStorage.removeItem('lat')
+        localStorage.removeItem('lng')
+        localStorage.removeItem('lesson')
+        localStorage.removeItem('roadTestVehicle')
+        localStorage.removeItem('instructorName')
+        localStorage.removeItem('pick-up')
+        localStorage.removeItem('package')
+    }, [postalCode])
+    const handleChange = (postalCode) => {
+        setPostalCode(postalCode.toUpperCase())
     }
 
     function submitForm(e){
         e.preventDefault();
+    }
+
+    function handlePostalCode(){
+        localStorage.setItem("postalCode", JSON.stringify(postalCode))
     }
     return(
         <section className='simple-bg'>
@@ -39,7 +54,7 @@ function GetCode(){
                                 <div className='space-around-center'>
                                 <OtpInput
                                     inputStyle="get-code-input"
-                                    value={otp}
+                                    value={postalCode}
                                     onChange={handleChange}
                                     numInputs={6}
                                     shouldAutoFocus={true}
@@ -49,7 +64,7 @@ function GetCode(){
                                     This will help us find instructors in your area
                                 </p>
                             </div>
-                            <Link to="/pricing">
+                            <Link to="/pricing" onClick={handlePostalCode}>
                                 <button type='submit' className={disabled ? "submit-btn opacity-03" : "submit-btn opacity-01"} disabled={disabled}>
                                     Continue
                                 </button>

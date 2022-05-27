@@ -294,6 +294,10 @@
     padding:12px;
     margin-bottom:12px;
 }
+.instructor-box-row{
+    display: flex;
+    justify-content: center;
+}
 .time-slot-spacing{
     display: flex;
     align-items: center;
@@ -302,6 +306,7 @@
 .time-slot{
     background: #FFFFFF;
     border-radius: 4px;
+    transition: 0.3s ease-out;
 }
 .time-slot .time-slot-header{
     padding:16px 24px 24px 18px;
@@ -388,6 +393,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 0.3s ease-out;
 }
 .time-slot .time-body .time-slot-continue-btn{
     border-radius: 4px;
@@ -410,6 +416,7 @@
 }
 .white-date-box{
     background: #fff;
+    color: var(--gray900);
 }
 .white-date{
     color: white;
@@ -426,6 +433,7 @@
     max-height: 230px;
     overflow-y: scroll;
     margin-top: 25px;
+    transition: 0.3s ease-out;
 }
 .time-slot .time-body .available-slot-box{
     background: var(--gray200);
@@ -436,6 +444,7 @@
     padding:22px;
     margin-bottom: 10px;
     cursor: pointer;
+    transition: 0.3s ease-out;
 }
 .time-slot .time-body .available-slot-box:hover{
     border: 3px solid var(--blue500);
@@ -626,6 +635,14 @@
     border: 2px solid var(--blue700);
     outline: none;
 }
+.no-instructor-email{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.notify-email-width{
+    width:calc(100% - 115px);
+}
 .notify-me-btn{
     width: 100%;
     padding:16px;
@@ -637,7 +654,6 @@
     text-align: center;
     font-feature-settings: 'liga' off;
     color: #FFFFFF;
-    margin-top:90px;
     border-radius: 4px;
     outline: none;
     border:none;
@@ -679,6 +695,33 @@
     margin-bottom: 0px;
     width: max-content;
 }
+.discount-box{
+    border-radius: 3px;
+    padding:12px 12px 12px 8px;
+    width: max-content;
+    position: relative;
+    margin-right: 10px;
+}
+.arrow-right{
+    position: absolute;
+    right: -5px;
+    top:calc(36px - 24px);
+    width: 0; 
+    height: 0;
+    border-top:6px solid transparent;
+    border-bottom: 6px solid transparent;
+}
+.discount-box .discount-text{
+    font-family: 'HKGrotesk-SemiBold';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 12px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin-bottom: 0px;
+}
 .indiviual-lesson .lesson-count .lesson-name{
     font-family: "HKGrotesk-SemiBoldItalic";
     font-weight: 600;
@@ -699,9 +742,10 @@
 }
 .indiviual-lesson .lesson-prices{
     display: flex;
-    justify-content: flex-end;
+    align-items: flex-end;
     width: 100%;
-    flex-direction: column;
+    justify-content: flex-end;
+    flex-direction: row;
 }
 .indiviual-lesson .lesson-prices .lesson-price{
     font-family: "HKGrotesk-BoldLegacyItalic";
@@ -802,6 +846,7 @@
     font-size: 16px;
     line-height: 150%;
     text-align: center;
+    width: 80%;
     color: #929CAC;
     margin-bottom:40px;
 }
@@ -840,7 +885,6 @@
     border-radius: 4px;
     background-color: #fff;
     border:1px solid black;
-    text-align: center;
     font-family: 'Merriweather';
     font-style: normal;
     font-weight: 700;
@@ -848,7 +892,7 @@
     line-height: 16px;
     text-align: center;
     color: #000000;
-    width: 270px;
+    width: 250px;
     padding:15px;
     cursor: pointer;
     transition: 0.3s;
@@ -1003,6 +1047,8 @@
     border-radius: 4px;
     width: 100%;
     color:white;
+    outline:none;
+    border:none;
     padding:16px;
     font-family: 'HKGrotesk-Bold';
     font-style: normal;
@@ -1177,6 +1223,7 @@
     margin-left:5px;
     margin-bottom: 0px;
     line-height: 23px;
+    width: 85%;
     font-feature-settings: 'liga' off;
     text-align: left;
 }
@@ -1212,6 +1259,7 @@
     z-index: 2;
 }
 .note-box{
+    margin-top: 10px;
     background: var(--gray200);
     border-radius: 4px;
     padding:10px 16px;
@@ -1365,11 +1413,31 @@
         font-size: 13.353px;
         margin-left: 13px;
     }
+    .no-instructor-email{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .notify-email-width{
+        width: 100%;
+    }
+    .notify-me-btn-main{
+        width: 100%;
+        margin-top:70px;
+    }
+    .notify-me-btn{
+        width: 100%;
+    }
     .indiviual-lesson-description{
         width: 100%;
     }
     .driving-test-box{
         margin:12px 0px;
+    }
+    .instructor-box-row{
+        display: flex;
+        justify-content:unset;
     }
     .instructor-box .instructor-picture{
         width: 48px;

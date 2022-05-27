@@ -21,12 +21,14 @@ import PaymentSuccess from './Components/Pages/PaymentSuccess';
 import Account from './Components/Pages/Account';
 import BookSessionTest from './Components/Pages/BookSessionTest';
 import AccountValidate from './Components/Common/Old/AccountValidate';
+import Loader from './Components/Common/Loader';
+import FourOFour from './Components/Common/404';
+
 
 function App() {
   return (
     <BrowserRouter basename='/kruzee'>
       <Routes>
-        {/* <Route path='/' element={<Lessons />} /> */}
         <Route path='/' element={<GetCode />} />
         <Route path='/packages' element={<Packages />} />
         <Route path='/book-session' element={<BookSession />} />
@@ -34,12 +36,13 @@ function App() {
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/driving-test" element={<DrivingTest />} />
         <Route path="/pick-up" element={<Pickup />} />
-        {/* <Route path="/account-2" element={<AccountValidate />} /> */}
-        {/* <Route path='/test' element={<Test />} /> */}
+        <Route path='/test' element={<Test />} />
         <Route path='/payment-information' element={<Payment />} />
         <Route path='/payment-success' element={<PaymentSuccess />} />
         <Route path='/create-account' element={<Account />} />
         <Route path='/test-2' element={<BookSessionTest />} />
+        <Route path='/loader' element={<Loader />} />
+        <Route path='*' element={<FourOFour />} />
       </Routes>
     </BrowserRouter>
   );

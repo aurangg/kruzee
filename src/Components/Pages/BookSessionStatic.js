@@ -8,20 +8,292 @@ import NoResult from './NoResult';
 import {useLocation} from 'react-router-dom';
 import Loader from '../Common/Loader';
 import { format, getMonth } from "date-fns";
-import { callTime } from "../Common/utils";
-import SmallLoader from '../Common/SmallLoader';
 
-function BookSessionTest(){
+function BookSession(){
     const [dateId, setDateId] = useState(0)
     const [activeState, setActiveState] = useState(false)
     const [btn, setBtn] = useState(false)
     const [start, setStart] = useState('')
     const [end, setEnd] = useState('')
-    const [week, setWeek] = useState(0);
 
     const [slots, setSlots] = useState(0)
 
 
+    const week =[
+        {
+            id:0,
+            day:"Sun",
+            date:1,
+            current:true,
+            available:true,
+            timeSlots : [
+                {
+                    id:0,
+                    startingTime:"1am",
+                    endingTime:"10am",
+                    active:true,
+                },
+                {
+                    id:1,
+                    startingTime:"10am",
+                    endingTime:"11am",
+                    active:false,
+                },
+                {
+                    id:2,
+                    startingTime:"11:30am",
+                    endingTime:"12:30pm",
+                    active:false,
+                },
+                {
+                    id:3,
+                    startingTime:"2pm",
+                    endingTime:"3pm",
+                    active:false,
+                },
+                {
+                    id:4,
+                    startingTime:"4pm",
+                    endingTime:"5pm",
+                    active:false,
+                },
+            ]
+        },
+        {
+            id:1,
+            day:"Mon",
+            date:22,
+            current:false,
+            available:true,
+            timeSlots : [
+                {
+                    id:0,
+                    startingTime:"822am",
+                    endingTime:"10am",
+                    active:true,
+                },
+                {
+                    id:1,
+                    startingTime:"11pm",
+                    endingTime:"12am",
+                    active:false,
+                },
+                {
+                    id:2,
+                    startingTime:"11:30am",
+                    endingTime:"12:30pm",
+                    active:false,
+                },
+                {
+                    id:3,
+                    startingTime:"2pm",
+                    endingTime:"3pm",
+                    active:false,
+                },
+                {
+                    id:4,
+                    startingTime:"4pm",
+                    endingTime:"5pm",
+                    active:false,
+                },
+            ]
+        },
+        {
+            id:2,
+            day:"Tues",
+            date:2,
+            current:false,
+            available:false,
+            timeSlots : [
+                {
+                    id:0,
+                    startingTime:"0",
+                    endingTime:"0",
+                    active:false,
+                },
+                {
+                    id:1,
+                    startingTime:"0",
+                    endingTime:"0",
+                    active:false,
+                },
+                {
+                    id:2,
+                    startingTime:"0",
+                    endingTime:"0",
+                    active:false,
+                },
+                {
+                    id:3,
+                    startingTime:"0",
+                    endingTime:"0",
+                    active:false,
+                },
+                {
+                    id:4,
+                    startingTime:"0",
+                    endingTime:"0",
+                    active:false,
+                },
+            ]
+        },
+        {
+            id:3,
+            day:"Wed",
+            date:3,
+            current:false,
+            available:true,
+            timeSlots : [
+                {
+                    id:0,
+                    startingTime:"3am",
+                    endingTime:"10am",
+                    active:true,
+                },
+                {
+                    id:1,
+                    startingTime:"10am",
+                    endingTime:"11am",
+                    active:false,
+                },
+                {
+                    id:2,
+                    startingTime:"11:30am",
+                    endingTime:"12:30pm",
+                    active:false,
+                },
+                {
+                    id:3,
+                    startingTime:"2pm",
+                    endingTime:"3pm",
+                    active:false,
+                },
+                {
+                    id:4,
+                    startingTime:"4pm",
+                    endingTime:"5pm",
+                    active:false,
+                },
+            ]
+        },
+        {
+            id:4,
+            day:"Thu",
+            date:5,
+            current:false,
+            available:true,
+            timeSlots : [
+                {
+                    id:0,
+                    startingTime:"5am",
+                    endingTime:"10am",
+                    active:true,
+                },
+                {
+                    id:1,
+                    startingTime:"10am",
+                    endingTime:"11am",
+                    active:false,
+                },
+                {
+                    id:2,
+                    startingTime:"11:30am",
+                    endingTime:"12:30pm",
+                    active:false,
+                },
+                {
+                    id:3,
+                    startingTime:"2pm",
+                    endingTime:"3pm",
+                    active:false,
+                },
+                {
+                    id:4,
+                    startingTime:"4pm",
+                    endingTime:"5pm",
+                    active:false,
+                },
+            ]
+        },
+        {
+            id:5,
+            day:"Fri",
+            date:26,
+            current:false,
+            available:false,
+            timeSlots : [
+                {
+                    id:0,
+                    startingTime:"0",
+                    endingTime:"0",
+                    active:false,
+                },
+                {
+                    id:1,
+                    startingTime:"0",
+                    endingTime:"0",
+                    active:false,
+                },
+                {
+                    id:2,
+                    startingTime:"0",
+                    endingTime:"0",
+                    active:false,
+                },
+                {
+                    id:3,
+                    startingTime:"0",
+                    endingTime:"0",
+                    active:false,
+                },
+                {
+                    id:4,
+                    startingTime:"0",
+                    endingTime:"0",
+                    active:false,
+                },
+            ]
+        },
+        {
+            id:6,
+            day:"Sat",
+            date:4,
+            current:false,
+            available:true,
+            timeSlots : [
+                {
+                    id:0,
+                    startingTime:"4am",
+                    endingTime:"10am",
+                    active:true,
+                },
+                {
+                    id:1,
+                    startingTime:"61am",
+                    endingTime:"11am",
+                    active:false,
+                },
+                {
+                    id:2,
+                    startingTime:"11:30am",
+                    endingTime:"12:30pm",
+                    active:false,
+                },
+                {
+                    id:3,
+                    startingTime:"2pm",
+                    endingTime:"3pm",
+                    active:false,
+                },
+                {
+                    id:4,
+                    startingTime:"4pm",
+                    endingTime:"5pm",
+                    active:false,
+                },
+            ]
+        },
+    ]
 
     const currentDate = () => {
         const curr = new Date();
@@ -48,17 +320,6 @@ function BookSessionTest(){
     const [instructor, setInstructorId] = useState('')
     const [slicedArray, setSlicedArray] = useState([])
 
-    const [selected, setSelected] = useState(0)
-    const [ slot, setSlot ] = useState(0);
-    const [date, setDate] = useState(0)
-    const [bookedSlots, setBookedSlots] = useState(0)
-    const [firstDay, setFirstDay] = useState(0)
-    const [firstDay2, setFirstDay2] = useState(0)
-    const [lastDay, setLastDay] = useState(0)
-    const [lastDay2, setLastDay2] = useState(0)
-
-    const [timeLoader, setTimeLoader] = useState(false)
-
     const fetchTopThreeInstructor = async () => {
         try {
             const instructorData = await fetch(process.env.REACT_APP_TOP_THREE_INSTRUCTOR, {
@@ -70,6 +331,7 @@ function BookSessionTest(){
             })
             const json = await instructorData.json();
             setData(json.data);
+            console.log(json.data)
           } catch (error) {
             setErrorRes(true)
           } finally {
@@ -106,7 +368,6 @@ function BookSessionTest(){
             setErrorRes(true)
         } finally{
             setLoading(false)
-            setTimeLoader(true)
         }
     }
 
@@ -114,35 +375,47 @@ function BookSessionTest(){
         localStorage.setItem("instructorName", JSON.stringify(name))
     }
 
+    // useEffect(() => {
+    //     if(schedule.length != 0){
+    //         setSlicedArray(schedule.slice(0, 7))
+    //         const test = schedule.slice(0, 7)
+    //         const findElement = console.log(test[0].friday)
+    //         let startDate= test[0].startDate
+    //     }
+    //     return() => {}
+    // }, [schedule])
+
+    // function findFirstDate(slicedArray){
+    //     for(let i= 0; i < slicedArray.length; i++){
+
+    //     }
+    // }
 
     
     const nextWeek = () => {
-        if (week < 23) {
-            setWeek(week + 1);
-            handleFirstDay();
-            setActiveIndex(0)
-        }
+        // if (week < 23) {
+        //     setWeek(week + 1);
+        //     handleFirstDay();
+        // }
     };
 
     const previousWeek = () => {
-        if (week > 0) {
-            setWeek(week - 1);
-            handleFirstDay();
-            setActiveIndex(0)
-        }
+        // if (week > 0) {
+        //     setWeek(week - 1);
+        //     handleFirstDay();
+        // }
     };
 
 
 
-    // const handleTimeSlot = useCallback((k) => {
-    //     setActiveState(k)
-    //     setBtn(true)
-    // })
-
-    const handleTimeSlot = (index) => {
-        setActiveState(index)
-        setBtn(true)
-    }
+    const handleTimeSlot = useCallback((k, start, end) => {
+        return (e) => {
+            setStart(start)
+            setEnd(end)
+            setActiveState(k)
+            setBtn(true)
+        }
+    })
 
     const overlayFnOn = () => {
         document.getElementById("overlay").style.display="flex";
@@ -152,46 +425,27 @@ function BookSessionTest(){
         document.getElementById("overlay").style.display="none";
     }
 
-    const handleFirstDay = useCallback(() => {
-        let currentWeek = Number(week * 7);
-        var curr = new Date();
-        var currNext = new Date(curr.getTime() + currentWeek * 24 * 60 * 60 * 1000);
-        var weekFirstDay = new Date(
-          currNext.setDate(currNext.getDate() - currNext.getDay() + 0)
+    const handleDateChange = () => {
+        const result = week.filter(w => w.id === dateId)
+        const newArr = [...result[0].timeSlots]
+        return (
+            <div>
+                {newArr.map(((k, index) => (
+                    <div 
+                        className={activeState === index ? 'available-slot-box active-slot-box' : 'available-slot-box'} 
+                        key={k.id} 
+                        onClick={handleTimeSlot(index, k.startingTime, k.endingTime)}
+                    >
+                        <p className='time-available color-gray900'>
+                            {k.startingTime} - {k.endingTime}
+                        </p>
+                    </div>
+                )))}
+            </div>
         );
-        var weekLastDay = new Date(
-          currNext.setDate(currNext.getDate() - currNext.getDay() + 6)
-        );
-        const dayFirst = format(weekFirstDay, "yyyy-MM-dd");
-        const dayLast = format(weekLastDay, "yyyy-MM-dd");
-        const dayFirst2 = format(weekFirstDay, "MMMM dd");
-        const dayLast2 = format(weekLastDay, "MMMM dd");
-        setFirstDay2(dayFirst2);
-        setLastDay2(dayLast2);
-        setFirstDay(dayFirst);
-        setLastDay(dayLast);
-    }, [week]);
+    }
 
-    const getBookedSlots = (startTime) => {
-        if(bookedSlots !== 0){
-            const bookedSlotsData = bookedSlots?.find((item) => {
-                return item.startDate.split("T")[0] === startTime;
-              });
-              return bookedSlotsData;
-        }
-    };
-
-
-    const slotsBooked = getBookedSlots(firstDay);
-
-    useEffect(() => {
-        handleFirstDay();
-    }, [firstDay, lastDay, week, handleFirstDay]);
-
-
-    const [slotDay, setSlotDay] = useState('Sunday')
-
-    function handleDate(day, dayInWeek){
+    function handleDate(day){
         let currentWeek = Number(week * 7);
         var curr = new Date();
         var currNext = new Date(curr.getTime() + currentWeek * 24 * 60 * 60 * 1000);
@@ -200,30 +454,14 @@ function BookSessionTest(){
         return Day
     }
 
-    const onPackageClick = (key, day, isDisabled, isPrevious) => {
-        if (!isDisabled && !isPrevious) {
-          setSelected(key);
-          setSlot({
-            date: firstDay,
-            day: key.split("-")[0],
-            slot: key.split("-")[1],
-          });
-          setDate(handleDate(day)[2]);
+    function handleSlots(){
+        if(slots !== 0){
+            {slots.map((slot, index) => (
+                <div className='available-slot-box'>
+                </div>
+            ))}
         }
-    };
-
-
-    const [activeIndex, setActiveIndex] = useState(0)
-
-    const handleIndex = (index) => {
-        setActiveIndex(index)
     }
-
-    function handleValue(e){
-        console.log(e)
-    }
-
-    
 
 
     if(loading){
@@ -270,50 +508,22 @@ function BookSessionTest(){
                                         </div>
                                     </div>
                                     <div className='time-slot-spacing' style={{width:"100%"}}>
-                                        {daysInWeek.map((dayInWeek, index) => (
-                                            <React.Fragment key={index}>
-                                                <button className='week color-gray700'>
-                                                    {dayInWeek.day.slice(0,3)}
-                                                    <div className={`date-box ${ activeIndex === index ? 'blue-date-box' : 'white-date-box'}`} onClick={() => {setSlotDay(dayInWeek.day); handleIndex(index)}}>
-                                                        <p className='date'>
-                                                            {handleDate(index, dayInWeek.day)}
-                                                        </p>
-                                                    </div>
-                                                </button>
-                                            </React.Fragment>
-                                        ))}
+                                        {week.map((i => (
+                                            <button className='week color-gray700' onClick={() => setDateId(i.id)} disabled={!i.available} key={i.id}>
+                                                {i.day}
+                                                <div className={i.current ? 'blue-date-box date-box' : 'date-box white-date-box'}>
+                                                    <p className={i.available ? 'color-gray900 date' : 'date color-gray700'}>
+                                                        {i.date}
+                                                    </p>
+                                                </div>
+                                            </button>
+                                        )))}
                                     </div>
-                                    {
-                                        timeLoader === false ? 
-                                        <SmallLoader />
-                                        :<div className='available-slots'>
-                                            {slots[`${slotDay.toLowerCase()}`]?.map((slot, index) => {
-                                                const numberSlot = Math.abs(slot.startTime - slot.endTime);
-                                                const numberSlotArray = Array.from(Array(numberSlot).keys());
-                                                return numberSlotArray.map((item, index_2) => {
-                                                    const time = slot.startTime + item;
-                                                    var booked = "";
-                                                    if (slotsBooked) {
-                                                            booked = slotsBooked[`${slotDay.toLowerCase()}`];
-                                                    }
-                                                    const isBooked = booked?.includes(time);
-                                                    const key = `${slotDay.toLowerCase()}-${time}`;
-                                                    const isPrevious = currentDate() >= handleDate(index)[1];
-                                                    return (
-                                                        <div key={item}>
-                                                            <div value={item} className={`available-slot-box ${activeState === time ? 'active-slot-box' : ''}`} onClick={(e) => {onPackageClick(key, index_2, isBooked, isPrevious); handleTimeSlot(index_2); let times = time; handleValue(times)}}>
-                                                                <p className='time-available color-gray900'>
-                                                                    {callTime(time)} - {callTime(time + 1)}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    );
-                                                });
-                                            })}
-                                        </div>
-                                    }
+                                    <div className='available-slots'>
+                                        {handleDateChange()}
+                                    </div>
                                     <Link to="/pick-up">
-                                        <div className={btn ? 'time-slot-continue-btn bg-blue500 display-block' : 'display-none'}>
+                                        <div className={btn ? 'time-slot-continue-btn bg-blue500 display-block' : 'time-slot-continue-btn bg-blue500 display-none'}>
                                             Continue
                                         </div>
                                     </Link>
@@ -344,6 +554,7 @@ function BookSessionTest(){
                         }]}
                     />
                     <div className='col-12'>
+                        <LargeHeading large_heading={location.state.heading_name} />
                         <p className='onboarding-description'>
                             Showing <span className='color-blue700 weight-700'>{data.length}</span> {data.length === 1 ? 'instructor' : 'instructors'} within <span className='color-blue700 weight-700'>10km</span> of you
                         </p>
@@ -429,8 +640,4 @@ function BookSessionTest(){
     )
 }
 
-export default BookSessionTest;
-
-
-
-// COMPLETE TESTED CODE
+export default BookSession;

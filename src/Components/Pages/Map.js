@@ -1,10 +1,11 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
 import { GoogleMap, Marker, useJsApiLoader, useLoadScript } from '@react-google-maps/api';
 import usePlacesAutocomplete, {
     getGeocode,
     getLatLng,
 } from 'use-places-autocomplete';
 import MapStyles from './MapStyles';
+import Loader from '../Common/Loader';
 
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption, ComboboxPopover } from '@reach/combobox';
 import "@reach/combobox/styles.css";
@@ -34,8 +35,15 @@ function Map(){
       googleMapsApiKey:process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
       libraries,
   })
+
+  //Setting Lat, Lng here
   const [place, setPlace] = useState()
+
   const mapRef = useRef();
+  const [locations, setLocations] = useState({
+      latitude:0,
+      longitude:0
+  })
 
   const onMapLoad = useCallback((map) => {
     mapRef.current = map
@@ -52,7 +60,7 @@ function Map(){
   }),[])
 
   if(loadError) return "Error loading maps"
-  if(!isLoaded) return "Loading Maps"
+  if(!isLoaded) return <Loader />
 
   return(
       <section>
@@ -76,6 +84,18 @@ function Map(){
 
 
 function Search({setPlace}){
+    const [loadingClass, setLoadingClass] = useState(false)
+    const [mapButton, setMapButton] = useState(true)
+    useEffect(() => {
+        localStorage.removeItem('pick-up')
+        localStorage.removeItem('lat')
+        localStorage.removeItem('lng')
+    }, [])
+    const [latlng, setLatLng] = useState({
+        latitude:0,
+        longitude:0,
+    })
+    const [pickupLocation, setPickUpLocation] = useState('')
     const [selected, SetSelected] = useState(false)
     const {ready, value, suggestions: {status, data}, setValue, clearSuggestions} = usePlacesAutocomplete({
         requestOptions:{
@@ -89,7 +109,11 @@ function Search({setPlace}){
         clearSuggestions()
         SetSelected(false)
     }
-
+    function handleLatLng(){
+        localStorage.setItem("pick-up", JSON.stringify(pickupLocation))
+        localStorage.setItem("lat", JSON.stringify(latlng.latitude))
+        localStorage.setItem("lng", JSON.stringify(latlng.longitude))
+    }
     return(
         <div className='container'>
             <div className='row'>
@@ -100,12 +124,21 @@ function Search({setPlace}){
                             setValue(address, false);
                             clearSuggestions()
                             SetSelected(true)
+                            setLoadingClass(true)
                             try{
                                 const results = await getGeocode({address})
                                 const {lat, lng} = await getLatLng(results[0])
                                 setPlace({lat, lng})
+                                setLatLng({
+                                    latitude:lat,
+                                    longitude:lng,
+                                })
+                                setPickUpLocation(address);
                             } catch(error){
                                 console.log(error)
+                            } finally {
+                                setLoadingClass(false)
+                                setMapButton(false)
                             }
                         }}>
                             <div className='map-input-search'>
@@ -135,9 +168,11 @@ function Search({setPlace}){
                             </ComboboxPopover>
                         </Combobox>
                         <Link to="/create-account">
-                            <div className={selected ? 'map-continue-btn display-block' : 'map-continue-btn display-none'}>
+                            <button className={selected ? 'map-continue-btn display-block' : 'map-continue-btn display-none'} onClick={handleLatLng} disabled={mapButton}>
                                 Continue
-                            </div>
+                                <span className={`${loadingClass === false ? '' : 'spinner-border spinner-border-sm'} `} style={{marginLeft:"5px"}}>
+                                </span>
+                            </button>
                         </Link>
                     </div>
                 </div>

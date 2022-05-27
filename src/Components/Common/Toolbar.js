@@ -7,7 +7,8 @@ function Toolbar(props){
         <div className='row kruzee-main align-items-center'>
             <div className='col-3'>
                 <div style={{display:`${props.back_button}`}}>
-                    <Link to={`${props.path}`}>
+                    {/* <Link to={`${props.path}`}> */}
+                    <Link to={-1}>
                         <div className='back-button'>
                             <div className='back-button-prop'>
                                 <img src={process.env.PUBLIC_URL + '/images/back-button.png'}></img>

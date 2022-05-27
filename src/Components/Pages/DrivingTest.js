@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LargeHeading from '../Common/LargeHeading';
 import ProgressBar from '../Common/ProgressBar';
@@ -9,8 +9,20 @@ function DrivingTest(){
     const [border, setBorder] = useState(null)
     const [vehicle, setVehicle] = useState("")
     const [disabled, setDisabled] = useState(true)
+    
+    let roadTestVehicle = 245
+
+
+    useEffect(() => {
+        localStorage.removeItem('roadTestVehicle')
+        document.title = "Select A Vehicle | Kruzee"
+    }, [])
+
+    
+
     const handleClick = useCallback((k) => {
         return () => {
+            localStorage.setItem("roadTestVehicle", JSON.stringify(roadTestVehicle))
             setVehicle(k)
             setBorder(k)
             setDisabled(false)
@@ -53,7 +65,7 @@ function DrivingTest(){
                                 </h6>
                                 <div className='test-price'>
                                     <p className='test-price-number color-blue700'>
-                                        + $145
+                                        + ${roadTestVehicle}
                                     </p>
                                 </div>
                             </div>
@@ -86,7 +98,7 @@ function DrivingTest(){
                         </div>
                     </div>
                     <div className='col-lg-4'>
-                        <Link to="/book-session">
+                        <Link to="/book-session" state={{heading_name:"Book your first driving lesson"}}>
                             <button className={`submit-btn ${disabled === false ? 'opacity-01' : 'opacity-03'}`} disabled={disabled}>
                                 Continue
                             </button>

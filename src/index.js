@@ -1,18 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './fonts/hkgrotesk/HKGrotesk-Bold.otf';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+const stripe_key = "pk_test_51JoD3gCiebEAR4BCfpCfVE6P8ppgRPaC1cXrqIseXdmAR5sY1MgZ2X4V7FqcqzHSpyknMesi5qA7STwEobjghYRq00tfJFTLyJ" ;
+const stripePromise = loadStripe(stripe_key)
+
+root.render(
+  <Elements stripe={stripePromise}>
+    <App />
+  </Elements>
+);
 reportWebVitals();
