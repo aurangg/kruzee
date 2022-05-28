@@ -410,6 +410,15 @@
     text-align: center;
     width: 100%;
 }
+.time-slot .apologies-text{
+    font-family: 'HKGrotesk-Regular';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 0px;
+    text-align: center;
+}
 .blue-date-box{
     background: #37A2D0;
     color:white !important;
@@ -542,6 +551,38 @@
     line-height: 20px;
     margin-bottom: 0px;
 }
+.instructor-box .review-box .review-text{
+    overflow: hidden;
+    text-overflow: ellipsis;
+  /* display: -webkit-box; */
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+.webkit-box{
+    display: -webkit-box;
+    height:60px;
+    transition: height 0.3s ease-in;
+}
+.display-block{
+    display: block;
+    height: 100%;
+    transition: height 0.3s ease-in;
+}
+.instructor-box .review-box .review-span{
+    font-family: 'HKGrotesk-SemiBold';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    margin-bottom: 0px;
+    margin-top: 10px;
+    color: var(--blue500);
+    padding-left: 0px;
+    border:none;
+    outline:none;
+    background-color: var(--gray100);
+    text-align: left;
+}
 .instructor-box .review-box .review-name{
     font-family: 'HKGrotesk-SemiBoldLegacy';
     font-style: normal;
@@ -578,6 +619,10 @@
     text-align: center;
     font-feature-settings: 'liga' off;
     color: #FFFFFF;
+    transition: 0.3s ease-in;
+}
+.instructor-box .see-schedule-btn:hover{
+    background-color: var(--blue700);
 }
 .no-instructor-box{
     border-radius: 4px;
@@ -664,7 +709,7 @@
 }
 .indiviual-lesson{
     background: #FFFFFF;
-    border: 3px solid var(--gray400);
+    border: 1px solid var(--gray400);
     box-shadow: 0px 2px 6px -2px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     padding:21px 17px;
@@ -674,7 +719,7 @@
     align-items: center;
 }
 .special-active ,.indiviual-lesson:hover{
-    border: 3px solid #37A2D0;
+    border: 2px solid #37A2D0;
 }
 .indiviual-lesson .lesson-count{
     display: flex;
@@ -1081,7 +1126,8 @@
 }
 .payment-form .pay-btn{
     margin-top: 20px;
-    background: #37A2D0;
+    background: var(--blue500);
+    transition: 0.3s ease-in;
     border-radius: 4px;
     font-family: 'HKGrotesk-Bold';
     font-style: normal;
@@ -1095,6 +1141,9 @@
     outline: none;
     width: 100%;
     border: none;
+}
+.payment-form .pay-btn:hover{
+    background: var(--blue700);
 }
 .payment-form .promo-code{
     margin-top: 15px;
@@ -1308,6 +1357,25 @@
     text-align: center;
     margin-bottom: 0px;
 }
+.error-user-box{
+    background-color:rgba(249, 45, 55, 0.32);
+    width: 100%;
+    padding:40px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .error-user-box .error-user-text{
+    font-family: 'HKGrotesk-SemiBoldLegacy';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    margin-bottom: 0px;
+    text-align: center;
+    color:var(--error-red);
+  }
 .input-info-text{
     font-family: 'HKGrotesk-Medium';
     font-style: normal;
@@ -1345,6 +1413,13 @@
     margin-top: 8px;
 }
 
+
+@media (max-width:990px) {
+    .order-summary{
+        margin-top: 60px;
+        margin-bottom: 60px;
+    }
+}
 
 
 @media (max-width:460px) {
@@ -1486,6 +1561,13 @@
     }
     .create-tos{
         margin-bottom: 40px;
+    }
+    .error-user-box{
+        padding:20px;
+        margin-bottom: 24px;
+    }
+      .error-user-box .error-user-text{
+        font-size: 14px;
     }
     .order-summary{
         margin-top: 30px;

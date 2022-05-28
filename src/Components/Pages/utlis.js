@@ -38,7 +38,7 @@ export const instructorSlotBooked = async (instructorId) => {
     }
   })
   const resInstructorData = await instructorSlots.json();
-  console.log("Res Data", resInstructorData)
+  // console.log("Res Data", resInstructorData)
 
   const getSlots = await resInstructorData.data?.bookedSlots?.find((item) => {
       return item.startDate.split("T")[0] === weekStartDate;

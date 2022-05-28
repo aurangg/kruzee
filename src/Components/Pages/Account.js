@@ -33,9 +33,6 @@ function Account() {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const [disable, setDisable] = useState(true);
-
-
-    const [number, setNumber] = useState('')
     const [userName, setUserName] = useState('')
     const [postalCode, setPostalCode] = useState('')
     const [pickUp, setPickUp] = useState('')
@@ -43,6 +40,7 @@ function Account() {
     const [day, setDay] = useState('')
     const [slot, setSlot] = useState('')
     const [date, setDate] = useState('')
+    const [errorBox, setErrorBox] = useState(false)
 
     const [weekStartDate, setWeekStartDate] = useState('')
 
@@ -67,12 +65,11 @@ function Account() {
     useEffect(() => {
         localStorage.removeItem("email")
         localStorage.removeItem("password")
-        localStorage.removeItem("userName")
         localStorage.removeItem("phoneNumber")
     }, [])
     useEffect(() => {
         if(localStorage.getItem("phoneNumber")){
-            setNumber(localStorage.getItem("phoneNumber").replace(/"/g, ''))
+            setPhoneNumber(localStorage.getItem("phoneNumber").replace(/"/g, ''))
         }
         if(localStorage.getItem("userName")){
             setUserName(localStorage.getItem("userName").replace(/"/g, ''))
@@ -187,7 +184,7 @@ function Account() {
         setButtonLoading(true)
         const uniqueStudentDataBody = {
             email:email,
-            phoneNumber:number,
+            phoneNumber:phoneNumber,
             name:userName,
             pickUp:pickUp,
             packageName:packages,
@@ -209,12 +206,13 @@ function Account() {
         if(uniqueStudentData.status === 200){
             setDisable(false)
             setButtonLoading(false)
+            setErrorBox(false)
             navigate('/payment-information')
         }
         else{
-            <p>
-                Error
-            </p>
+            setDisable(true)
+            setErrorBox(true)
+            setButtonLoading(false)
         }
 
     }
@@ -248,6 +246,16 @@ function Account() {
                             You will be able to manage your lessons, and track your progress
                         </p>
                     </div>
+                    {errorBox 
+                        ?
+                        <div className="col-lg-4 offset-lg-4">
+                            <div className="error-user-box">
+                                <p className="error-user-text">This user already exists. Please try again.</p>
+                            </div>
+                        </div>
+                        :
+                        <></>
+                    }
                 </div>
                 <div className="row">
                     <div className="col-lg-4 offset-lg-4">

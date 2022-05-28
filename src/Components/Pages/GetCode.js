@@ -55,7 +55,7 @@ function GetCode(){
     return(
         <section className='simple-bg'>
             <div className='container h-100vh'>
-                <Toolbar path="/" back_button="block" />
+                <Toolbar path="/" back_button="none" />
                 <div className='row'>
                     <div className='col-12 get-code-margin'>
                         <LargeHeading large_heading="Please enter your postal code" />

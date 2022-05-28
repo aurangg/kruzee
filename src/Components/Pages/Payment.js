@@ -43,8 +43,6 @@ function Payment() {
 
     const [lessonCount, setLessonCount] = useState('')
     const [isLessonAvailable, SetIsLessonAvailable] = useState(false)
-
-    const [totalSum, setTotalSum] = useState(0)
     
 
     useEffect(() => {
@@ -67,8 +65,9 @@ function Payment() {
     const promo = 'ngsgd38sdf'
 
     const [cardName, setCardName] = useState('');
-    const [month, setMonth] = useState('')
-    const [cvc, setCVC] = useState('')
+    const [card, setCard] = useState(false)
+    const [month, setMonth] = useState(false)
+    const [cvc, setCVC] = useState(false)
 
     const [loading, setLoading] = useState(false)
 
@@ -76,14 +75,9 @@ function Payment() {
     const packagePrice = parseFloat(localStorage.getItem("price")).toFixed(2)
     const pickUp = localStorage.getItem("pick-up").replace(/"/g, '')
     const perks = JSON.parse(localStorage.getItem("perks") || "[]")
-
-
     let hst = parseFloat((13/100)*packagePrice).toFixed(2)
     let sum = String(Number(packagePrice) + Number(hst) + Number(roadTestVehicle))
 
-    // console.log(sum, Number(sum), typeof Number(sum))
-
-    const [card, setCard] = useState('')
 
     const [applyPromoCode, setApplyPromoCode] = useState(true)
     const [enterPromoCode, setEnterPromoCode] = useState(false)
@@ -93,6 +87,8 @@ function Payment() {
     const [promoCode, setPromoCode] = useState('')
     const [price, setPrice] = useState(728.84)
     const [disable, setDisable] = useState(true);
+    const [nav, setNav] = useState(false);
+    
 
 
 
@@ -106,109 +102,31 @@ function Payment() {
         checkDisable()
     })
 
+
+
     if(!stripe || !elements){
         return ""
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true)
-        const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/createStripeCustomer`, {
-            method:"POST",
-            body:JSON.stringify({email})
-        })
-        const dataNew = await data.json()
-        setStripeCustomerId(dataNew.data.id)
-        localStorage.setItem("stripeCustomerId", JSON.stringify(dataNew.data.id))
-        // const payment = 1
-        const payment = Number.parseInt(sum)
-        const bodyData = {
-            payment:payment,
-            customerId:dataNew.data.id,
-            email:email,
-        }
-        // console.log(JSON.stringify(bodyData))
-        const cardNumberElement = elements.getElement(CardNumberElement);
-        const PaymentData = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/makeStripePayment`, {
-            method:'POST',
-            body:JSON.stringify({...bodyData}),
-            headers:{
-                "Content-Type":"application/json"
-            }
-        })
-
-        const resPaymentData = await PaymentData.json()
-        // const client_secret = resPaymentData.client_secret
-
-        if(PaymentData?.status !== 200){
-            setLoading(false)
-            return <p>Internal Server Error</p>
-        }
-
-        // console.log(resPaymentData.client_secret)
-        const name = userName.replace(/"/g, '')
-        let {error, paymentIntent} = await stripe.confirmCardPayment(
-            resPaymentData.client_secret,{
-                payment_method: {
-                    card: cardNumberElement,
-                    billing_details: {
-                      name: name,
-                      email: email,
-                    },
-                },
-            }
-        )
-
-        if(error){
-            console.log(error.message)
-            setLoading(false)
-            return <p>{error.message} // Payment Error</p>
-        }
-        else{
-            setPaymentIntent(paymentIntent)
-        }
-    }
-
-
-    if (paymentIntent && paymentIntent.status === "succeeded"){
-        const createStudentAndPayment = async () => {
-            const student = await createStudent();
-            console.log(student)
-            console.log("Payment Succeeded")
-            const studentData = student?.data;
-            const lessons = await addLessons(studentData);
-            console.log(localStorage.getItem("lessonId"))
-            console.log("Fnal",studentData)
-            // const lessonId = lessons?.data
-            addStudentPayment(studentData);
-        }
-        createStudentAndPayment();
-        // setLoading(false)
-        // navigate('/')
     }
 
     function handleCardName(e) {
         setCardName(e.target.value)
     }
     function handleCard(e){
-        setCard(e.target.value)
-        if(e.target.value.length !== 16){
-            setInvalidCardNumnber(true)
-        }
-        else if(e.target.value.length === 16){
-            setInvalidCardNumnber(false)
-        }
+        const {complete}=e;
+        setCard(complete)
     }
 
     function handleMonth(e){
-        setMonth(e.target.value)
+        const {complete} = e
+        setMonth(complete)
     }
     function handleCVC(e){
-        setCVC(e.target.value)
+        const {complete} = e
+        setCVC(complete)
     }
 
     function checkDisable(){
-        if(cardName != '' && card.length === 16 && month != '' && cvc.length === 3){
+        if(cardName != '' && card === true && month === true && cvc === true){
             setDisable(false)
         }
         else{
@@ -235,6 +153,82 @@ function Payment() {
             setInvalid(true)
         }
     }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true)
+        setDisable(true)
+        const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/createStripeCustomer`, {
+            method:"POST",
+            body:JSON.stringify({email})
+        })
+        const dataNew = await data.json()
+        setStripeCustomerId(dataNew.data.id)
+        localStorage.setItem("stripeCustomerId", JSON.stringify(dataNew.data.id))
+        // const payment = 1
+        const payment = Number.parseInt(sum)
+        const bodyData = {
+            payment:payment,
+            customerId:dataNew.data.id,
+            email:email,
+        }
+        const cardNumberElement = elements.getElement(CardNumberElement);
+        const PaymentData = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/makeStripePayment`, {
+            method:'POST',
+            body:JSON.stringify({...bodyData}),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
+
+        const resPaymentData = await PaymentData.json()
+        // const client_secret = resPaymentData.client_secret
+
+        if(PaymentData?.status !== 200){
+            // setLoading(false)
+            return <p>Internal Server Error</p>
+        }
+
+        const name = userName.replace(/"/g, '')
+        let {error, paymentIntent} = await stripe.confirmCardPayment(
+            resPaymentData.client_secret,{
+                payment_method: {
+                    card: cardNumberElement,
+                    billing_details: {
+                      name: name,
+                      email: email,
+                    },
+                },
+            }
+        )
+
+        if(error){
+            console.log(error.message)
+            // setLoading(false)
+            // setDisable(false)
+            return <p>{error.message} // Payment Error</p>
+        }
+        else{
+            setPaymentIntent(paymentIntent)
+        }
+    }
+
+
+    if (paymentIntent && paymentIntent.status === "succeeded"){
+        const createStudentAndPayment = async() => {
+            const student = await createStudent();
+            const studentData = student?.data;
+            const lessons = await addLessons(studentData);
+            const studentPaymentData = await addStudentPayment(studentData);
+            if(studentPaymentData === true){
+                navigate('/payment-success')
+            }
+        }
+        createStudentAndPayment();
+        // setLoading(false)
+        // setDisable(false)
+    }
+
     return (
         <section className='simple-bg h-100vh'>
             <div className='container'>
@@ -263,7 +257,7 @@ function Payment() {
                 </div>
                 <div className="row reverse mt-70">
                     <div className='col-lg-5'>
-                        <form className="payment-form">
+                        <div className="payment-form">
                             <h2 className="payment-form-heading">
                                 Payment Information
                             </h2>
@@ -278,7 +272,7 @@ function Payment() {
                                 <h6 className='email-heading color-gray900'>
                                     Card Number
                                 </h6>
-                                <CardNumberElement className="email-input"  />
+                                <CardNumberElement className="email-input"  onChange={handleCard} />
                                 {/* <input className={`email-input ${invalidCardNumber ? "error-border" : ""}`} type="text" pattern="[0-9]{16}" autoComplete="cc-number" onChange={handleCard} value={card} required/> */}
                             </div>
                             <div className="row">
@@ -286,22 +280,24 @@ function Payment() {
                                     <div className='email-container'>
                                         <div className="email-heading color-gray900">MM/YY</div>
                                         {/* <input className='email-input' type="month" min="2022-05"  onChange={handleMonth} value={month} maxLength={6} required/> */}
-                                        <CardExpiryElement className="email-input" />
+                                        <CardExpiryElement className="email-input" onChange={handleMonth} />
                                     </div>
                                 </div>
                                 <div className="col-6">
                                     <div className='email-container'>
                                         <div className="email-heading color-gray900">CVC</div>
                                         {/* <input className='email-input' type="text" length={3} pattern="[0-9]{3}" onChange={handleCVC} value={cvc} maxLength={3} max={3} required/> */}
-                                        <CardCvcElement className="email-input" />
+                                        <CardCvcElement className="email-input" onChange={handleCVC} />
                                     </div>
                                 </div>
                             </div>
                             <div className='email-container'>
-                                <Link to="/payment-success">
-                                    <button className={`pay-btn ${disable ? "opacity-03": "opacity-01"}`} disabled={disable}>Pay ${sum} CAD</button>
-                                </Link>
+                                <button onClick={handleSubmit}  className={`pay-btn ${disable ? "opacity-03": "opacity-01"}`} disabled={disable}>
+                                    Pay ${sum} CAD
+                                    <span className={`${loading === false ? '' : 'spinner-border spinner-border-sm'} `} style={{marginLeft:"5px"}}></span>
+                                    </button>
                             </div>
+                            {/* <button onClick={handleSubmit}>Click</button> */}
                             <div onClick={activatePromoCode} className={applyPromoCode === true ? "promo-code color-gray800" : "promo-code color-gray800 display-none"}>+Apply Promo Code</div>
                             <div className={enterPromoCode ? "promo-code-form" : "display-none"}>
                                 <div className='email-container'>
@@ -324,10 +320,7 @@ function Payment() {
                                     Discount of $20 Applied
                                 </p>
                             </div>
-                            <button onClick={handleSubmit}>
-                                Check
-                            </button>
-                        </form>
+                        </div>
                     </div>
                     <div className="col-lg-2"></div>
                     <div className="col-lg-5">

@@ -39,7 +39,7 @@ export const studentLogin = async (email, password) => {
       }
     });
     const resUserData = await data.json()
-    console.log(resUserData)
+    // console.log(resUserData)
     // setUserLogin(data.data);
   } catch (error) {
     console.log(error);
@@ -85,13 +85,13 @@ export const createStudent = async () => {
   });
 
   const resStudentData = await data.json();
-  console.log(resStudentData)
+  // console.log(resStudentData)
   // return data;
   return resStudentData;
 };
 
 export const addLessons = async (student) => {
-  console.log("inside Add Lesson")
+  // console.log("inside Add Lesson")
   const lessons = getLessons();
   const instructorId = getInstructorId();
   const email = getEmail();
@@ -122,7 +122,6 @@ export const addLessons = async (student) => {
         totalLessons: +lessons,
         instructor: instructorId.replace(/"/g, ''),
       }
-      console.log("POST")
       const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addLesson`, {
         method:"POST",
         body:JSON.stringify({...addLessonData}),
@@ -132,11 +131,9 @@ export const addLessons = async (student) => {
       });
 
       const resLessonArrayData = await data.json()
-      console.log(resLessonArrayData)
       lessonId = resLessonArrayData.data?._id;
       localStorage.setItem("lessonId", JSON.stringify(lessonId))
       const bookedSlots = await instructorSlotBooked(instructorId);
-      // console.log(bookedSlots)
       const addBookingData = {
         instructorId: instructorId.replace(/"/g, ''),
         lessonId: lessonId.replace(/"/g, ''),
@@ -158,7 +155,6 @@ export const addLessons = async (student) => {
         }
       });
       const resDataForBooking = await dataForBooking.json();
-      console.log(resDataForBooking)
     } else {
       const addAllLessonData = {
         student: student._id,
@@ -176,7 +172,6 @@ export const addLessons = async (student) => {
       });
 
       const resAddLesson = await data.json();
-      console.log(resAddLesson)
     }
   });
 
@@ -207,7 +202,8 @@ export const addStudentPayment = async (studentData) => {
       }
   );
   const resAddStudentPayment = await data.json();
-  console.log(resAddStudentPayment)
+  const nav = true
+  return nav
 };
 
 export const studentLessons = async (userLoginData) => {

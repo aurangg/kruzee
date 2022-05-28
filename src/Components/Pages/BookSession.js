@@ -64,6 +64,8 @@ function BookSession(){
     const [lastDay, setLastDay] = useState(0)
     const [lastDay2, setLastDay2] = useState(0)
 
+    const [showMore, setShowMore] = useState(false) 
+
     const [instructorName, setInstructorName] = useState('')
 
     const [timeLoader, setTimeLoader] = useState(false)
@@ -125,9 +127,6 @@ function BookSession(){
             setSchedule(scheduleJsonData.data.bookings)
             setSlots(scheduleJsonData.data.slots)
             setBookedSlots(scheduleJsonData.data.bookedSlots)
-            console.log(scheduleJsonData.data.bookedSlots)
-            console.log(scheduleJsonData.data.slots)
-            console.log(scheduleJsonData.data.bookings)
         } catch(error){
             setErrorRes(true)
         } finally{
@@ -336,7 +335,7 @@ function BookSession(){
                                                     const isPrevious = currentDate() >= handleDate(index)[1];
                                                     return (
                                                         <div key={item}>
-                                                            {isBooked ? <></> :
+                                                            {isBooked ? <p className='apologies-text'>No book slots available for this date. 🥺</p> :
                                                                 <div value={item} className={`available-slot-box ${activeState === time ? 'active-slot-box' : ''}`} onClick={(e) => {onPackageClick(key, index, isBooked, isPrevious); handleTimeSlot(time);}}>
                                                                     <p className='time-available color-gray900'>
                                                                         {callTime(time)} - {callTime(time + 1)}
@@ -395,8 +394,10 @@ function BookSession(){
                         <div className='col-lg-4' key={index}>
                             <div className='instructor-box'>
                                 <div className='instructor-start-info'>
-                                    <img className='instructor-picture' src={`kruzee-backend.herokuapp.com${i.instructorImage}`} alt="driver-img" />
-                                    <img className='instructor-picture instructor-picture-2' src={`kruzee-backend.herokuapp.com${i.vehicleDetails.image}`} alt="driver-car" />
+                                    <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/driver-img.png'} alt="driver-img" />
+                                    <img className='instructor-picture instructor-picture-2' src={process.env.PUBLIC_URL + '/images/driver-car.png'} alt="driver-img" />
+                                    {/* <img className='instructor-picture' src={`kruzee-backend.herokuapp.com${i.instructorImage}`} alt="driver-img" /> */}
+                                    {/* <img className='instructor-picture instructor-picture-2' src={`kruzee-backend.herokuapp.com${i.vehicleDetails.image}`} alt="driver-car" /> */}
                                     <h6 className='instructor-name color-gray900'>
                                         {i.fullName}
                                     </h6>
@@ -435,9 +436,12 @@ function BookSession(){
                                 </h6>
                                 <div className='review-container'>
                                     <div className='review-box bg-gray100'>
-                                        <p className='review color-gray900'>
-                                            Phil was the best. I couldn’t have imagined doing this with another instructor. Thanks!
+                                        <p className={`review color-gray900 review-text ${showMore ? 'display-block' : 'webkit-box'}`}>
+                                            Phil was the best. I couldn’t have imagined doing this with another instructor. Thanks! Phil was the best. I couldn’t have imagined doing this with another instructor. Thanks!
                                         </p>
+                                        <button className='review-span' onClick={() => setShowMore(!showMore)}>
+                                            {showMore ? 'Show Less' : 'See More'}
+                                        </button>
                                         <div className='space-between-baseline'>
                                             <h6 className='review-name'>
                                                 Maria Hernandez

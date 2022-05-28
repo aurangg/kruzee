@@ -43,11 +43,9 @@ function IndiviualLesson(){
     const handleChange = useCallback((index, lesson, price) => {
         return (e) => {
             setRadioValue(e.target.value)
-            console.log(index)
             setActiveClass(index)
             localStorage.setItem("lesson", JSON.stringify(lesson))
             localStorage.setItem("price", JSON.stringify(price))
-            console.log(lesson, price)
             setDisable(false)
         }
     })
