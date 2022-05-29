@@ -291,7 +291,7 @@ function BookSession(){
                                         <div className='col-4'></div>
                                         <div className='col-4 align-items-center'>
                                             <h5 className='month'>
-                                                March
+                                                {`${firstDay2} - ${lastDay2}`}
                                             </h5>
                                         </div>
                                         <div className='col-4 flex-end'>

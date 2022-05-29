@@ -102,6 +102,24 @@ function Payment() {
         checkDisable()
     })
 
+    useEffect(() => {
+        if (paymentIntent && paymentIntent.status === "succeeded"){
+            const createStudentAndPayment = async() => {
+                const student = await createStudent();
+                const studentData = student?.data;
+                const lessons = await addLessons(studentData);
+                const studentPaymentData = await addStudentPayment(studentData, sum);
+                if(studentPaymentData === true){
+                    setLoading(false)
+                    setDisable(false)
+                    navigate('/payment-success')
+                }
+                
+            }
+            createStudentAndPayment();            
+        }
+    }, [paymentIntent])
+
 
 
     if(!stripe || !elements){
@@ -155,6 +173,7 @@ function Payment() {
     }
 
     const handleSubmit = async (e) => {
+        console.log("number")
         e.preventDefault();
         setLoading(true)
         setDisable(true)
@@ -166,7 +185,9 @@ function Payment() {
         setStripeCustomerId(dataNew.data.id)
         localStorage.setItem("stripeCustomerId", JSON.stringify(dataNew.data.id))
         // const payment = 1
-        const payment = Number.parseInt(sum)
+        const payment = Number(parseFloat(sum*100).toFixed(2))
+        console.log(payment)
+        console.log(typeof payment)
         const bodyData = {
             payment:payment,
             customerId:dataNew.data.id,
@@ -213,21 +234,6 @@ function Payment() {
         }
     }
 
-
-    if (paymentIntent && paymentIntent.status === "succeeded"){
-        const createStudentAndPayment = async() => {
-            const student = await createStudent();
-            const studentData = student?.data;
-            const lessons = await addLessons(studentData);
-            const studentPaymentData = await addStudentPayment(studentData);
-            if(studentPaymentData === true){
-                navigate('/payment-success')
-            }
-        }
-        createStudentAndPayment();
-        // setLoading(false)
-        // setDisable(false)
-    }
 
     return (
         <section className='simple-bg h-100vh'>

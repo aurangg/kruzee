@@ -49,6 +49,7 @@ function GetCode(){
         e.preventDefault();
     }
 
+
     function handlePostalCode(){
         localStorage.setItem("postalCode", JSON.stringify(postalCode))
     }

@@ -47,6 +47,7 @@ export const studentLogin = async (email, password) => {
 };
 
 export const createStudent = async () => {
+  console.log("test")
   const email = getEmail();
   const password = getPassword();
   const phoneNumber = getPhoneNumber();
@@ -178,7 +179,7 @@ export const addLessons = async (student) => {
   return lessonId;
 };
 
-export const addStudentPayment = async (studentData) => {
+export const addStudentPayment = async (studentData, sum) => {
   const lessons = getLessons();
   const packages = getPackage();
   const addStudentPayment = {
@@ -186,12 +187,7 @@ export const addStudentPayment = async (studentData) => {
     studentId: studentData._id,
     package:packages.replace(/"/g, ''),
     totalStudentLessons: +lessons,
-    // amount:
-    //   +lessons === 5
-    //     ? +FIVE_LESSON_PRICE.TOTAL_PRICE.splice("$")[1]
-    //     : +lessons === 10
-    //     ? TEN_LESSON_PRICE.TOTAL_PRICE
-    //     : ONE_LESSON_PRICE.SINGLE_LESSON_PRICE,
+    amount:sum,
   }
   const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addStudentPayments`, {
     method:"POST",
