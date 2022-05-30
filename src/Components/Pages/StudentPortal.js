@@ -90,13 +90,13 @@ const StudentPortal = () => {
 												zIndex: 1,
 												border: '5px white solid',
 											}}
-											src={`${BASE_URL}${studentInstructor?.instructorImage}`}
+											src={`${process.env.REACT_APP_IMG_BASE_URL}/${studentInstructor?.instructorImage}`}
 											width="105px"
 											height="105px"
 											alt=""
 										/>
 										<img
-											src={`${BASE_URL}${studentInstructor?.vehicleDetails?.image}`}
+											src={`${process.env.REACT_APP_IMG_BASE_URL}/${studentInstructor?.vehicleDetails?.image}`}
 											width="100px"
 											height="100px"
 											alt=""
