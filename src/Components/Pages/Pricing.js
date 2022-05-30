@@ -103,6 +103,7 @@ function Pricing(){
         localStorage.setItem("perks", JSON.stringify(perks2))
         localStorage.setItem("price", JSON.stringify(245))
         localStorage.setItem("package", JSON.stringify("Road Test"))
+        localStorage.setItem("lesson", JSON.stringify(1))
     }
 
     function handleIndiviualLessons(){

@@ -17,6 +17,7 @@ import {
   getPhoneNumber,
   getLessons,
   getPackage,
+  getPackageName,
   getDaySelected,
 } from "../localStorage";
 
@@ -47,7 +48,6 @@ export const studentLogin = async (email, password) => {
 };
 
 export const createStudent = async () => {
-  console.log("test")
   const email = getEmail();
   const password = getPassword();
   const phoneNumber = getPhoneNumber();
@@ -86,95 +86,126 @@ export const createStudent = async () => {
   });
 
   const resStudentData = await data.json();
-  // console.log(resStudentData)
-  // return data;
   return resStudentData;
 };
 
 export const addLessons = async (student) => {
-  // console.log("inside Add Lesson")
   const lessons = getLessons();
-  const instructorId = getInstructorId();
+  let instructorId = getInstructorId();
   const email = getEmail();
   const fullName = getUserName();
   const password = getPassword();
   const phoneNumber = getPhoneNumber();
-  // const latlng = getLatLng();
+  const packageName = getPackage();
   const lat = getLat();
   const lng = getLng();
   const pickupLoc = getPickUp();
   const slot = getSlotSelected();
   const day = getDaySelected();
-  // const date = getDateSelected();
-  const weekStartDate = getWeekStartDate();
+  let weekStartDate = getWeekStartDate();
 
-  const newDate = weekStartDate.replaceAll("-", "/").replace(/"/g, '');
+  if(getInstructorId() !== null){
+    instructorId = getInstructorId().replace(/"/g, '');
+  }
+  else{
+    instructorId = ''
+  }
+
+  let newDate = ''
+  if(weekStartDate !== null){
+    newDate = weekStartDate.replaceAll("-", "/").replace(/"/g, '');
+  }
+  else{
+    newDate = ''
+  }
 
   const lessonsArray = Array.from(Array(+lessons).keys());
 
   let lessonId;
+  console.log(packageName)
 
-  lessonsArray.forEach(async (item, index) => {
-    if (index === 0) {
-      const addLessonData = {
-        student: student._id,
-        studentName: student.fullName,
-        studentLessonNumber: index + 1,
-        totalLessons: +lessons,
-        instructor: instructorId.replace(/"/g, ''),
-      }
-      const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addLesson`, {
-        method:"POST",
-        body:JSON.stringify({...addLessonData}),
-        headers:{
-          "Content-Type" : "application/json"
-        }
-      });
-
-      const resLessonArrayData = await data.json()
-      lessonId = resLessonArrayData.data?._id;
-      localStorage.setItem("lessonId", JSON.stringify(lessonId))
-      const bookedSlots = await instructorSlotBooked(instructorId);
-      const addBookingData = {
-        instructorId: instructorId.replace(/"/g, ''),
-        lessonId: lessonId.replace(/"/g, ''),
-        bookings: bookedSlots,
-        time: +slot,
-        day: day.replace(/"/g, ''),
-        latitude: Number(lat.replace(/"/g, '')),
-        longitude: Number(lng.replace(/"/g, '')),
-        date: newDate,
-        weekStartDate: weekStartDate.replace(/"/g, ''),
-        pickupLocation: pickupLoc.replace(/"/g, ''),
-        notes: "",
-      }
-      const dataForBooking = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addBooking`, {
-        method:"POST",
-        body:JSON.stringify({...addBookingData}),
-        headers:{
-          "Content-Type" : "application/json"
-        }
-      });
-      const resDataForBooking = await dataForBooking.json();
-    } else {
-      const addAllLessonData = {
-        student: student._id,
-        studentName: student.fullName,
-        studentLessonNumber: index + 1,
-        totalLessons: +lessons,
-        instructor: instructorId.replace(/"/g, ''),
-      }
-      const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addLesson`, {
-        method:"POST",
-        body:JSON.stringify({...addAllLessonData}),
-        headers:{
-          "Content-Type" : "application/json"
-        }
-      });
-
-      const resAddLesson = await data.json();
+  if(packageName.replace(/"/g, '') === "Road Test"){
+    const addLessonData = {
+      student: student._id,
+      studentName: student.fullName,
+      studentLessonNumber: 0 + 1,
+      totalLessons: +lessons,
     }
-  });
+    const roadTestPackageData = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addLesson`, {
+      method:"POST",
+      body:JSON.stringify({...addLessonData}),
+      headers:{
+        "Content-Type" : "application/json"
+      }
+    });
+    const roadTestPackageDataResponse = await roadTestPackageData.json();
+    console.log(roadTestPackageDataResponse)
+    return true
+  }
+
+  else{
+    lessonsArray.forEach(async (item, index) => {
+      if (index === 0) {
+        const addLessonData = {
+          student: student._id,
+          studentName: student.fullName,
+          studentLessonNumber: index + 1,
+          totalLessons: +lessons,
+          instructor: instructorId.replace(/"/g, ''),
+        }
+        const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addLesson`, {
+          method:"POST",
+          body:JSON.stringify({...addLessonData}),
+          headers:{
+            "Content-Type" : "application/json"
+          }
+        });
+  
+        const resLessonArrayData = await data.json()
+        lessonId = resLessonArrayData.data?._id;
+        localStorage.setItem("lessonId", JSON.stringify(lessonId))
+        const bookedSlots = await instructorSlotBooked(instructorId);
+        const addBookingData = {
+          instructorId: instructorId.replace(/"/g, ''),
+          lessonId: lessonId.replace(/"/g, ''),
+          bookings: bookedSlots,
+          time: +slot,
+          day: day.replace(/"/g, ''),
+          latitude: Number(lat.replace(/"/g, '')),
+          longitude: Number(lng.replace(/"/g, '')),
+          date: newDate,
+          weekStartDate: weekStartDate.replace(/"/g, ''),
+          pickupLocation: pickupLoc.replace(/"/g, ''),
+          notes: "",
+        }
+        const dataForBooking = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addBooking`, {
+          method:"POST",
+          body:JSON.stringify({...addBookingData}),
+          headers:{
+            "Content-Type" : "application/json"
+          }
+        });
+        const resDataForBooking = await dataForBooking.json();
+      } else {
+        const addAllLessonData = {
+          student: student._id,
+          studentName: student.fullName,
+          studentLessonNumber: index + 1,
+          totalLessons: +lessons,
+          instructor: instructorId.replace(/"/g, ''),
+        }
+        const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addLesson`, {
+          method:"POST",
+          body:JSON.stringify({...addAllLessonData}),
+          headers:{
+            "Content-Type" : "application/json"
+          }
+        });
+  
+        const resAddLesson = await data.json();
+      }
+    });
+  }
 
   return lessonId;
 };

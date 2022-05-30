@@ -66,27 +66,31 @@ const SignInFrom = ({ history }) => {
 			<div className="container" style={{ minHeight: '100vh' }}>
 				<div className="row justify-content-center mt-4">
 					<div className="col-lg-6">
-						<div className="sign_info py-5 px-4">
+						<div className="pricing-box">
 							<div className="login_info px-4">
 								<h2 className="f_p f_600 f_size_28 t_color3 mb_40 f-size-20">
 									Log-in: Manage In-Car Lessons
 								</h2>
 								<span>{message}</span>
 								<form onSubmit={submitForm} className="login-form sign-in-form">
-									<div className="form-group text_box">
+									<div className="email-container">
+										<h6 className='email-heading color-gray900'>
+											Email
+										</h6>
 										<input
-											className="pl-4 py-0"
-											style={{ border: '1px solid #c4c4c4' }}
+											className="email-input"
 											value={email}
 											onChange={(e) => setEmail(e.target.value)}
 											type="text"
 											placeholder="Email"
 										/>
 									</div>
-									<div className="form-group text_box">
+									<div className="email-container">
+										<h6 className='email-heading color-gray900'>
+											Password
+										</h6>
 										<input
-											className="pl-4 py-0"
-											style={{ border: '1px solid #c4c4c4' }}
+											className="email-input"
 											value={password}
 											onChange={(e) => setPassword(e.target.value)}
 											type="password"
@@ -110,7 +114,7 @@ const SignInFrom = ({ history }) => {
 									<div className="extra"></div>
 
 									<div className="d-flex justify-content-between align-items-center">
-										<button type="submit" className="btn_three" style={{ width: '100%' }}>
+										<button type="submit" className="create-account-btn" style={{ width: '100%' }}>
 											{loading ? 'Signing In' : 'Sign in'}
 										</button>
 										<div className="social_text d-flex "></div>

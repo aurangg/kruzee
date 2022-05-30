@@ -237,6 +237,7 @@ a, a:hover{
   width: 3.333333%;
 }
 
+
 @media (max-width:460px) {
   .flex-reverse-on-mobile{
     display: flex;
@@ -445,7 +446,6 @@ body {
   line-height: 28px;
   font-family: "Hk Grotesk", sans-serif;
   letter-spacing: 0px;
-  color: #677294;
   padding: 0px;
   overflow-x: hidden;
   z-index: 0;
@@ -14683,10 +14683,6 @@ h6 {
   color: #4b505e;
 }
 
-p {
-  font-size: 16px;
-  color: #677294;
-}
 
 p span {
   padding: 3px 8px;
