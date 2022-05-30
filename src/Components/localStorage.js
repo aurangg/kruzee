@@ -93,3 +93,10 @@ export const getWeekStartDate = () => {
 export const getLocationScreenHeading = () => {
     return localStorage.getItem("locationScreenHeading")
 }
+
+export const getInstructorImage = () => {
+    return localStorage.getItem("instructorImage")
+}
+export const getInstructorVehicleImage = () => {
+    return localStorage.getItem("instructorVehicleImage")
+}

@@ -72,6 +72,9 @@ function BookSession(){
 
     const [bookedStatus, setBookedStatus] = useState(false)
 
+    const [instructorImage, setInstructorImage] = useState('')
+    const [instructorVehicleImage, setInstructorVehicleImage] = useState('')
+
 
     useEffect(() => {
         document.title = "Book A Lesson | Kruzee"
@@ -81,11 +84,13 @@ function BookSession(){
         localStorage.removeItem("slot")
         localStorage.removeItem("instructorId")
         localStorage.removeItem("weekStartDate")
+        localStorage.removeItem("instructorImage")
+        localStorage.removeItem("instructorVehicleImage")
     },[])
 
     const fetchTopThreeInstructor = async () => {
         try {
-            const instructorData = await fetch(process.env.REACT_APP_TOP_THREE_INSTRUCTOR, {
+            const instructorData = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/searchTopThreeInstructors`, {
                 method:"POST",
                 body:JSON.stringify({postalCode}),
                 headers:{
@@ -119,7 +124,7 @@ function BookSession(){
 
     const fetchSchedule = async () => {
         try{
-            const scheduleData = await fetch(`${process.env.REACT_APP_GET_INSTRUCTOR_DETAIL}${instructor}`, {
+            const scheduleData = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/getInstructorDetail?id=${instructor}`, {
                 method:"GET",
                 headers:{
                     "Content-Type":"application/json"
@@ -128,6 +133,8 @@ function BookSession(){
             const scheduleJsonData = await scheduleData.json()
             setSchedule(scheduleJsonData.data.bookings)
             setSlots(scheduleJsonData.data.slots)
+            setInstructorImage(scheduleJsonData.data.instructorImage)
+            setInstructorVehicleImage(scheduleJsonData.data.vehicleDetails.image)
             setBookedSlots(scheduleJsonData.data.bookedSlots)
         } catch(error){
             setErrorRes(true)
@@ -151,7 +158,7 @@ function BookSession(){
         if (week > 0) {
             setWeek(week - 1);
             handleFirstDay();
-            setActiveIndex(0)
+            // setActiveIndex(0)
         }
     };
 
@@ -162,7 +169,6 @@ function BookSession(){
 
     const handleTimeSlot = (index) => {
         setActiveState(index)
-        console.log(bookedStatus)
         if(bookedStatus === false){
             setBtn(true)
         }
@@ -249,6 +255,8 @@ function BookSession(){
     
     function setSelectedInstructorInfo(){
         localStorage.setItem("instructorName", JSON.stringify(instructorName))
+        localStorage.setItem("instructorImage", JSON.stringify(instructorImage))
+        localStorage.setItem("instructorVehicleImage", JSON.stringify(instructorVehicleImage))
     }
 
     const [dateSelected, setDateSelected] = useState('')
@@ -285,7 +293,7 @@ function BookSession(){
                                 <div className='time-slot-header'>
                                     <div className='space-between'>
                                         <div className='align-items'>
-                                            <img src={process.env.PUBLIC_URL + '/images/driver-img.png'} alt="driver-img" />
+                                            <img src={`${process.env.REACT_APP_IMG_BASE_URL}/${instructorImage}`} alt="driver-img" />
                                             <p className='time-slot-heading color-gray900'>
                                                 Select a time slot
                                             </p>
@@ -341,6 +349,7 @@ function BookSession(){
                                                     const isBooked = booked?.includes(time);
                                                     const key = `${slotDay.toLowerCase()}-${time}`;
                                                     const isPrevious = currentDate() >= handleDate(index)[1];
+                                                    const isSlotAvailabe = booked;
                                                     return (
                                                         <div key={item} onLoad={() => setBookedStatus(isBooked)}>
                                                             {isBooked ? <p className='apologies-text'>Whoops! Looks like there are no time slots available. Please try selecting a different date 🥺</p> :
@@ -394,7 +403,7 @@ function BookSession(){
                     <div className='col-12'>
                         <LargeHeading large_heading={location.state.heading_name} />
                         <p className='onboarding-description'>
-                            Showing <span className='color-blue700 weight-700'>{data.length}</span> {data.length === 1 ? 'instructor' : 'instructors'} within <span className='color-blue700 weight-700'>10km</span> of you
+                            Showing <span className='no-index-padding color-blue700 weight-700'>{data.length}</span> {data.length === 1 ? 'instructor' : 'instructors'} within <span className='no-index-padding color-blue700 weight-700'>10km</span> of you
                         </p>
                     </div>
                 </div>
@@ -406,10 +415,10 @@ function BookSession(){
                         <div className='col-lg-4' key={index}>
                             <div className='instructor-box'>
                                 <div className='instructor-start-info'>
-                                    <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/driver-img.png'} alt="driver-img" />
-                                    <img className='instructor-picture instructor-picture-2' src={process.env.PUBLIC_URL + '/images/driver-car.png'} alt="driver-img" />
-                                    {/* <img className='instructor-picture' src={`kruzee-backend.herokuapp.com${i.instructorImage}`} alt="driver-img" /> */}
-                                    {/* <img className='instructor-picture instructor-picture-2' src={`kruzee-backend.herokuapp.com${i.vehicleDetails.image}`} alt="driver-car" /> */}
+                                    {/* <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/driver-img.png'} alt="driver-img" />
+                                    <img className='instructor-picture instructor-picture-2' src={process.env.PUBLIC_URL + '/images/driver-car.png'} alt="driver-img" /> */}
+                                    <img className='instructor-picture' src={`${process.env.REACT_APP_IMG_BASE_URL}/${i.instructorImage}`} alt="driver-img" />
+                                    <img className='instructor-picture instructor-picture-2' src={`${process.env.REACT_APP_IMG_BASE_URL}/${i.vehicleDetails.image}`} alt="driver-car" />
                                     <h6 className='instructor-name color-gray900'>
                                         {i.fullName}
                                     </h6>

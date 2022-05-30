@@ -40,6 +40,8 @@ function GetCode(){
         localStorage.removeItem('instructorId')
         localStorage.removeItem('locationScreenHeading')
         localStorage.removeItem('slot')
+        localStorage.removeItem('instructorVehicleImage')
+        localStorage.removeItem('instructorImage')
     }, [postalCode])
     const handleChange = (postalCode) => {
         setPostalCode(postalCode.toUpperCase())

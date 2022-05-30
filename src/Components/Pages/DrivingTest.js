@@ -14,6 +14,12 @@ function DrivingTest(){
 
 
     useEffect(() => {
+        localStorage.removeItem('instructorName')
+        localStorage.removeItem("date")
+        localStorage.removeItem("day")
+        localStorage.removeItem("slot")
+        localStorage.removeItem("instructorId")
+        localStorage.removeItem("weekStartDate")
         localStorage.removeItem('roadTestVehicle')
         document.title = "Select A Vehicle | Kruzee"
     }, [])

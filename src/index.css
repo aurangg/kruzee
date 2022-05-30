@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
-
+html{
+  background-color: var(--blue50);
+  margin: 0px;
+    padding: 0px;
+}
 :root{
   --blue700:#2786C2;
   --blue500:#37A2D0;
