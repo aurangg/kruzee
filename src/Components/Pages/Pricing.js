@@ -10,7 +10,7 @@ function Pricing(){
             id:0,
             pricing:695,
             pricingSpan:"/ pack + HST",
-            packageName:"Full Packages",
+            packageName:"Full Package",
             description:"",
             popular:true,
             benefits:[
@@ -77,13 +77,14 @@ function Pricing(){
         localStorage.removeItem('lesson')
         localStorage.removeItem('packageName')
         localStorage.removeItem('package')
+        localStorage.removeItem('locationScreenHeading')
         document.title = "Select A Package | Kruzee"
     },[])
 
 
     function handleFullPackage(){
         localStorage.setItem("locationScreenHeading", JSON.stringify("Where can we pick you up for your first lesson?"))
-        localStorage.setItem("packageName", JSON.stringify("Full Packages"))
+        localStorage.setItem("packageName", JSON.stringify("Full Package"))
         const perks = [
             "10 hours of in-car driving lessons with a Kruzee driving instructor",
             "Get licensed sooner — With our MTO certificate course, you can unlock the ability to get your G2 in 8 months instead of 12", 
@@ -93,7 +94,7 @@ function Pricing(){
         localStorage.setItem("perks", JSON.stringify(perks))
         localStorage.setItem("price", JSON.stringify(695))
         localStorage.setItem("package", JSON.stringify("Basic"))
-        localStorage.setItem("lesson", JSON.stringify(7))
+        localStorage.setItem("lesson", JSON.stringify(10))
     }
 
     function handleRoadTest(){        
@@ -138,7 +139,7 @@ function Pricing(){
                                     <div>
                                         <h6 className="pricing">$695<span className="pricing-span">/ pack + HST</span></h6>
                                         <h6 className="package-name">
-                                            Full Packages
+                                            Full Package
                                         </h6>
                                         <div className="align-items-center">
                                             <p className="package-description">

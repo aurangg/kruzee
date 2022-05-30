@@ -1,14 +1,15 @@
+.simple-bg{
+    background-color: var(--blue50);
+}
+.no-index-padding{
+    padding:0px;
+}
 .onboarding{
     background-color: var(--blue50);
     background-image: url('/public/images/onboarding.svg');
     background-repeat: no-repeat;
     background-size: cover;
     height:100vh;
-}
-.simple-bg{
-    background-color: var(--blue50);
-    height: 100%;
-    width: 100%;
 }
 .kruzee-main{
     padding-top: 20px;
@@ -229,6 +230,9 @@
 .package-info{
     border-bottom:1px solid var(--gray200);
     /* display: flex; */
+}
+.indiviuial-lesson-btn{
+    margin-bottom: 50px;
 }
 .package-name{
     font-family: 'HKGrotesk-SemiBoldLegacy';
@@ -571,7 +575,7 @@
     transition: height 0.3s ease-in;
 }
 .instructor-box .review-box .review-span{
-    font-family: 'HKGrotesk-SemiBold';
+    font-family: "HKGrotesk-SemiBoldLegacy";
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
@@ -759,10 +763,11 @@
     border-bottom: 6px solid transparent;
 }
 .discount-box .discount-text{
-    font-family: 'HKGrotesk-SemiBold';
+    font-family: 'HKGrotesk-SemiBoldLegacy';
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
+    font-feature-settings: 'liga' off;
     line-height: 12px;
     text-align: center;
     text-transform: uppercase;
@@ -770,7 +775,7 @@
     margin-bottom: 0px;
 }
 .indiviual-lesson .lesson-count .lesson-name{
-    font-family: "HKGrotesk-SemiBoldItalic";
+    font-family: "HKGrotesk-SemiBoldLegacy";
     font-weight: 600;
     font-size: 12px;
     line-height: 17px;
@@ -1329,6 +1334,7 @@
     font-family: 'HKGrotesk-Bold';
     font-style: normal;
     font-weight: 700;
+    padding:0px;
 }
 .reverse{
     display: flex;

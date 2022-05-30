@@ -18,6 +18,8 @@ import {
     getPackagePrice,
     getBDE,
     getPackageName,
+    getInstructorImage,
+    getInstructorVehicleImage,
     // getIndividualPackage,
     // setAccountCreatedMsg,
   } from "../localStorage";
@@ -79,6 +81,7 @@ function Payment() {
     const perks = JSON.parse(localStorage.getItem("perks") || "[]")
     let hst = parseFloat((13/100)*packagePrice).toFixed(2)
     let sum = String(Number(packagePrice) + Number(hst) + Number(roadTestVehicle))
+    sum = Number(sum).toFixed(2)
 
 
     const [applyPromoCode, setApplyPromoCode] = useState(true)
@@ -100,6 +103,9 @@ function Payment() {
 
     const stripe = useStripe();
     const elements = useElements();
+
+    const instructorImage = getInstructorImage();
+    const instructorVehicleImage = getInstructorVehicleImage();
 
     useEffect(() => {
         checkDisable()
@@ -355,7 +361,7 @@ function Payment() {
                                     {packageName}
                                     {isLessonAvailable ? 
                                         <span style={{display:"inline-block"}}>
-                                            <p style={{marginBottom:"0px", marginLeft:"5px", fontWeight:"400", color:"var(--gray700)"}}>({lessonCount} Lessons)</p>
+                                            <p style={{marginBottom:"0px", marginLeft:"5px", fontWeight:"400", color:"var(--gray700)"}}>({lessonCount} {lessonCount > 1 ? 'Lessons' : 'Lesson'})</p>
                                         </span>
                                         :<></>
                                     }
@@ -431,8 +437,8 @@ function Payment() {
                                         </p>
                                     </div>
                                     <div className=''>
-                                        <img className='instructor-img instructor-img-2' src={process.env.PUBLIC_URL + '/images/driver-img.png'} alt="driver-img" />
-                                        <img className='instructor-img' src={process.env.PUBLIC_URL + '/images/driver-car.png'} alt="driver-car" />
+                                        <img className='instructor-img instructor-img-2' src={`${process.env.REACT_APP_IMG_BASE_URL}/${instructorImage}`} alt="driver-img" />
+                                        <img className='instructor-img' src={`${process.env.REACT_APP_IMG_BASE_URL}/${instructorVehicleImage}`} alt="driver-car" />
                                     </div>
                                 </div>
                                 : <></>

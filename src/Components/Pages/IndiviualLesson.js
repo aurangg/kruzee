@@ -59,7 +59,7 @@ function IndiviualLesson(){
 
 
     return(
-        <section className='simple-bg h-100vh'>
+        <section className='simple-bg'>
             <div className='container'>
                 <Toolbar path="/" back_button="block" />
                 <div className='row'>
@@ -134,7 +134,7 @@ function IndiviualLesson(){
                     </div>
                     <div className='col-lg-4 offset-lg-4'>
                         <Link to="/driving-test">
-                                <button className={`submit-btn ${disabled === false ? 'opacity-01' : 'opacity-03' }`} disabled={disabled}>
+                                <button className={`indiviuial-lesson-btn submit-btn ${disabled === false ? 'opacity-01' : 'opacity-03' }`} disabled={disabled}>
                                     Continue
                                 </button>
                             </Link>
