@@ -4,7 +4,7 @@ import { BASE_URL } from '../Common/constants';
 
 import { setUserLogin, getAccountCreatedMsg } from '../Common/localStorage';
 
-import { withRouter } from 'react-router-dom';
+import { useNavigate, withRouter } from 'react-router-dom';
 import thanksIcon from '../Common/assets/image/thanksMsgIcon.png';
 
 const SignInFrom = ({ history }) => {
@@ -12,6 +12,7 @@ const SignInFrom = ({ history }) => {
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [errorMsg, setErrorMsg] = useState(false);
+	const navigate = useNavigate();
 
 	const loginMsg = getAccountCreatedMsg();
 	let message;
@@ -21,13 +22,18 @@ const SignInFrom = ({ history }) => {
 		setLoading(true);
 		localStorage.clear();
 		try {
-			const data = await axios.post(`${BASE_URL}/api/student/login`, {
+			const data = await axios.post(`${process.env.REACT_APP_BASE_URL}api/student/login`, {
 				email: email,
 				password: password,
 			});
 			setUserLogin(data.data);
 			message = 'Successfully signed in';
-			history.push('/StudentPortal');
+			console.log('data', data);
+			if (data.status === 200) {
+				navigate('/studentPortal');
+			}
+
+			// history.push('/studentPortal');
 			setLoading(false);
 		} catch (error) {
 			message = 'Error signing in';
@@ -74,9 +80,7 @@ const SignInFrom = ({ history }) => {
 								<span>{message}</span>
 								<form onSubmit={submitForm} className="login-form sign-in-form">
 									<div className="email-container">
-										<h6 className='email-heading color-gray900'>
-											Email
-										</h6>
+										<h6 className="email-heading color-gray900">Email</h6>
 										<input
 											className="email-input"
 											value={email}
@@ -86,9 +90,7 @@ const SignInFrom = ({ history }) => {
 										/>
 									</div>
 									<div className="email-container">
-										<h6 className='email-heading color-gray900'>
-											Password
-										</h6>
+										<h6 className="email-heading color-gray900">Password</h6>
 										<input
 											className="email-input"
 											value={password}
