@@ -1,10 +1,11 @@
-export const BASE_URL = 'http://localhost:5000';
+// export const BASE_URL = 'http://localhost:5000';
 
 // export const BASE_URL = "https://kruzee-backend.herokuapp.com";
 
 // export const BASE_URL = "https://3.97.140.209:5000";
 
 // export const BASE_URL = "https://kruzeee.tk";
+export const BASE_URL = 'https://kruzee-backend.herokuapp.com/';
 
 export const ONE_LESSON_PRICE = {
 	SINGLE_LESSON_PRICE: 65,

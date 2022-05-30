@@ -65,6 +65,7 @@ function Account() {
     useEffect(() => {
         localStorage.removeItem("email")
         localStorage.removeItem("password")
+        localStorage.removeItem("userName")
         localStorage.removeItem("phoneNumber")
     }, [])
     useEffect(() => {
@@ -116,9 +117,23 @@ function Account() {
         }
     }
 
+    
 
     function handlePhonenumber(e) {
-        e.target.value = e.target.value.split('-').join('').replace(/((?<!\d)\d{3}(?!\b)|(?<=^\d{3})\d{3}(?!\b))/g, '$1-');
+        // e.target.value = e.target.value.split('-').join('').replace(/((?<!\d)\d{3}(?!\b)|(?<=^\d{3})\d{3}(?!\b))/g, '$1-');
+        // e.target.value = e.target.value.split('-').join('').replace(/((?<!\d)\d{3}(?!\b)|(?<=^\d{3})\d{3}(?!\b))/g, '$1-');
+        
+        let canceL = document.getElementById("phoneNumber").addEventListener("keydown", function(e){
+
+            if(e.keyCode !== 8){
+                if(e.target.value.length === 3){
+                    e.target.value = e.target.value + "-"
+                }
+                else if(e.target.value.length === 7){
+                    e.target.value = e.target.value + "-"
+                }
+            }
+        })
         setPhoneNumber(e.target.value.replace(/[^\d-]/g,''));
         const pass=e.target.value.split("-").join('');
         setPassPhoneNumber(pass);
@@ -277,7 +292,7 @@ function Account() {
                                 <h6 className='email-heading color-gray900'>
                                     Phone Number
                                 </h6>
-                                <input className={`email-input ${phoneError ? 'error-border' : ''}`} type="tel" maxLength={12}  onChange={handlePhonenumber} placeholder="000-000-0000" value={phoneNumber} required/>
+                                <input className={`email-input ${phoneError ? 'error-border' : ''}`} type="tel" maxLength={12} onChange={handlePhonenumber} placeholder="000-000-0000" value={phoneNumber} id="phoneNumber" required/>
                             </div>
                             <div className='email-container'>
                                 <h6 className='email-heading color-gray900'>
@@ -303,16 +318,11 @@ function Account() {
 
                             </div>
                             <div className='email-container'>
-                                {/* <Link to="/payment-information">
-                                    <button className={`create-account-btn ${disable ? "opacity-03": "opacity-01"}`} disabled={disable}>
-                                        Create Account!
-                                    </button>
-                                </Link> */}
                                     <button className={`create-account-btn ${disable ? "opacity-03": "opacity-01"}`} disabled={disable} type="submit">
                                         Create Account
                                         <span className={`${buttonLoading === false ? '' : 'spinner-border spinner-border-sm'} `} style={{marginLeft:"5px"}}></span>
                                     </button>
-                                <p className="create-tos color-gray700">By clicking continue you agree to our <a href={TermsOfUse} download="Terms of Use"><span className="color-blue700">Terms</span></a> and <a href={PrivacyPolicy} download="Privacy Policy"><span className="color-blue700">Privacy Policy</span></a>.</p>
+                                <p className="create-tos color-gray700">By clicking continue you agree to our <a href={TermsOfUse} download="Terms of Use"><span className="color-blue700" style={{padding:"0px"}}>Terms</span></a> and <a href={PrivacyPolicy} download="Privacy Policy"><span className="color-blue700" style={{padding:"0px"}}>Privacy Policy</span></a>.</p>
                             </div>
                        </form>
                     </div>

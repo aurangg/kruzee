@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function PaymentSuccess(){
+    const navigate = useNavigate()
+    
+    useEffect(() => {
+        setTimeout(() => {
+            navigate('/SignIn')
+        }, 3000)
+    })
     return(
         <section className="simple-bg">
             <div className="container">

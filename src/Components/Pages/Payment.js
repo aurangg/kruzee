@@ -17,6 +17,7 @@ import {
     getLessons,
     getPackagePrice,
     getBDE,
+    getPackageName,
     // getIndividualPackage,
     // setAccountCreatedMsg,
   } from "../localStorage";
@@ -28,6 +29,7 @@ function Payment() {
     const email = localStorage.getItem("email").replace(/"/g, '')
     const password = getPassword()
     const userName = getUserName();
+    const getPackage = getPackageName().replace(/"/g, '')
     const phoneNumber = getPhoneNumber();
     const bde = getBDE();
     const priceOfLesson = getPackagePrice();
@@ -87,6 +89,7 @@ function Payment() {
     const [promoCode, setPromoCode] = useState('')
     const [price, setPrice] = useState(728.84)
     const [disable, setDisable] = useState(true);
+    const [spanLoading, setSpanLoading] = useState(false)
     const [nav, setNav] = useState(false);
     
 
@@ -105,14 +108,29 @@ function Payment() {
     useEffect(() => {
         if (paymentIntent && paymentIntent.status === "succeeded"){
             const createStudentAndPayment = async() => {
-                const student = await createStudent();
-                const studentData = student?.data;
-                const lessons = await addLessons(studentData);
-                const studentPaymentData = await addStudentPayment(studentData, sum);
-                if(studentPaymentData === true){
-                    setLoading(false)
-                    setDisable(false)
-                    navigate('/payment-success')
+                if(getPackage === "Road Test Support + Test Prep"){
+                    const student = await createStudent();    
+                    const studentData = student?.data;
+                    const lessons = await addLessons(studentData);
+                    if(lessons === true){
+                        setLoading(false)
+                        setDisable(false)
+                        setSpanLoading(false)
+                        navigate('/payment-success')
+                    }
+                }
+                else{
+                    const student = await createStudent();
+                    const studentData = student?.data;
+                    const lessons = await addLessons(studentData);
+                    console.log(student, studentData)
+                    const studentPaymentData = await addStudentPayment(studentData, sum);
+                    if(studentPaymentData === true){
+                        setLoading(false)
+                        setDisable(false)
+                        setSpanLoading(false)
+                        navigate('/payment-success')
+                    }
                 }
                 
             }
@@ -173,9 +191,9 @@ function Payment() {
     }
 
     const handleSubmit = async (e) => {
-        console.log("number")
         e.preventDefault();
         setLoading(true)
+        setSpanLoading(true)
         setDisable(true)
         const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/createStripeCustomer`, {
             method:"POST",
@@ -184,10 +202,7 @@ function Payment() {
         const dataNew = await data.json()
         setStripeCustomerId(dataNew.data.id)
         localStorage.setItem("stripeCustomerId", JSON.stringify(dataNew.data.id))
-        // const payment = 1
         const payment = Number(parseFloat(sum*100).toFixed(2))
-        console.log(payment)
-        console.log(typeof payment)
         const bodyData = {
             payment:payment,
             customerId:dataNew.data.id,
@@ -225,8 +240,6 @@ function Payment() {
 
         if(error){
             console.log(error.message)
-            // setLoading(false)
-            // setDisable(false)
             return <p>{error.message} // Payment Error</p>
         }
         else{
@@ -263,7 +276,7 @@ function Payment() {
                 </div>
                 <div className="row reverse mt-70">
                     <div className='col-lg-5'>
-                        <div className="payment-form">
+                        <form className="payment-form" onSubmit={handleSubmit}>
                             <h2 className="payment-form-heading">
                                 Payment Information
                             </h2>
@@ -298,9 +311,9 @@ function Payment() {
                                 </div>
                             </div>
                             <div className='email-container'>
-                                <button onClick={handleSubmit}  className={`pay-btn ${disable ? "opacity-03": "opacity-01"}`} disabled={disable}>
+                                <button  className={`pay-btn ${disable ? "opacity-03": "opacity-01"}`} disabled={disable}>
                                     Pay ${sum} CAD
-                                    <span className={`${loading === false ? '' : 'spinner-border spinner-border-sm'} `} style={{marginLeft:"5px"}}></span>
+                                    <span className={`${spanLoading === true ? 'spinner-border spinner-border-sm' : ''} `} style={{marginLeft:"5px"}}></span>
                                     </button>
                             </div>
                             {/* <button onClick={handleSubmit}>Click</button> */}
@@ -326,7 +339,7 @@ function Payment() {
                                     Discount of $20 Applied
                                 </p>
                             </div>
-                        </div>
+                        </form>
                     </div>
                     <div className="col-lg-2"></div>
                     <div className="col-lg-5">

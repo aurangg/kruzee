@@ -70,6 +70,8 @@ function BookSession(){
 
     const [timeLoader, setTimeLoader] = useState(false)
 
+    const [bookedStatus, setBookedStatus] = useState(false)
+
 
     useEffect(() => {
         document.title = "Book A Lesson | Kruzee"
@@ -160,7 +162,13 @@ function BookSession(){
 
     const handleTimeSlot = (index) => {
         setActiveState(index)
-        setBtn(true)
+        console.log(bookedStatus)
+        if(bookedStatus === false){
+            setBtn(true)
+        }
+        else{
+            setBtn(false)
+        }
         localStorage.setItem("day", JSON.stringify(slotDay.toLowerCase()))
         localStorage.setItem("slot", JSON.stringify(index))
     }
@@ -290,7 +298,7 @@ function BookSession(){
                                     <div className='row time-body-header'>
                                         <div className='col-4'></div>
                                         <div className='col-4 align-items-center'>
-                                            <h5 className='month'>
+                                            <h5 className='month color-gray900'>
                                                 {`${firstDay2} - ${lastDay2}`}
                                             </h5>
                                         </div>
@@ -320,7 +328,7 @@ function BookSession(){
                                     {
                                         timeLoader === false ? 
                                         <SmallLoader />
-                                        :<div className='available-slots'>
+                                        :<div >
                                             {slots[`${slotDay.toLowerCase()}`]?.map((slot, index) => {
                                                 const numberSlot = Math.abs(slot.startTime - slot.endTime);
                                                 const numberSlotArray = Array.from(Array(numberSlot).keys());
@@ -334,13 +342,22 @@ function BookSession(){
                                                     const key = `${slotDay.toLowerCase()}-${time}`;
                                                     const isPrevious = currentDate() >= handleDate(index)[1];
                                                     return (
-                                                        <div key={item}>
-                                                            {isBooked ? <p className='apologies-text'>No book slots available for this date. 🥺</p> :
-                                                                <div value={item} className={`available-slot-box ${activeState === time ? 'active-slot-box' : ''}`} onClick={(e) => {onPackageClick(key, index, isBooked, isPrevious); handleTimeSlot(time);}}>
-                                                                    <p className='time-available color-gray900'>
-                                                                        {callTime(time)} - {callTime(time + 1)}
-                                                                    </p>
-                                                                </div>
+                                                        <div key={item} onLoad={() => setBookedStatus(isBooked)}>
+                                                            {isBooked ? <p className='apologies-text'>Whoops! Looks like there are no time slots available. Please try selecting a different date 🥺</p> :
+                                                               <div>
+                                                                   <div className='available-slots'>
+                                                                    <div value={item} className={`available-slot-box ${activeState === time ? 'active-slot-box' : ''}`} onClick={(e) => {onPackageClick(key, index, isBooked, isPrevious); handleTimeSlot(time);}}>
+                                                                        <p className='time-available color-gray900'>
+                                                                            {callTime(time)} - {callTime(time + 1)}
+                                                                        </p>
+                                                                    </div>
+                                                                    </div>
+                                                                    <Link to="/pick-up" onClick={setSelectedInstructorInfo}>
+                                                                        <div className={`time-slot-continue-btn bg-blue500 ${btn ? ' display-block' : 'display-none'}`}>
+                                                                            Continue
+                                                                        </div>
+                                                                    </Link>
+                                                               </div>
                                                             }
                                                         </div>
                                                     );
@@ -348,11 +365,6 @@ function BookSession(){
                                             })}
                                         </div>
                                     }
-                                    <Link to="/pick-up" onClick={setSelectedInstructorInfo}>
-                                        <div className={`time-slot-continue-btn bg-blue500 ${btn ? ' display-block' : 'display-none'}`}>
-                                            Continue
-                                        </div>
-                                    </Link>
                                 </div>
                             </div>
                         </div>

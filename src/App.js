@@ -24,7 +24,7 @@ import SignIn from './Components/Pages/SignIn';
 
 function App() {
 	return (
-		<BrowserRouter basename="/kruzee">
+		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<GetCode />} />
 				<Route path="/packages" element={<Packages />} />
