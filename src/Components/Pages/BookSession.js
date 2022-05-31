@@ -76,8 +76,6 @@ function BookSession(){
     const [instructorImage, setInstructorImage] = useState('')
     const [instructorVehicleImage, setInstructorVehicleImage] = useState('')
 
-    const url = "https://kruzeee.tk"
-
     useEffect(() => {
         document.title = "Book A Lesson | Kruzee"
         localStorage.removeItem('instructorName')
@@ -297,7 +295,7 @@ function BookSession(){
                 }
             });
         })
-    }, [slotDay])
+    }, [slotDay, firstDay])
 
 
 
@@ -449,8 +447,6 @@ function BookSession(){
                         <div className='col-lg-4' key={index}>
                             <div className='instructor-box'>
                                 <div className='instructor-start-info'>
-                                    {/* <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/driver-img.png'} alt="driver-img" />
-                                    <img className='instructor-picture instructor-picture-2' src={process.env.PUBLIC_URL + '/images/driver-car.png'} alt="driver-img" /> */}
                                     <img className='instructor-picture' src={`${process.env.REACT_APP_BASE_URL}${i.instructorImage}`} alt="driver-img" />
                                     <img className='instructor-picture instructor-picture-2' src={`${process.env.REACT_APP_BASE_URL}${i.vehicleDetails.image}`} alt="driver-car" />
                                     <h6 className='instructor-name color-gray900'>
