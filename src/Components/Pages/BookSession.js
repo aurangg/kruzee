@@ -45,6 +45,7 @@ function BookSession(){
     const weeks = [
         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
     ]
+
     const [loading, setLoading] = useState(true)
     const [errorRes, setErrorRes] = useState(false)
 
@@ -75,6 +76,7 @@ function BookSession(){
     const [instructorImage, setInstructorImage] = useState('')
     const [instructorVehicleImage, setInstructorVehicleImage] = useState('')
 
+    const url = "https://kruzeee.tk"
 
     useEffect(() => {
         document.title = "Book A Lesson | Kruzee"
@@ -90,7 +92,7 @@ function BookSession(){
 
     const fetchTopThreeInstructor = async () => {
         try {
-            const instructorData = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/searchTopThreeInstructors`, {
+            const instructorData = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/searchTopThreeInstructors`, {
                 method:"POST",
                 body:JSON.stringify({postalCode}),
                 headers:{
@@ -124,7 +126,7 @@ function BookSession(){
 
     const fetchSchedule = async () => {
         try{
-            const scheduleData = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/getInstructorDetail?id=${instructor}`, {
+            const scheduleData = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/getInstructorDetail?id=${instructor}`, {
                 method:"GET",
                 headers:{
                     "Content-Type":"application/json"
@@ -167,13 +169,13 @@ function BookSession(){
     const [slotDay, setSlotDay] = useState('Sunday')
 
 
-    const handleTimeSlot = (index) => {
+    const handleTimeSlot = (index, bool) => {
         setActiveState(index)
-        if(bookedStatus === false){
-            setBtn(true)
+        if(bool == false){
+            setBtn(false)
         }
         else{
-            setBtn(false)
+            setBtn(true)
         }
         localStorage.setItem("day", JSON.stringify(slotDay.toLowerCase()))
         localStorage.setItem("slot", JSON.stringify(index))
@@ -273,6 +275,31 @@ function BookSession(){
         }
     }
 
+    const [slotsAvailable, setSlotsAvailable] = useState(false)
+
+    useEffect(() => {
+        slots[`${slotDay.toLowerCase()}`]?.map((slot, index) => {
+            const numberSlot = Math.abs(slot.startTime - slot.endTime);
+            const numberSlotArray = Array.from(Array(numberSlot).keys());
+            return numberSlotArray.map((item, index_2) => {
+                const time = slot.startTime + item;
+                let booked = "";
+                if (slotsBooked) {
+                        booked = slotsBooked[`${slotDay.toLowerCase()}`];
+                }
+                const isBooked = booked?.includes(time);
+                const totalTime = slots[`${slotDay.toLowerCase()}`][0].endTime - slots[`${slotDay.toLowerCase()}`][0].startTime
+                if(slotsBooked[`${slotDay.toLowerCase()}`].length === totalTime){
+                    setSlotsAvailable(true)
+                }
+                else{
+                    setSlotsAvailable(false)
+                }
+            });
+        })
+    }, [slotDay])
+
+
 
     if(loading){
         return <Loader />
@@ -293,7 +320,8 @@ function BookSession(){
                                 <div className='time-slot-header'>
                                     <div className='space-between'>
                                         <div className='align-items'>
-                                            <img src={`${process.env.REACT_APP_IMG_BASE_URL}/${instructorImage}`} alt="driver-img" />
+                                            <img className='time-slot-driver-img' src={`${process.env.REACT_APP_IMG_BASE_URL}${instructorImage}`} alt="driver-img" />
+                                            {/* <img className='time-slot-driver-img' src="https://kruzeee.tk/uploads/image-1650487578785.JPG" alt="driver-img" /> */}
                                             <p className='time-slot-heading color-gray900'>
                                                 Select a time slot
                                             </p>
@@ -324,8 +352,8 @@ function BookSession(){
                                             <React.Fragment key={index}>
                                                 <button className='week color-gray700'>
                                                     {dayInWeek.day.slice(0,3)}
-                                                    <div className={`date-box ${ activeIndex === index ? 'blue-date-box' : 'white-date-box'}`} onClick={() => {setSlotDay(dayInWeek.day); handleIndex(index);}}>
-                                                        <p className='date'>
+                                                    <div className={`date-box ${ activeIndex === index ? 'blue-date-box' : 'white-date-box'}`} onClick={() => {setSlotDay(dayInWeek.day); handleIndex(index);handleTimeSlot(index, false); }}>
+                                                        <p className={`date`}>
                                                             {handleDate(index).slice(8, 10)}
                                                         </p>
                                                     </div>
@@ -337,41 +365,47 @@ function BookSession(){
                                         timeLoader === false ? 
                                         <SmallLoader />
                                         :<div >
-                                            {slots[`${slotDay.toLowerCase()}`]?.map((slot, index) => {
-                                                const numberSlot = Math.abs(slot.startTime - slot.endTime);
-                                                const numberSlotArray = Array.from(Array(numberSlot).keys());
-                                                return numberSlotArray.map((item, index_2) => {
-                                                    const time = slot.startTime + item;
-                                                    var booked = "";
-                                                    if (slotsBooked) {
-                                                            booked = slotsBooked[`${slotDay.toLowerCase()}`];
-                                                    }
-                                                    const isBooked = booked?.includes(time);
-                                                    const key = `${slotDay.toLowerCase()}-${time}`;
-                                                    const isPrevious = currentDate() >= handleDate(index)[1];
-                                                    const isSlotAvailabe = booked;
-                                                    return (
-                                                        <div key={item} onLoad={() => setBookedStatus(isBooked)}>
-                                                            {isBooked ? <p className='apologies-text'>Whoops! Looks like there are no time slots available. Please try selecting a different date 🥺</p> :
-                                                               <div>
-                                                                   <div className='available-slots'>
-                                                                    <div value={item} className={`available-slot-box ${activeState === time ? 'active-slot-box' : ''}`} onClick={(e) => {onPackageClick(key, index, isBooked, isPrevious); handleTimeSlot(time);}}>
+                                            {slots[`${slotDay.toLowerCase()}`].length !== 0 ?
+                                                <div className='available-slots'>
+                                                    {slots[`${slotDay.toLowerCase()}`]?.map((slot, index) => {
+                                                        const numberSlot = Math.abs(slot.startTime - slot.endTime);
+                                                        const numberSlotArray = Array.from(Array(numberSlot).keys());
+                                                        return numberSlotArray.map((item, index_2) => {
+                                                            const time = slot.startTime + item;
+                                                            let booked = "";
+                                                            if (slotsBooked) {
+                                                                    booked = slotsBooked[`${slotDay.toLowerCase()}`];
+                                                            }
+                                                            const isBooked = booked?.includes(time);
+                                                            const key = `${slotDay.toLowerCase()}-${time}`;
+                                                            const isPrevious = currentDate() >= handleDate(index)[1];
+                                                            return (
+                                                                <div key={item} onLoad={() => setBookedStatus(isBooked)}>
+                                                                    {isBooked ? 
+                                                                    <></>
+                                                                    :
+                                                                    <div value={item} className={`available-slot-box ${activeState === time ? 'active-slot-box' : ''}`} onClick={(e) => {onPackageClick(key, index, isBooked, isPrevious); handleTimeSlot(time, true);}}>
                                                                         <p className='time-available color-gray900'>
                                                                             {callTime(time)} - {callTime(time + 1)}
                                                                         </p>
                                                                     </div>
-                                                                    </div>
-                                                                    <Link to="/pick-up" onClick={setSelectedInstructorInfo}>
-                                                                        <div className={`time-slot-continue-btn bg-blue500 ${btn ? ' display-block' : 'display-none'}`}>
-                                                                            Continue
-                                                                        </div>
-                                                                    </Link>
-                                                               </div>
-                                                            }
-                                                        </div>
-                                                    );
-                                                });
-                                            })}
+                                                                    }
+                                                                </div>
+                                                            );
+                                                        });
+                                                    })}
+                                                </div>
+                                            :
+                                             <>
+                                             {slotsAvailable === true ? '' : <p className='apologies-text'>Whoops! Looks like there are no time slots available. Please try selecting a different date 🥺</p>}
+                                             </>
+                                            }
+                                            {slotsAvailable === true ? <p className='apologies-text'>Whoops! Looks like there are no time slots available. Please try selecting a different date 🥺</p>: ''}
+                                            <Link to="/pick-up" onClick={setSelectedInstructorInfo}>
+                                                <div className={`time-slot-continue-btn bg-blue500 ${btn ? ' display-block' : 'display-none'}`}>
+                                                    Continue
+                                                </div>
+                                            </Link>
                                         </div>
                                     }
                                 </div>
@@ -417,8 +451,8 @@ function BookSession(){
                                 <div className='instructor-start-info'>
                                     {/* <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/driver-img.png'} alt="driver-img" />
                                     <img className='instructor-picture instructor-picture-2' src={process.env.PUBLIC_URL + '/images/driver-car.png'} alt="driver-img" /> */}
-                                    <img className='instructor-picture' src={`${process.env.REACT_APP_IMG_BASE_URL}/${i.instructorImage}`} alt="driver-img" />
-                                    <img className='instructor-picture instructor-picture-2' src={`${process.env.REACT_APP_IMG_BASE_URL}/${i.vehicleDetails.image}`} alt="driver-car" />
+                                    <img className='instructor-picture' src={`${process.env.REACT_APP_IMG_BASE_URL}${i.instructorImage}`} alt="driver-img" />
+                                    <img className='instructor-picture instructor-picture-2' src={`${process.env.REACT_APP_IMG_BASE_URL}${i.vehicleDetails.image}`} alt="driver-car" />
                                     <h6 className='instructor-name color-gray900'>
                                         {i.fullName}
                                     </h6>

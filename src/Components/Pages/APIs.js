@@ -77,7 +77,7 @@ export const createStudent = async () => {
     lessons: +lessons,
     zip:zip.replace(/"/g, ''),
   }
-  const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/signup`, {
+  const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/signup`, {
     method:"POST",
     body:JSON.stringify({...createStudentBodyData}),
     headers:{
@@ -131,7 +131,7 @@ export const addLessons = async (student) => {
       studentLessonNumber: 0 + 1,
       totalLessons: +lessons,
     }
-    const roadTestPackageData = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addLesson`, {
+    const roadTestPackageData = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addLesson`, {
       method:"POST",
       body:JSON.stringify({...addLessonData}),
       headers:{
@@ -153,7 +153,7 @@ export const addLessons = async (student) => {
           totalLessons: +lessons,
           instructor: instructorId.replace(/"/g, ''),
         }
-        const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addLesson`, {
+        const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addLesson`, {
           method:"POST",
           body:JSON.stringify({...addLessonData}),
           headers:{
@@ -178,7 +178,7 @@ export const addLessons = async (student) => {
           pickupLocation: pickupLoc.replace(/"/g, ''),
           notes: "",
         }
-        const dataForBooking = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addBooking`, {
+        const dataForBooking = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addBooking`, {
           method:"POST",
           body:JSON.stringify({...addBookingData}),
           headers:{
@@ -194,7 +194,7 @@ export const addLessons = async (student) => {
           totalLessons: +lessons,
           instructor: instructorId.replace(/"/g, ''),
         }
-        const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addLesson`, {
+        const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addLesson`, {
           method:"POST",
           body:JSON.stringify({...addAllLessonData}),
           headers:{
@@ -220,7 +220,7 @@ export const addStudentPayment = async (studentData, sum) => {
     totalStudentLessons: +lessons,
     amount:sum,
   }
-  const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addStudentPayments`, {
+  const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addStudentPayments`, {
     method:"POST",
         body:JSON.stringify({...addStudentPayment}),
         headers:{
@@ -236,7 +236,7 @@ export const addStudentPayment = async (studentData, sum) => {
 export const studentLessons = async (userLoginData) => {
   try {
     const data = await fetch(
-      `${process.env.REACT_APP_BASE_URL}api/student/getMyLessons?studentId=${userLoginData?.data?._id}`
+      `${process.env.REACT_APP_BASE_URL}/api/student/getMyLessons?studentId=${userLoginData?.data?._id}`
     );
     const getStudent = data.json();
 

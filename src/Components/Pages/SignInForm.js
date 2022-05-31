@@ -28,7 +28,7 @@ const SignInFrom = ({ history }) => {
 			});
 			setUserLogin(data.data);
 			message = 'Successfully signed in';
-			console.log('data', data);
+			// console.log('data', data);
 			if (data.status === 200) {
 				navigate('/studentPortal');
 			}

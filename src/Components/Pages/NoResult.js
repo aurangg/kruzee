@@ -48,7 +48,7 @@ function NoResult(){
             postalCode:postalCode,
             date:currentDate,
         }
-        const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/addEmail`, {
+        const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addEmail`, {
             method:"POST",
             body:JSON.stringify({...bodyData}),
             headers:{

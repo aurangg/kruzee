@@ -66,7 +66,10 @@ function Payment() {
     }, [])
 
 
-    const promo = 'ngsgd38sdf'
+    const [errorBox, setErrorBox] = useState(false)
+
+    // const promo = 'ngsgd38sdf'
+    const promo = ''
 
     const [cardName, setCardName] = useState('');
     const [card, setCard] = useState(false)
@@ -104,8 +107,8 @@ function Payment() {
     const stripe = useStripe();
     const elements = useElements();
 
-    const instructorImage = getInstructorImage();
-    const instructorVehicleImage = getInstructorVehicleImage();
+    const instructorImage = getInstructorImage().replace(/"/g, '');
+    const instructorVehicleImage = getInstructorVehicleImage().replace(/"/g, '');
 
     useEffect(() => {
         checkDisable()
@@ -129,7 +132,6 @@ function Payment() {
                     const student = await createStudent();
                     const studentData = student?.data;
                     const lessons = await addLessons(studentData);
-                    console.log(student, studentData)
                     const studentPaymentData = await addStudentPayment(studentData, sum);
                     if(studentPaymentData === true){
                         setLoading(false)
@@ -198,10 +200,11 @@ function Payment() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrorBox(false)
         setLoading(true)
         setSpanLoading(true)
         setDisable(true)
-        const data = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/createStripeCustomer`, {
+        const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/createStripeCustomer`, {
             method:"POST",
             body:JSON.stringify({email})
         })
@@ -215,7 +218,7 @@ function Payment() {
             email:email,
         }
         const cardNumberElement = elements.getElement(CardNumberElement);
-        const PaymentData = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/makeStripePayment`, {
+        const PaymentData = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/makeStripePayment`, {
             method:'POST',
             body:JSON.stringify({...bodyData}),
             headers:{
@@ -245,6 +248,7 @@ function Payment() {
         )
 
         if(error){
+            setErrorBox(true)
             console.log(error.message)
             return <p>{error.message} // Payment Error</p>
         }
@@ -282,6 +286,13 @@ function Payment() {
                 </div>
                 <div className="row reverse mt-70">
                     <div className='col-lg-5'>
+                        {errorBox ? 
+                            <div className="error-user-box">
+                                <p className="error-user-text">Payment was unsucessful. Please try again</p>
+                            </div>
+                            :
+                            <></>
+                        }
                         <form className="payment-form" onSubmit={handleSubmit}>
                             <h2 className="payment-form-heading">
                                 Payment Information
@@ -437,8 +448,8 @@ function Payment() {
                                         </p>
                                     </div>
                                     <div className=''>
-                                        <img className='instructor-img instructor-img-2' src={`${process.env.REACT_APP_IMG_BASE_URL}/${instructorImage}`} alt="driver-img" />
-                                        <img className='instructor-img' src={`${process.env.REACT_APP_IMG_BASE_URL}/${instructorVehicleImage}`} alt="driver-car" />
+                                        <img className='instructor-img instructor-img-2' src={`${process.env.REACT_APP_BASE_URL}${instructorImage}`} alt="driver-img" />
+                                        <img className='instructor-img' src={`${process.env.REACT_APP_BASE_URL}${instructorVehicleImage}`} alt="driver-car" />
                                     </div>
                                 </div>
                                 : <></>
