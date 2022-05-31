@@ -1,23 +1,27 @@
 {
   "files": {
-    "main.css": "/kruzee/static/css/main.89c28ba3.css",
-    "main.js": "/kruzee/static/js/main.8f9ca14f.js",
-    "static/js/787.369c2a4c.chunk.js": "/kruzee/static/js/787.369c2a4c.chunk.js",
-    "static/media/HKGrotesk-SemiBoldItalic.otf": "/kruzee/static/media/HKGrotesk-SemiBoldItalic.d3bb3295c546da3bef5b.otf",
-    "static/media/HKGrotesk-BoldLegacyItalic.otf": "/kruzee/static/media/HKGrotesk-BoldLegacyItalic.1591d47e8cb4f611d263.otf",
-    "static/media/HKGrotesk-Medium.otf": "/kruzee/static/media/HKGrotesk-Medium.080369217267a943851f.otf",
-    "static/media/HKGrotesk-Regular.otf": "/kruzee/static/media/HKGrotesk-Regular.fead2af1f7c554c13e60.otf",
-    "static/media/HKGrotesk-SemiBoldLegacy.otf": "/kruzee/static/media/HKGrotesk-SemiBoldLegacy.3dd5cc86663ad699deb9.otf",
-    "static/media/HKGrotesk-Bold.otf": "/kruzee/static/media/HKGrotesk-Bold.4a64a8011a2f2aa62ba0.otf",
-    "index.html": "/kruzee/index.html",
-    "static/media/checkbox-tick.svg": "/kruzee/static/media/checkbox-tick.c90a049de772b2fcd7b6.svg",
-    "static/media/onboarding.svg": "/kruzee/static/media/onboarding.8c1965545ac7e5cfe986.svg",
-    "main.89c28ba3.css.map": "/kruzee/static/css/main.89c28ba3.css.map",
-    "main.8f9ca14f.js.map": "/kruzee/static/js/main.8f9ca14f.js.map",
-    "787.369c2a4c.chunk.js.map": "/kruzee/static/js/787.369c2a4c.chunk.js.map"
+    "main.css": "/static/css/main.a045cad7.css",
+    "main.js": "/static/js/main.cb1d9a22.js",
+    "static/js/787.369c2a4c.chunk.js": "/static/js/787.369c2a4c.chunk.js",
+    "static/media/Terms of Use.pdf": "/static/media/Terms of Use.02716a9f95475df3196a.pdf",
+    "static/media/HKGrotesk-SemiBoldItalic.otf": "/static/media/HKGrotesk-SemiBoldItalic.d3bb3295c546da3bef5b.otf",
+    "static/media/HKGrotesk-BoldLegacyItalic.otf": "/static/media/HKGrotesk-BoldLegacyItalic.1591d47e8cb4f611d263.otf",
+    "static/media/HKGrotesk-Medium.otf": "/static/media/HKGrotesk-Medium.080369217267a943851f.otf",
+    "static/media/HKGrotesk-Regular.otf": "/static/media/HKGrotesk-Regular.fead2af1f7c554c13e60.otf",
+    "static/media/HKGrotesk-SemiBoldLegacy.otf": "/static/media/HKGrotesk-SemiBoldLegacy.3dd5cc86663ad699deb9.otf",
+    "static/media/HKGrotesk-Bold.otf": "/static/media/HKGrotesk-Bold.4a64a8011a2f2aa62ba0.otf",
+    "static/media/Privacy Policy.pdf": "/static/media/Privacy Policy.d3aadd17347ecd49b2fe.pdf",
+    "static/media/movo-white.png": "/static/media/movo-white.ea43f830bf7a38e9a35b.png",
+    "static/media/logo.svg": "/static/media/logo.bd245600b8c2c9b6fe3931d8f29a4f9c.svg",
+    "index.html": "/index.html",
+    "static/media/checkbox-tick.svg": "/static/media/checkbox-tick.20d6d30d94713e437cd8.svg",
+    "static/media/onboarding.svg": "/static/media/onboarding.b1376cfd16fc590ee196.svg",
+    "main.a045cad7.css.map": "/static/css/main.a045cad7.css.map",
+    "main.cb1d9a22.js.map": "/static/js/main.cb1d9a22.js.map",
+    "787.369c2a4c.chunk.js.map": "/static/js/787.369c2a4c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.89c28ba3.css",
-    "static/js/main.8f9ca14f.js"
+    "static/css/main.a045cad7.css",
+    "static/js/main.cb1d9a22.js"
   ]
 }

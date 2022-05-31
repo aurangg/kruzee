@@ -9,6 +9,9 @@ import axios from 'axios';
 import { BASE_URL } from '../Common/constants';
 import { getUserLogin } from '../Common/localStorage';
 import { studentLessons } from '../Common/apis';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+
 import { useLocation } from 'react-router-dom';
 // import Analytics from '../common/analytics';
 
@@ -264,8 +267,9 @@ const StudentPortal = () => {
 														{'  '}
 														{item.pickupLocation ? (
 															<a onClick={() => openAddressDetail(item.pickupLocation)}>
-																<i
-																	className="ti-info-alt cursor-pointer"
+																<FontAwesomeIcon
+																	className="pr-1 cursor-pointer "
+																	icon={faCircleInfo}
 																	style={{
 																		color: 'rgba(0,0,0,0.4)',
 																		borderRadius: '100%',
@@ -273,7 +277,8 @@ const StudentPortal = () => {
 																		fontWeight: '600',
 																		fontSize: 12,
 																	}}
-																></i>
+																	size="3x"
+																/>
 															</a>
 														) : (
 															''
@@ -292,9 +297,10 @@ const StudentPortal = () => {
 													</td>
 													<td style={{ paddingRight: '20px' }}>
 														{item.status === 'Scheduled' ? (
-															<div>
-																<i
-																	className="ti-check text-white"
+															<div className="d-flex align-items-center">
+																<FontAwesomeIcon
+																	className="text-white pr-1 "
+																	icon={faCheck}
 																	style={{
 																		borderRadius: '100%',
 																		padding: 4,
@@ -302,13 +308,14 @@ const StudentPortal = () => {
 																		fontWeight: '600',
 																		fontSize: 10,
 																	}}
-																></i>{' '}
+																/>
 																{item.status}
 															</div>
 														) : item.status === 'Completed' ? (
 															<div>
-																<i
-																	className="ti-check text-white"
+																<FontAwesomeIcon
+																	className="text-white pr-1 "
+																	icon={faCheck}
 																	style={{
 																		borderRadius: '100%',
 																		padding: 4,
@@ -316,13 +323,15 @@ const StudentPortal = () => {
 																		fontWeight: '600',
 																		fontSize: 10,
 																	}}
-																></i>{' '}
+																/>
+
 																{item.status}
 															</div>
 														) : (
 															<div>
-																<i
-																	className="ti-help text-white"
+																<FontAwesomeIcon
+																	className="text-white pr-1 "
+																	icon={faCheck}
 																	style={{
 																		borderRadius: '100%',
 																		padding: 4,
@@ -330,7 +339,8 @@ const StudentPortal = () => {
 																		fontWeight: '600',
 																		fontSize: 10,
 																	}}
-																></i>{' '}
+																/>
+
 																{'Awaiting'}
 															</div>
 														)}
