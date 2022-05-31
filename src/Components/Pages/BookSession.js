@@ -492,14 +492,18 @@ function BookSession(){
                                 <div className='review-container'>
                                     <div className='review-box bg-gray100'>
                                         <p className={`review color-gray900 review-text ${showMore ? 'display-block' : 'webkit-box'}`}>
-                                            Phil was the best. I couldn’t have imagined doing this with another instructor. Thanks! Phil was the best. I couldn’t have imagined doing this with another instructor. Thanks!
+                                            {i.fullName === "Cory Froklage" ? 
+                                            "I had Cory who was very detail oriented and generous with his knowledge. You’ll learn defensive driving techniques that other schools won’t teach, like the S approach and ABS. Highly recommend!" : 
+                                            (i.fullName === "Zainab Qiam" ? 
+                                            "I learned how to drive thanks to Kruzee, my instructor was great at making points and it stuck with me, diagrams helped a lot too!" : 
+                                            "I couldn’t have imagined doing these lessons with an instructor with a platform other than Kruzee. Thanks!")}
                                         </p>
                                         <button className='review-span' onClick={() => setShowMore(!showMore)}>
                                             {showMore ? 'Show Less' : 'See More'}
                                         </button>
                                         <div className='space-between-baseline'>
                                             <h6 className='review-name'>
-                                                Maria Hernandez
+                                                {i.fullName === "Cory Froklage" ? "Hoang N." : (i.fullName === "Zainab Qiam" ? "Ali R." : "Maria Hernandez")}
                                             </h6>
                                             <div className='ratings'>
                                                 <p className='rating-score color-gray900'>4.5</p>
