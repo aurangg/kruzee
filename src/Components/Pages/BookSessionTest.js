@@ -58,10 +58,11 @@ function BookSessionTest(){
     const [lastDay2, setLastDay2] = useState(0)
 
     const [timeLoader, setTimeLoader] = useState(false)
+    const url  = 'https://kruzeee.tk'
 
     const fetchTopThreeInstructor = async () => {
         try {
-            const instructorData = await fetch(process.env.REACT_APP_TOP_THREE_INSTRUCTOR, {
+            const instructorData = await fetch(`${url}/api/student/searchTopThreeInstructors`, {
                 method:"POST",
                 body:JSON.stringify({postalCode}),
                 headers:{
@@ -93,7 +94,7 @@ function BookSessionTest(){
 
     const fetchSchedule = async () => {
         try{
-            const scheduleData = await fetch(`${process.env.REACT_APP_GET_INSTRUCTOR_DETAIL}${instructor}`, {
+            const scheduleData = await fetch(`${url}/api/student/getInstructorDetail?id=${instructor}`, {
                 method:"GET",
                 headers:{
                     "Content-Type":"application/json"

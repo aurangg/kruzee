@@ -31,7 +31,7 @@ export const instructorSlotBooked = async (instructorId) => {
   let idOfInstructor = instructorId.replace(/"/g, '') 
 
 
-  const instructorSlots = await fetch(`${process.env.REACT_APP_BASE_URL}api/student/getInstructorDetail?id=${idOfInstructor}`, {
+  const instructorSlots = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/getInstructorDetail?id=${idOfInstructor}`, {
     method:"GET",
     headers:{
       "Content-Type":"application/json"

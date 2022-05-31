@@ -91,10 +91,11 @@ function Pricing(){
             "10-20% reduction on your auto insurance (varies by insurer - terms & conditions apply)", 
             "Online, self-paced learning"
         ]
+        let calculateTime = (10*60)/Number(process.env.REACT_APP_LESSON_DURATION)
         localStorage.setItem("perks", JSON.stringify(perks))
         localStorage.setItem("price", JSON.stringify(695))
         localStorage.setItem("package", JSON.stringify("Basic"))
-        localStorage.setItem("lesson", JSON.stringify(10))
+        localStorage.setItem("lesson", JSON.stringify(calculateTime))
     }
 
     function handleRoadTest(){        

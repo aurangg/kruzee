@@ -1,16 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { format } from "date-fns";
-import { setSlot, setDate } from "../helper/localStorage";
-import { calTime } from "../helper/utils";
-const daysInWeek = [
-  { DAY: "SUNDAY" },
-  { DAY: "MONDAY" },
-  { DAY: "TUESDAY" },
-  { DAY: "WEDNESDAY" },
-  { DAY: "THURSDAY" },
-  { DAY: "FRIDAY" },
-  { DAY: "SATURDAY" },
-];
+// import { setSlot, setDate } from "../helper/localStorage";
+import { calTime } from "../Common/utils";
+
 const BookSessionTest2 = ({
   name,
   slots,
@@ -23,6 +15,19 @@ const BookSessionTest2 = ({
     const curr = new Date();
     return curr;
   };
+
+  const daysInWeek = [
+    { day: "Sunday" },
+    { day: "Monday" },
+    { day: "Tuesday" },
+    { day: "Wednesday" },
+    { day: "Thursday" },
+    { day: "Friday" },
+    { day: "Saturday" },
+  ];
+
+  const [slot, setSlot] = useState()
+  const [date, setDate] = useState('')
   const [selected, setSelected] = useState(0);
   const [week, setWeek] = useState(0);
   const [firstDay, setFirstDay] = useState(0);
@@ -126,14 +131,14 @@ const BookSessionTest2 = ({
         <div className="row" style={{ justifyContent: "center" }}>
           {daysInWeek.map((dayInWeek, index) => {
             return (
-              <div id={index} className="col-md-1 mx-md-4 px-md-0">
+              <div  className="col-md-1 mx-md-4 px-md-0">
                 <p className="mb-0" style={{ textAlign: "center", fontSize: 14, fontWeight: 400, }}>
-                  {dayInWeek.DAY}
+                  {dayInWeek.day}
                 </p>
                 <p style={{ textAlign: "center", fontWeight: "bold", fontSize: "22px", color: "black",}}>
                   {handleDate(index)[0]}
                 </p>
-                {slots[`${dayInWeek.DAY.toLowerCase()}`]?.map((slot, ind) => {
+                {slots[`${dayInWeek.day.toLowerCase()}`]?.map((slot, ind) => {
                   const numSlot = Math.abs(slot.startTime - slot.endTime);
                   const numSlotArray = Array.from(Array(numSlot).keys());
                   return numSlotArray.map((item) => {

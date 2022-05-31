@@ -21,13 +21,13 @@ import Loader from './Components/Common/Loader';
 import FourOFour from './Components/Common/404';
 import StudentPortal from './Components/Pages/StudentPortal';
 import SignIn from './Components/Pages/SignIn';
+import BookSessionTest2 from './Components/Pages/BookSessionTest2';
 
 function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<GetCode />} />
-				<Route path="/packages" element={<Packages />} />
 				<Route path="/book-session" element={<BookSession />} />
 				<Route path="/indiviual-lesson" element={<IndivialLesson />} />
 				<Route path="/pricing" element={<Pricing />} />
@@ -37,7 +37,6 @@ function App() {
 				<Route path="/payment-information" element={<Payment />} />
 				<Route path="/payment-success" element={<PaymentSuccess />} />
 				<Route path="/create-account" element={<Account />} />
-				<Route path="/test-2" element={<BookSessionTest />} />
 				<Route path="/loader" element={<Loader />} />
 				<Route path="/studentPortal" element={<StudentPortal />} />
 				<Route path="/Signin" element={<SignIn />} />

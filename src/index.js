@@ -8,8 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import './fonts/hkgrotesk/HKGrotesk-Bold.otf';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
-const stripe_key = "pk_test_51JoD3gCiebEAR4BCfpCfVE6P8ppgRPaC1cXrqIseXdmAR5sY1MgZ2X4V7FqcqzHSpyknMesi5qA7STwEobjghYRq00tfJFTLyJ" ;
+const stripe_key = process.env.REACT_APP_STRIPE_KEY
 const stripePromise = loadStripe(stripe_key)
 
 root.render(
