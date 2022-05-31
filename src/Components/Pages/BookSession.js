@@ -320,7 +320,7 @@ function BookSession(){
                                 <div className='time-slot-header'>
                                     <div className='space-between'>
                                         <div className='align-items'>
-                                            <img className='time-slot-driver-img' src={`${process.env.REACT_APP_IMG_BASE_URL}${instructorImage}`} alt="driver-img" />
+                                            <img className='time-slot-driver-img' src={`${process.env.REACT_APP_BASE_URL}${instructorImage}`} alt="driver-img" />
                                             {/* <img className='time-slot-driver-img' src="https://kruzeee.tk/uploads/image-1650487578785.JPG" alt="driver-img" /> */}
                                             <p className='time-slot-heading color-gray900'>
                                                 Select a time slot
@@ -451,8 +451,8 @@ function BookSession(){
                                 <div className='instructor-start-info'>
                                     {/* <img className='instructor-picture' src={process.env.PUBLIC_URL + '/images/driver-img.png'} alt="driver-img" />
                                     <img className='instructor-picture instructor-picture-2' src={process.env.PUBLIC_URL + '/images/driver-car.png'} alt="driver-img" /> */}
-                                    <img className='instructor-picture' src={`${process.env.REACT_APP_IMG_BASE_URL}${i.instructorImage}`} alt="driver-img" />
-                                    <img className='instructor-picture instructor-picture-2' src={`${process.env.REACT_APP_IMG_BASE_URL}${i.vehicleDetails.image}`} alt="driver-car" />
+                                    <img className='instructor-picture' src={`${process.env.REACT_APP_BASE_URL}${i.instructorImage}`} alt="driver-img" />
+                                    <img className='instructor-picture instructor-picture-2' src={`${process.env.REACT_APP_BASE_URL}${i.vehicleDetails.image}`} alt="driver-car" />
                                     <h6 className='instructor-name color-gray900'>
                                         {i.fullName}
                                     </h6>
