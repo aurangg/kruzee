@@ -120,9 +120,9 @@ const TimeTable = ({ name, slots, bookedSlots, isReschedule, showPickup, lessonN
 				>
 					<div className="col-md-8">
 						<h2 className="f_p f_600 f_size_24 t_color3">
-							<div className="row">
+							<div className="row  mx-2">
 								Schedule lesson with&#160;
-								<div style={{ textDecoration: 'underline' }}>{name}</div>.
+								<div style={{ textDecoration: 'underline' }}>{name}.</div>
 							</div>
 						</h2>
 					</div>
@@ -213,9 +213,9 @@ const TimeTable = ({ name, slots, bookedSlots, isReschedule, showPickup, lessonN
 					})}
 				</div>
 
-				<div className="row pt-3" style={{ justifyContent: 'flex-end' }}>
+				<div className="row pt-3 d-flex justify-content-end mx-2" style={{ justifyContent: 'flex-end' }}>
 					{selected ? (
-						<button className="er_btn er_btn_two mt-0" onClick={showPickup}>
+						<button className="er_btn er_btn_two mt-0 col-12 col-xl-3 col-md-5" onClick={showPickup}>
 							Schedule class with {name.split(' ')[0]}
 						</button>
 					) : (

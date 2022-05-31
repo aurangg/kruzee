@@ -9,7 +9,7 @@ import Geocode from 'react-geocode';
 import Autocomplete from 'react-google-autocomplete';
 import mapPin from '../Common/assets/image/mapsPin.png';
 
-const GoogleMapsAPI = 'AIzaSyBffHzTRoRv4_ULJFdyENWA50isLr-5Xx0';
+const GoogleMapsAPI = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 // import { GoogleMapsAPI } from "../client-config";
 Geocode.setApiKey(GoogleMapsAPI);
 Geocode.enableDebug();
@@ -253,7 +253,7 @@ class Map extends Component {
 		this.state.isReschdule === true
 			? (bookedSlots = await instructorRescheduleSlotBooked(this.state.instructorId, this.state.oldLessonObject))
 			: (bookedSlots = await instructorSlotBooked(this.state.instructorId));
-		await axios.post(`${BASE_URL}/api/student/addBooking`, {
+		await axios.post(`${BASE_URL}api/student/addBooking`, {
 			instructorId: this.state.instructorId,
 			lessonId: this.state.lessonId,
 			bookings: bookedSlots,
@@ -274,7 +274,7 @@ class Map extends Component {
 			withGoogleMap((props) => (
 				// <div className="row">
 
-				<div className="col-lg-12 px-4">
+				<div className="col col-12 col-lg-12 px-4">
 					<GoogleMap
 						mapContainerStyle={containerStyle}
 						className="google-maps"
@@ -297,15 +297,17 @@ class Map extends Component {
 						/>
 						<Marker />
 					</GoogleMap>
-
-					<div className="map-box" style={{ height: '260px', width: '300px' }}>
+					<div
+						className="maps-box map-margin-top mr-md-5 mx-100 mx-lg-0 map-div-width "
+						// style={{ width: "300px" }}
+					>
 						<div
 							className="py-3"
 							style={{
 								background: '#FCE1B3',
 								borderTopLeftRadius: '10px',
 								borderTopRightRadius: '10px',
-								height: '90px',
+								height: '120px',
 							}}
 						>
 							<p
@@ -315,7 +317,7 @@ class Map extends Component {
 									color: 'black',
 								}}
 							>
-								Where can we pick you up?
+								Where can we pick you up for your first lesson?
 							</p>
 						</div>
 
@@ -324,25 +326,29 @@ class Map extends Component {
 								background: '#FEFAF3',
 								borderBottomLeftRadius: '10px',
 								borderBottomRightRadius: '10px',
-								height: '265px',
+								height: '370px',
 							}}
 						>
 							<div
-								className="row px-2 pt-0 pb-1"
-								style={{ justifyContent: 'center', backgroundColor: '#FEFAF3' }}
+								className="row px-2 pt-0 pb-5"
+								style={{
+									justifyContent: 'center',
+									backgroundColor: '#FEFAF3',
+								}}
 							>
 								<Autocomplete
 									style={{
 										width: '100%',
 										height: '40px',
 										border: '1px solid #FCE1B3',
+										paddingLeft: '10px',
 									}}
 									onPlaceSelected={this.onPlaceSelected}
+									// inputAutocompleteValue={this.state.pickupLoc}
 									options={{
 										types: ['address'],
 										componentRestrictions: { country: 'ca' },
 									}}
-									// types={["(regions)"]}
 								/>
 								<p
 									className="my-0 pt-2"
@@ -371,8 +377,8 @@ class Map extends Component {
 									your area that’s convienient for you!
 								</p>
 							) : (
-								<div className="col-md-12 py-0" style={{ textAlign: 'center', alignSelf: 'center' }}>
-									<img src={mapPin} className="py-2" alt="" />
+								<div className="col-md-12" style={{ textAlign: 'center', alignSelf: 'center' }}>
+									<img src={mapPin} className="py-2" />
 									<p
 										style={{
 											fontWeight: '800',
@@ -386,19 +392,147 @@ class Map extends Component {
 								</div>
 							)}
 						</div>
+						{this.state.pickupLoc ? (
+							<button
+								to="/CreateUser"
+								className="er_btn er_btn_two mt-0 px-4 w-100"
+								style={{
+									width: 'inherit',
+									textAlign: 'center',
+								}}
+							>
+								Continue
+							</button>
+						) : (
+							<></>
+						)}
 					</div>
-					<button
-						onClick={this.createNewBooking}
-						className="er_btn er_btn_two"
-						style={{
-							width: 'inherit',
-							marginTop: '100px',
-							textAlign: 'center',
-						}}
-					>
-						Continue
-					</button>
 				</div>
+				// <div className="col-lg-12 px-4">
+				// 	<GoogleMap
+				// 		mapContainerStyle={containerStyle}
+				// 		className="google-maps"
+				// 		google={this.props.google}
+				// 		defaultZoom={this.props.zoom}
+				// 		defaultCenter={{
+				// 			lat: this.state.mapPosition.lat,
+				// 			lng: this.state.mapPosition.lng,
+				// 		}}
+				// 	>
+				// 		<Marker
+				// 			google={this.props.google}
+				// 			name={'Dolores park'}
+				// 			draggable={true}
+				// 			onDragEnd={this.onMarkerDragEnd}
+				// 			position={{
+				// 				lat: this.state.markerPosition.lat,
+				// 				lng: this.state.markerPosition.lng,
+				// 			}}
+				// 		/>
+				// 		<Marker />
+				// 	</GoogleMap>
+
+				// 	<div className="maps-box" style={{ height: '260px', width: '300px' }}>
+				// 		<div
+				// 			className="py-3"
+				// 			style={{
+				// 				background: '#FCE1B3',
+				// 				borderTopLeftRadius: '10px',
+				// 				borderTopRightRadius: '10px',
+				// 				height: '90px',
+				// 			}}
+				// 		>
+				// 			<p
+				// 				style={{
+				// 					fontWeight: '700',
+				// 					textAlign: 'left',
+				// 					color: 'black',
+				// 				}}
+				// 			>
+				// 				Where can we pick you up?
+				// 			</p>
+				// 		</div>
+
+				// 		<div
+				// 			style={{
+				// 				background: '#FEFAF3',
+				// 				borderBottomLeftRadius: '10px',
+				// 				borderBottomRightRadius: '10px',
+				// 				height: '265px',
+				// 			}}
+				// 		>
+				// 			<div
+				// 				className="row px-2 pt-0 pb-1"
+				// 				style={{ justifyContent: 'center', backgroundColor: '#FEFAF3' }}
+				// 			>
+				// 				<Autocomplete
+				// 					style={{
+				// 						width: '100%',
+				// 						height: '40px',
+				// 						border: '1px solid #FCE1B3',
+				// 					}}
+				// 					onPlaceSelected={this.onPlaceSelected}
+				// 					options={{
+				// 						types: ['address'],
+				// 						componentRestrictions: { country: 'ca' },
+				// 					}}
+				// 					// types={["(regions)"]}
+				// 				/>
+				// 				<p
+				// 					className="my-0 pt-2"
+				// 					style={{
+				// 						textAlign: 'left',
+				// 						fontWeight: '300',
+				// 						fontStyle: 'italic',
+				// 						fontSize: '12px',
+				// 						lineHeight: '1.5',
+				// 					}}
+				// 				>
+				// 					Move the marker to select exact location
+				// 				</p>
+				// 			</div>
+
+				// 			{this.state.pickupLoc === null ? (
+				// 				<p
+				// 					style={{
+				// 						fontWeight: '300',
+				// 						fontStyle: 'italic',
+				// 						fontSize: '18px',
+				// 						lineHeight: '1.5',
+				// 					}}
+				// 				>
+				// 					This could be your home, a nearby intersection, a coffee shop, or anywhere else in
+				// 					your area that’s convienient for you!
+				// 				</p>
+				// 			) : (
+				// 				<div className="col-md-12 py-0" style={{ textAlign: 'center', alignSelf: 'center' }}>
+				// 					<img src={mapPin} className="py-2" alt="" />
+				// 					<p
+				// 						style={{
+				// 							fontWeight: '800',
+				// 							fontSize: '16px',
+				// 							lineHeight: '1.5',
+				// 							color: '#5C9D7A',
+				// 						}}
+				// 					>
+				// 						{getPickup()}
+				// 					</p>
+				// 				</div>
+				// 			)}
+				// 		</div>
+				// 	</div>
+				// 	<button
+				// 		onClick={this.createNewBooking}
+				// 		className="er_btn er_btn_two"
+				// 		style={{
+				// 			width: 'inherit',
+				// 			marginTop: '100px',
+				// 			textAlign: 'center',
+				// 		}}
+				// 	>
+				// 		Continue
+				// 	</button>
+				// </div>
 
 				// </div>
 			))
@@ -411,12 +545,9 @@ class Map extends Component {
 					googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GoogleMapsAPI}&libraries=places`}
 					loadingElement={<div style={{ height: `100%` }}></div>}
 					containerElement={
-						<div
-							className="row mx-5 my-3 justify-content-center flex-row-reverse"
-							style={{ height: this.props.height }}
-						></div>
+						<div className="row my-3 flex-row-reverse" style={{ height: this.props.height }}></div>
 					}
-					mapElement={<div className="col-lg-7" style={{ height: `100%` }} />}
+					mapElement={<div className="col-12 col-xl-8 col-lg-6" style={{ height: `100%` }} />}
 				/>
 			);
 		} else {
