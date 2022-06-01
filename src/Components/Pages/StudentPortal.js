@@ -80,7 +80,7 @@ const StudentPortal = () => {
 	return (
 		<div className="body_wrapper">
 			{/* <CustomNavbar hbtnClass="new_btn" /> */}
-			<div className="row" style={{ minHeight: '100vh' }}>
+			<div className="row">
 				<div className="col-xl-12 mx-0 portal-table">
 					<div className="my-5 py-5 row justify-content-center" style={{ background: '#fbfbfb' }}>
 						<div className="col-md-9">

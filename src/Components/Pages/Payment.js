@@ -204,7 +204,7 @@ function Payment() {
         setLoading(true)
         setSpanLoading(true)
         setDisable(true)
-        const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/createStripeCustomer`, {
+        const data = await fetch(`${process.env.REACT_APP_KRUZEE}/api/student/createStripeCustomer`, {
             method:"POST",
             body:JSON.stringify({email})
         })
@@ -218,7 +218,7 @@ function Payment() {
             email:email,
         }
         const cardNumberElement = elements.getElement(CardNumberElement);
-        const PaymentData = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/makeStripePayment`, {
+        const PaymentData = await fetch(`${process.env.REACT_APP_KRUZEE}/api/student/makeStripePayment`, {
             method:'POST',
             body:JSON.stringify({...bodyData}),
             headers:{

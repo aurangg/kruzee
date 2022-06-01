@@ -90,7 +90,7 @@ function BookSession(){
 
     const fetchTopThreeInstructor = async () => {
         try {
-            const instructorData = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/searchTopThreeInstructors`, {
+            const instructorData = await fetch(`${process.env.REACT_APP_KRUZEE}/api/student/searchTopThreeInstructors`, {
                 method:"POST",
                 body:JSON.stringify({postalCode}),
                 headers:{
@@ -124,7 +124,7 @@ function BookSession(){
 
     const fetchSchedule = async () => {
         try{
-            const scheduleData = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/getInstructorDetail?id=${instructor}`, {
+            const scheduleData = await fetch(`${process.env.REACT_APP_KRUZEE}/api/student/getInstructorDetail?id=${instructor}`, {
                 method:"GET",
                 headers:{
                     "Content-Type":"application/json"
