@@ -18,7 +18,9 @@ import {
 	getLessons,
 	getPackage,
 	getPackageName,
+	getInstructorName,
 	getDaySelected,
+	getRoadTestVehicle,
 } from '../localStorage';
 
 import { instructorSlotBooked } from './utlis';
@@ -233,6 +235,51 @@ export const studentLessons = async (userLoginData) => {
 			`${process.env.REACT_APP_BASE_URL}/api/student/getMyLessons?studentId=${userLoginData?.data?._id}`
 		);
 		const getStudent = data.json();
+
+		return data;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const paymentSuccessNotification = async () => {
+	const name = getUserName().replace(/"/g, '')
+	const packagee = getPackageName().replace(/"/g, '')
+	const date = getDateSelected()?.replace(/"/g, '')
+	let time = getSlotSelected()?.replace(/"/g, '')
+	time = +time === 12 ? "12 Pm" : (+time < 12 ? `${+time} Am` : `${+time - 12} Pm`)
+	const recipient = "+1"+getPhoneNumber().replace(/"/g, '')
+	const instructor = getInstructorName()?.replace(/"/g, '')
+	const lessons = getLessons()?.replace(/"/g, '')
+	const roadTestVehicle = getRoadTestVehicle()?.replace(/"/g, '') || null
+	
+	console.log("name------", name)
+	console.log("package------", packagee)
+	console.log("date------", date)
+	console.log("time------", time)
+	console.log("recipient------", recipient)
+	console.log("instructor------", instructor)
+	console.log("lessons------", lessons)
+	console.log("roadTestVehicle------", roadTestVehicle)
+
+	try {
+		const data = await fetch(
+			`${process.env.REACT_APP_BASE_URL}/api/student/sendAccountCreationNotification`, {
+				method: 'POST',
+				body: JSON.stringify({ 
+					name,
+					package: packagee,
+					date,
+					time,
+					instructor,
+					recipient,
+					lessons,
+					roadTestVehicle
+				 }),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
 
 		return data;
 	} catch (error) {

@@ -23,7 +23,7 @@ import {
   getIndividualPackage,
   setAccountCreatedMsg,
 } from "../helper/localStorage";
-import { createStudent, addLessons, addStudentPayment } from "./APIs";
+import { createStudent, addLessons, addStudentPayment, paymentSuccessNotification } from "./APIs";
 import { Input } from "@material-ui/core";
 import { applyTax } from "./utils";
 const Subscribe = ({ location, history }) => {

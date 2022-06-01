@@ -13,7 +13,7 @@ import {
 	CardCvcElement,
 	CardExpiryElement,
 } from '@stripe/react-stripe-js';
-import { addLessons, createStudent, addStudentPayment } from './APIs';
+import { addLessons, createStudent, addStudentPayment, paymentSuccessNotification } from './APIs';
 
 import {
 	getEmail,
@@ -83,11 +83,11 @@ function Payment() {
 
 	const packageName = localStorage.getItem('packageName').replace(/"/g, '');
 	const packagePrice = parseFloat(localStorage.getItem('price')).toFixed(2);
-	const pickUp = localStorage.getItem('pick-up').replace(/"/g, '');
+	const pickUp = localStorage.getItem('pick-up')?.replace(/"/g, '');
 	const perks = JSON.parse(localStorage.getItem('perks') || '[]');
 	let hst = parseFloat((13 / 100) * packagePrice).toFixed(2);
 	let sum = String(Number(packagePrice) + Number(hst) + Number(roadTestVehicle));
-	sum = Number(sum).toFixed(2);
+	sum = Number(sum).toFixed(2); 
 
 	const [applyPromoCode, setApplyPromoCode] = useState(true);
 	const [enterPromoCode, setEnterPromoCode] = useState(false);
@@ -106,8 +106,8 @@ function Payment() {
 	const stripe = useStripe();
 	const elements = useElements();
 
-	const instructorImage = getInstructorImage().replace(/"/g, '');
-	const instructorVehicleImage = getInstructorVehicleImage().replace(/"/g, '');
+	const instructorImage = getInstructorImage()?.replace(/"/g, '');
+	const instructorVehicleImage = getInstructorVehicleImage()?.replace(/"/g, '');
 
 	useEffect(() => {
 		checkDisable();
@@ -135,6 +135,7 @@ function Payment() {
 						setLoading(false);
 						setDisable(false);
 						setSpanLoading(false);
+    				paymentSuccessNotification();
 						navigate('/payment-success');
 					}
 				}

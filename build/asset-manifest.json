@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.69419124.css",
-    "main.js": "/static/js/main.48a0c77e.js",
+    "main.css": "/static/css/main.faa3729e.css",
+    "main.js": "/static/js/main.524fd8be.js",
     "static/js/787.369c2a4c.chunk.js": "/static/js/787.369c2a4c.chunk.js",
     "static/media/Terms of Use.pdf": "/static/media/Terms of Use.02716a9f95475df3196a.pdf",
     "static/media/HKGrotesk-SemiBoldItalic.otf": "/static/media/HKGrotesk-SemiBoldItalic.d3bb3295c546da3bef5b.otf",
@@ -12,16 +12,16 @@
     "static/media/HKGrotesk-Bold.otf": "/static/media/HKGrotesk-Bold.4a64a8011a2f2aa62ba0.otf",
     "static/media/Privacy Policy.pdf": "/static/media/Privacy Policy.d3aadd17347ecd49b2fe.pdf",
     "static/media/movo-white.png": "/static/media/movo-white.ea43f830bf7a38e9a35b.png",
-    "static/media/logo.svg": "/static/media/logo.bd245600b8c2c9b6fe3931d8f29a4f9c.svg",
+    "static/media/logo.svg": "/static/media/logo.7c119cb2867ef3ef64692eaad3f653c0.svg",
     "index.html": "/index.html",
-    "static/media/checkbox-tick.svg": "/static/media/checkbox-tick.20d6d30d94713e437cd8.svg",
-    "static/media/onboarding.svg": "/static/media/onboarding.b1376cfd16fc590ee196.svg",
-    "main.69419124.css.map": "/static/css/main.69419124.css.map",
-    "main.48a0c77e.js.map": "/static/js/main.48a0c77e.js.map",
+    "static/media/checkbox-tick.svg": "/static/media/checkbox-tick.c90a049de772b2fcd7b6.svg",
+    "static/media/onboarding.svg": "/static/media/onboarding.8c1965545ac7e5cfe986.svg",
+    "main.faa3729e.css.map": "/static/css/main.faa3729e.css.map",
+    "main.524fd8be.js.map": "/static/js/main.524fd8be.js.map",
     "787.369c2a4c.chunk.js.map": "/static/js/787.369c2a4c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.69419124.css",
-    "static/js/main.48a0c77e.js"
+    "static/css/main.faa3729e.css",
+    "static/js/main.524fd8be.js"
   ]
 }
