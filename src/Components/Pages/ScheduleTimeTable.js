@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { format } from 'date-fns';
 import { setSlot, setDate } from '../Common/localStorage';
 import { calTime } from '../Common/utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { faChevronCircleLeft, faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
 
 const daysInWeek = [
 	{ DAY: 'SUNDAY' },
@@ -139,13 +142,15 @@ const TimeTable = ({ name, slots, bookedSlots, isReschedule, showPickup, lessonN
 						{`${firstDay2} - ${lastDay2}`}
 						{week > 0 && (
 							<span onClick={weekHandleMin} className="weekAction">
-								&#10094;
+								<FontAwesomeIcon style={{ zIndex: '5px' }} icon={faChevronCircleLeft} />
+								{/* &#10094; */}
 							</span>
 						)}
 
 						{week < 23 && (
 							<span onClick={weekHandlePlus} className="weekAction">
-								&#10095;
+								<FontAwesomeIcon style={{ zIndex: '5px' }} icon={faChevronCircleRight} />
+								{/* &#10095; */}
 							</span>
 						)}
 					</div>
@@ -194,7 +199,7 @@ const TimeTable = ({ name, slots, bookedSlots, isReschedule, showPickup, lessonN
 										return (
 											<p
 												key={key}
-												className={selected === key ? 'active-block' : 'slot-block'}
+												className={selected === key ? 'active-blocks' : 'slot-blocks'}
 												onClick={() => onPackageClick(key, index, isBooked, isPrevious)}
 												style={{
 													color: isBooked || isPrevious ? '#e8b0a8' : '#CE8379',

@@ -8,12 +8,12 @@ import reportWebVitals from './reportWebVitals';
 import './fonts/hkgrotesk/HKGrotesk-Bold.otf';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const stripe_key = process.env.REACT_APP_STRIPE_TEST_KEY
-const stripePromise = loadStripe(stripe_key)
+const stripe_key = process.env.REACT_APP_STRIPE_KEY;
+const stripePromise = loadStripe(stripe_key);
 
 root.render(
-  <Elements stripe={stripePromise}>
-    <App />
-  </Elements>
+	<Elements stripe={stripePromise}>
+		<App />
+	</Elements>
 );
 reportWebVitals();

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import ChooseTime from './ScheduleChooseTime';
-// import Map from './ScheduleMap';
 import MapSchedule from './MapSchedule';
 
 const TimeTablePopup = (props) => {
@@ -24,20 +23,12 @@ const TimeTablePopup = (props) => {
 						lessonNumber={props.lessonNumber}
 					/>
 				) : (
-					// <Map
-					// 	style={{ width: '100%', height: '100%', position: 'relative' }}
-					// 	mapElement={<div className="mapElement" />}
-					// 	google={props.google}
-					// 	center={{ lat: 43.6534817, lng: -79.3839347 }}
-					// 	width="100%"
-					// 	height="400px"
-					// 	zoom={15}
-					// 	handleClose={props.handleClose}
-					// 	lessonDetails={props.lessonDetails}
-					// 	instructorId={props.instructorDetail._id}
-					// 	isReschedule={props.isReschedule}
-					// />
-					<MapSchedule />
+					<MapSchedule
+						lessonDetails={props.lessonDetails}
+						instructorId={props.instructorDetail._id}
+						handleClose={props.handleClose}
+						isReschedule={props.isReschedule}
+					/>
 				)}
 			</div>
 		</div>

@@ -26970,6 +26970,26 @@ a .h_head:hover {
   font-size: 24px;
 }
 
+.slot-blocks{
+  border: 3px solid transparent;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 400;
+  
+}
+
+
+.active-blocks {
+  border: 2px solid rgb(240, 118, 101);
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.slot-blocks:hover{
+  cursor: pointer;
+}
+
 
 .ti-info-alt:before {
 	content: "\e717";

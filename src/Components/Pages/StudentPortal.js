@@ -11,6 +11,7 @@ import { getUserLogin } from '../Common/localStorage';
 import { studentLessons } from '../Common/apis';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import StudentPortalNavbar from '../Common/StudentPortalNavbar';
 
 import { useLocation } from 'react-router-dom';
 // import Analytics from '../common/analytics';
@@ -79,6 +80,7 @@ const StudentPortal = () => {
 
 	return (
 		<div className="body_wrapper">
+			<StudentPortalNavbar />
 			{/* <CustomNavbar hbtnClass="new_btn" /> */}
 			<div className="row">
 				<div className="col-xl-12 mx-0 portal-table">
@@ -262,11 +264,14 @@ const StudentPortal = () => {
 																  item.date.split('/')[2]
 															: '-'}
 													</td>
-													<td style={{ paddingRight: '20px' }}>
+													<td className="d-flex" style={{ paddingRight: '20px' }}>
 														{item.pickupLocation ? item.pickupLocation.split(',')[0] : '-'}
 														{'  '}
 														{item.pickupLocation ? (
-															<a onClick={() => openAddressDetail(item.pickupLocation)}>
+															<a
+																className="d-flex align-items-center"
+																onClick={() => openAddressDetail(item.pickupLocation)}
+															>
 																<FontAwesomeIcon
 																	className="pr-1 cursor-pointer "
 																	icon={faCircleInfo}
