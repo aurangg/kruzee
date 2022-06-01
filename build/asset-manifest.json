@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.faa3729e.css",
-    "main.js": "/static/js/main.524fd8be.js",
+    "main.js": "/static/js/main.9547cb5b.js",
     "static/js/787.369c2a4c.chunk.js": "/static/js/787.369c2a4c.chunk.js",
     "static/media/Terms of Use.pdf": "/static/media/Terms of Use.02716a9f95475df3196a.pdf",
     "static/media/HKGrotesk-SemiBoldItalic.otf": "/static/media/HKGrotesk-SemiBoldItalic.d3bb3295c546da3bef5b.otf",
@@ -17,11 +17,11 @@
     "static/media/checkbox-tick.svg": "/static/media/checkbox-tick.c90a049de772b2fcd7b6.svg",
     "static/media/onboarding.svg": "/static/media/onboarding.8c1965545ac7e5cfe986.svg",
     "main.faa3729e.css.map": "/static/css/main.faa3729e.css.map",
-    "main.524fd8be.js.map": "/static/js/main.524fd8be.js.map",
+    "main.9547cb5b.js.map": "/static/js/main.9547cb5b.js.map",
     "787.369c2a4c.chunk.js.map": "/static/js/787.369c2a4c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.faa3729e.css",
-    "static/js/main.524fd8be.js"
+    "static/js/main.9547cb5b.js"
   ]
 }

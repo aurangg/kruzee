@@ -252,15 +252,6 @@ export const paymentSuccessNotification = async () => {
 	const instructor = getInstructorName()?.replace(/"/g, '')
 	const lessons = getLessons()?.replace(/"/g, '')
 	const roadTestVehicle = getRoadTestVehicle()?.replace(/"/g, '') || null
-	
-	console.log("name------", name)
-	console.log("package------", packagee)
-	console.log("date------", date)
-	console.log("time------", time)
-	console.log("recipient------", recipient)
-	console.log("instructor------", instructor)
-	console.log("lessons------", lessons)
-	console.log("roadTestVehicle------", roadTestVehicle)
 
 	try {
 		const data = await fetch(
