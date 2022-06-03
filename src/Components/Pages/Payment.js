@@ -87,7 +87,7 @@ function Payment() {
 	const perks = JSON.parse(localStorage.getItem('perks') || '[]');
 	let hst = parseFloat((13 / 100) * packagePrice).toFixed(2);
 	let sum = String(Number(packagePrice) + Number(hst) + Number(roadTestVehicle));
-	sum = Number(sum).toFixed(2); 
+	sum = Number(sum).toFixed(2);
 
 	const [applyPromoCode, setApplyPromoCode] = useState(true);
 	const [enterPromoCode, setEnterPromoCode] = useState(false);
@@ -135,7 +135,7 @@ function Payment() {
 						setLoading(false);
 						setDisable(false);
 						setSpanLoading(false);
-    				paymentSuccessNotification();
+						paymentSuccessNotification();
 						navigate('/payment-success');
 					}
 				}

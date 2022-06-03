@@ -436,6 +436,11 @@
     background: #37A2D0;
     color:white !important;
 }
+
+.gray-date-box{
+    background: #bfc4c7;
+    color:white !important;
+}
 .white-date-box{
     background: #fff;
     color: var(--gray900);

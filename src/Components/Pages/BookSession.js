@@ -12,6 +12,7 @@ import { callTime } from '../Common/utils';
 import SmallLoader from '../Common/SmallLoader';
 import FourOFour from '../Common/404';
 import { getPostalCode } from '../localStorage';
+import { Data } from '@react-google-maps/api';
 
 function BookSession() {
 	const [dateId, setDateId] = useState(0);
@@ -29,13 +30,13 @@ function BookSession() {
 	};
 
 	const daysInWeek = [
-		{ day: 'Sunday' },
-		{ day: 'Monday' },
-		{ day: 'Tuesday' },
-		{ day: 'Wednesday' },
-		{ day: 'Thursday' },
-		{ day: 'Friday' },
-		{ day: 'Saturday' },
+		{ day: 'Sunday', isSlotAvailable: true },
+		{ day: 'Monday', isSlotAvailable: true },
+		{ day: 'Tuesday', isSlotAvailable: true },
+		{ day: 'Wednesday', isSlotAvailable: true },
+		{ day: 'Thursday', isSlotAvailable: true },
+		{ day: 'Friday', isSlotAvailable: true },
+		{ day: 'Saturday', isSlotAvailable: true },
 	];
 
 	const weeks = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -136,6 +137,7 @@ function BookSession() {
 			setInstructorImage(scheduleJsonData.data.instructorImage);
 			setInstructorVehicleImage(scheduleJsonData.data.vehicleDetails.image);
 			setBookedSlots(scheduleJsonData.data.bookedSlots);
+			// availableSlots();
 		} catch (error) {
 			setErrorRes(true);
 		} finally {
@@ -161,6 +163,7 @@ function BookSession() {
 	};
 
 	const [slotDay, setSlotDay] = useState('Sunday');
+	const [weekStartDay, setWeekStartDay] = useState(0);
 
 	const handleTimeSlot = (index, bool) => {
 		setActiveState(index);
@@ -191,6 +194,8 @@ function BookSession() {
 		const dayLast = format(weekLastDay, 'yyyy-MM-dd');
 		const dayFirst2 = format(weekFirstDay, 'MMMM dd');
 		const dayLast2 = format(weekLastDay, 'MMMM dd');
+		const currentDate = new Data();
+
 		setFirstDay2(dayFirst2);
 		setLastDay2(dayLast2);
 		setFirstDay(dayFirst);
@@ -261,6 +266,43 @@ function BookSession() {
 
 	const [slotsAvailable, setSlotsAvailable] = useState(false);
 
+	const availableSlots = () => {
+		var totalTime;
+		daysInWeek.map((dayInWeek, index) => {
+			if (slots) {
+				slots[`${dayInWeek.day.toLowerCase()}`]?.map((slot, index) => {
+					const numberSlot = Math.abs(slot.startTime - slot.endTime);
+					const numberSlotArray = Array.from(Array(numberSlot).keys());
+					return numberSlotArray.map((item, index_2) => {
+						const time = slot.startTime + item;
+						let booked = '';
+						if (slotsBooked) {
+							booked = slotsBooked[`${dayInWeek.day.toLowerCase()}`];
+						}
+						const isBooked = booked?.includes(time);
+						totalTime =
+							slots[`${dayInWeek.day.toLowerCase()}`][0].endTime -
+							slots[`${dayInWeek.day.toLowerCase()}`][0].startTime;
+					});
+				});
+				if (
+					slotsBooked[`${dayInWeek.day.toLowerCase()}`].length === totalTime ||
+					slots[`${dayInWeek.day.toLowerCase()}`].length === 0
+				) {
+					daysInWeek[index] = {
+						day: dayInWeek.day,
+						isSlotAvailable: false,
+					};
+				} else {
+					daysInWeek[index] = {
+						day: dayInWeek.day,
+						isSlotAvailable: true,
+					};
+				}
+			}
+		});
+	};
+
 	useEffect(() => {
 		slots[`${slotDay.toLowerCase()}`]?.map((slot, index) => {
 			const numberSlot = Math.abs(slot.startTime - slot.endTime);
@@ -281,12 +323,13 @@ function BookSession() {
 				}
 			});
 		});
+		// availableSlots();
 	}, [slotDay, firstDay]);
 
 	if (loading) {
 		return <Loader />;
 	}
-	if (data.length === 0) {
+	if (data?.length === 0 || !data) {
 		return <NoResult />;
 	}
 	if (errorRes) {
@@ -320,15 +363,34 @@ function BookSession() {
 								</div>
 								<div className="time-slot-divider"></div>
 								<div className="time-body">
-									<div className="row time-body-header">
-										<div className="col-sm-4 col-1"></div>
-										<div className="col-6 col-sm-4 align-items-center">
-											<h5 className="month color-gray900">{`${firstDay2} - ${lastDay2}`}</h5>
-										</div>
-										<div className="col-4 col-sm-4 flex-end">
+									<div className=" time-body-header d-flex justify-content-evenly">
+										{/* <div className="col-3 flex-end">
 											<button className="time-slot-btn left-time-btn" onClick={previousWeek}>
 												<img src={process.env.PUBLIC_URL + '/images/left.svg'} alt="left-img" />
 											</button>
+										</div> */}
+										{/* <div className="col-0"></div> */}
+										<div className="">
+											<button className="time-slot-btn left-time-btn" onClick={previousWeek}>
+												<img
+													src={process.env.PUBLIC_URL + '/images/left.svg'}
+													alt="right-img"
+												/>
+											</button>
+										</div>
+										{/* <div className="col-3 flex-end">
+											<button
+												className="time-slot-btn left-time-btn"
+												onClick={previousWeek}
+												style={{ height: '41px' }}
+											>
+												<img src={process.env.PUBLIC_URL + '/images/left.svg'} alt="left-img" />
+											</button>
+										</div> */}
+										<div className=" align-items-center">
+											<h5 className="month color-gray900">{`${firstDay2} - ${lastDay2}`}</h5>
+										</div>
+										<div className="">
 											<button className="time-slot-btn right-time-btn" onClick={nextWeek}>
 												<img
 													src={process.env.PUBLIC_URL + '/images/right.svg'}
@@ -338,25 +400,68 @@ function BookSession() {
 										</div>
 									</div>
 									<div className="time-slot-spacing" style={{ width: '100%' }}>
-										{daysInWeek.map((dayInWeek, index) => (
-											<React.Fragment key={index}>
-												<button className="week color-gray700">
-													{dayInWeek.day.slice(0, 3)}
-													<div
-														className={`date-box ${
-															activeIndex === index ? 'blue-date-box' : 'white-date-box'
-														}`}
-														onClick={() => {
-															setSlotDay(dayInWeek.day);
-															handleIndex(index);
-															handleTimeSlot(index, false);
-														}}
+										{daysInWeek.map((dayInWeek, index) => {
+											availableSlots();
+											// const currentDates = new Date();
+											// console.log('date', handleDate(index));
+											// console.log('currentDates', currentDates.getDay());
+											// console.log('Week start Date', firstDay);
+
+											return slots[`${dayInWeek.day.toLowerCase()}`]?.length !== 0 &&
+												dayInWeek.isSlotAvailable === true ? (
+												<React.Fragment key={index}>
+													<button className="week" style={{ color: 'black' }}>
+														{dayInWeek.day.slice(0, 3)}
+														<div
+															className={`date-box  disabled d-flex justify-content-center align-items-center ${
+																activeIndex === index
+																	? 'blue-date-box'
+																	: 'white-date-box'
+															}`}
+															onClick={() => {
+																setSlotDay(dayInWeek.day);
+																handleIndex(index);
+																handleTimeSlot(index, false);
+															}}
+														>
+															<p
+																className={`date`}
+																style={{
+																	fontWeight: '400 !important',
+																	marginTop: '2px',
+																}}
+															>
+																{handleDate(index).slice(8, 10)}
+															</p>
+														</div>
+													</button>
+												</React.Fragment>
+											) : (
+												<React.Fragment key={index}>
+													<button
+														className="week color-gray700"
+														style={{ cursor: 'default' }}
 													>
-														<p className={`date`}>{handleDate(index).slice(8, 10)}</p>
-													</div>
-												</button>
-											</React.Fragment>
-										))}
+														{dayInWeek.day.slice(0, 3)}
+														<div
+															className={`date-box  disabled ${
+																// activeIndex === index ? 'blue-date-box' : 'white-date-box'
+																'lcx'
+															}`}
+															// onClick={() => {
+															// 	setSlotDay(dayInWeek.day);
+															// 	handleIndex(index);
+															// 	handleTimeSlot(index, false);
+															// }}
+														>
+															<p className={`date`} style={{ color: '#bfc4c7' }}>
+																{handleDate(index).slice(8, 10)}
+															</p>
+														</div>
+													</button>
+												</React.Fragment>
+											);
+										})}
 									</div>
 									{timeLoader === false ? (
 										<SmallLoader />

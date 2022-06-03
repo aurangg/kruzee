@@ -69,6 +69,10 @@ function Account() {
 			setPhoneNumber(localStorage.getItem('phoneNumber').replace(/"/g, ''));
 		}
 		if (localStorage.getItem('userName')) {
+			console.log(
+				'localStorage.getItem(userName).replace(/"/g, )',
+				localStorage.getItem('userName').replace(/"/g, '')
+			);
 			setUserName(localStorage.getItem('userName').replace(/"/g, ''));
 		}
 		if (localStorage.getItem('postalCode')) {
@@ -193,7 +197,7 @@ function Account() {
 		const uniqueStudentDataBody = {
 			email: email,
 			phoneNumber: phoneNumber,
-			name: userName,
+			name: fullname,
 			pickUp: pickUp,
 			packageName: packages,
 			slot: {
