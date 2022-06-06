@@ -99,11 +99,11 @@ const SignInFrom = ({ history }) => {
 											placeholder="Password"
 										/>
 									</div>
-									{/* <div className="d-flex justify-content-end ">
-										<a href="/ChangePassword" style={{ color: '#37a2d0' }}>
+									<div className="d-flex justify-content-end ">
+										<a href="/reset-password" style={{ color: '#37a2d0' }}>
 											Forgot Password
 										</a>
-									</div> */}
+									</div>
 									{errorMsg && (
 										<div
 											style={{

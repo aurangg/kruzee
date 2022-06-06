@@ -1432,6 +1432,16 @@
     margin-top: 8px;
 }
 
+.resend-button{
+    color: #37A2D0;
+    cursor: pointer;
+    text-decoration: underline !important;
+}
+
+.mb-100{
+    margin-bottom: 100px;
+}
+
 @media (max-width:1400px){
     .pricing-box{
         height: 100%;
