@@ -27,7 +27,7 @@ const studentPortalNavbar = (props) => {
 					style={{ display: 'flex', alignItems: 'center', height: '60px', marginBottom: '15px' }}
 				>
 					<div className={`container ${cClass} d-flex justify-content-between`}>
-						<Link className={`navbar-brand ${slogo} pl-lg-5 `} to="https://www.kruzee.com">
+						<Link className={`navbar-brand ${slogo} pl-lg-5 `} to="/">
 							<img src={require('./assets/image/movo-white.png')} width="130" alt="logo" />
 							<img src={logo} height="41" width="125" alt="logo" />
 						</Link>
@@ -35,7 +35,7 @@ const studentPortalNavbar = (props) => {
 						<div style={{ flex: 'none', marginRight: '10px' }}>
 							{userLogin ? (
 								<Link
-									to="https://www.kruzee.com"
+									to="/"
 									onClick={logout}
 									style={{
 										backgroundColor: '#37A2d0',

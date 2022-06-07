@@ -13,8 +13,11 @@ import SmallLoader from '../Common/SmallLoader';
 import FourOFour from '../Common/404';
 import { getPostalCode } from '../localStorage';
 import { Data } from '@react-google-maps/api';
+import { useIntercom } from 'react-use-intercom';
 
 function BookSession() {
+	const { boot } = useIntercom();
+	boot();
 	const [dateId, setDateId] = useState(0);
 	const [activeState, setActiveState] = useState(false);
 	const [btn, setBtn] = useState(false);

@@ -10,8 +10,11 @@ import './radio-button.css';
 import { getWeekStartDate } from '../localStorage';
 import TermsOfUse from '../../Terms of Use.pdf';
 import PrivacyPolicy from '../../Privacy Policy.pdf';
+import { useIntercom } from 'react-use-intercom';
 
 function Account() {
+	const { boot } = useIntercom();
+	boot();
 	const [email, setEmail] = useState('');
 	const [emailError, setEmailError] = useState('');
 

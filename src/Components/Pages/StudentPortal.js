@@ -12,6 +12,7 @@ import { studentLessons } from '../Common/apis';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import StudentPortalNavbar from '../Common/StudentPortalNavbar';
+import { useIntercom } from 'react-use-intercom';
 
 import { useLocation } from 'react-router-dom';
 // import Analytics from '../common/analytics';
@@ -19,6 +20,8 @@ import { useLocation } from 'react-router-dom';
 const StudentPortal = () => {
 	// const location = useLocation();
 	// Analytics(location);
+	const { boot } = useIntercom();
+	boot();
 	const userLoginData = getUserLogin();
 
 	const [studentLessonsData, setStudentLessonsData] = useState([]);

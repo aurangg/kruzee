@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import LargeHeading from '../Common/LargeHeading';
 import ProgressBar from '../Common/ProgressBar';
 import Toolbar from '../Common/Toolbar';
+import { useIntercom } from 'react-use-intercom';
 
 function DrivingTest() {
+	const { boot } = useIntercom();
+	boot();
 	const [border, setBorder] = useState(null);
 	const [vehicle, setVehicle] = useState('');
 	const [disabled, setDisabled] = useState(true);

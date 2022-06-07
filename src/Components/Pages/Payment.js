@@ -29,8 +29,12 @@ import {
 	// getIndividualPackage,
 	// setAccountCreatedMsg,
 } from '../localStorage';
+import { useIntercom } from 'react-use-intercom';
 
 function Payment() {
+	const { boot } = useIntercom();
+	boot();
+
 	const navigate = useNavigate();
 
 	const email = localStorage.getItem('email').replace(/"/g, '');

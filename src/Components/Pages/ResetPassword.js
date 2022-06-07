@@ -6,8 +6,11 @@ import './onboarding.css';
 import './radio-button.css';
 import OtpCode from './OtpCode';
 import toast from 'react-hot-toast';
+import { useIntercom } from 'react-use-intercom';
 
 function Account() {
+	const { boot } = useIntercom();
+	boot();
 	const [email, setEmail] = useState('');
 	const [emailError, setEmailError] = useState('');
 	const [phoneError, setPhoneError] = useState(false);
@@ -120,10 +123,8 @@ function Account() {
 		const recipient = '+1' + phoneNumber.replace(/-/g, '');
 		const verificationCodeGenerate = Math.floor(100000 + Math.random() * 900000);
 		setVerificationCode(verificationCodeGenerate);
-		console.log('verificationCode', verificationCodeGenerate, recipient);
-
 		const OtpCodeBody = {
-			email: email,
+			email: email.toLowerCase(),
 			verificationCode: verificationCodeGenerate,
 		};
 		const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/sendVerificationCode`, {
@@ -200,7 +201,7 @@ function Account() {
 								/>
 							</div> */}
 							<div className="email-container">
-								<h6 className="email-heading color-gray900">Password</h6>
+								<h6 className="email-heading color-gray900">New Password</h6>
 								<div className="email-container">
 									<input
 										className={`email-input ${invalid ? 'error-border' : ''}`}
