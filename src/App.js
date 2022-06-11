@@ -18,14 +18,11 @@ import SignIn from './Components/Pages/SignIn';
 import OtpCode from './Components/Pages/OtpCode';
 import ResetPassword from './Components/Pages/ResetPassword';
 import OtpSuccess from './Components/Pages/otpSuccess';
-import { IntercomProvider, useIntercom } from 'react-use-intercom';
+import { IntercomProvider } from 'react-use-intercom';
 import { Toaster } from 'react-hot-toast';
 import { INTERCOM_APP_ID } from './Components/Common/constants';
 
 function App() {
-	// const { boot, shutdown, hide, show, update } = useIntercom();
-	// boot();
-
 	return (
 		<IntercomProvider appId={INTERCOM_APP_ID}>
 			<BrowserRouter>

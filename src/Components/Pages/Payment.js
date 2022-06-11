@@ -89,7 +89,14 @@ function Payment() {
 	const packagePrice = parseFloat(localStorage.getItem('price')).toFixed(2);
 	const pickUp = localStorage.getItem('pick-up')?.replace(/"/g, '');
 	const perks = JSON.parse(localStorage.getItem('perks') || '[]');
-	let hst = parseFloat((13 / 100) * packagePrice).toFixed(2);
+	let hst = 0;
+	if (localStorage.getItem('roadTestVehicle')) {
+		hst = parseFloat(
+			(13 / 100) * (parseFloat(packagePrice) + parseFloat(localStorage.getItem('roadTestVehicle')))
+		).toFixed(2);
+	} else {
+		hst = parseFloat((13 / 100) * packagePrice).toFixed(2);
+	}
 	let sum = String(Number(packagePrice) + Number(hst) + Number(roadTestVehicle));
 	sum = Number(sum).toFixed(2);
 
