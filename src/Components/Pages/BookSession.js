@@ -289,7 +289,7 @@ function BookSession() {
 					});
 				});
 				if (
-					slotsBooked[`${dayInWeek.day.toLowerCase()}`].length === totalTime ||
+					slotsBooked[`${dayInWeek.day.toLowerCase()}`].length >= totalTime ||
 					slots[`${dayInWeek.day.toLowerCase()}`].length === 0
 				) {
 					daysInWeek[index] = {
