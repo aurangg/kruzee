@@ -103,6 +103,7 @@ export const addLessons = async (student) => {
 	const pickupLoc = getPickUp();
 	const slot = getSlotSelected();
 	const day = getDaySelected();
+	const date = getDateSelected();
 	let weekStartDate = getWeekStartDate();
 
 	if (getInstructorId() !== null) {
@@ -112,8 +113,8 @@ export const addLessons = async (student) => {
 	}
 
 	let newDate = '';
-	if (weekStartDate !== null) {
-		newDate = weekStartDate.replaceAll('-', '/').replace(/"/g, '');
+	if (date !== null) {
+		newDate = date.replaceAll('-', '/').replace(/"/g, '');
 	} else {
 		newDate = '';
 	}
