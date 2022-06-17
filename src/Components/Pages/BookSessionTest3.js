@@ -1,3 +1,4 @@
+
 import React, { useCallback, useEffect, useState } from 'react';
 import './onboarding.css';
 import { Link } from 'react-router-dom';
@@ -15,7 +16,7 @@ import { getPostalCode } from '../localStorage';
 import { Data } from '@react-google-maps/api';
 import { useIntercom } from 'react-use-intercom';
 
-function BookSession() {
+function BookSessionTest3() {
 	const { boot } = useIntercom();
 	boot();
 	const [dateId, setDateId] = useState(0);
@@ -41,8 +42,6 @@ function BookSession() {
 		{ day: 'Friday', isSlotAvailable: true },
 		{ day: 'Saturday', isSlotAvailable: true },
 	];
-
-	var weekIndex;
 
 	const weeks = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -138,21 +137,11 @@ function BookSession() {
 			);
 			const scheduleJsonData = await scheduleData.json();
 			setSchedule(scheduleJsonData.data.bookings);
+			console.log(scheduleJsonData.data)
 			setSlots(scheduleJsonData.data.slots);
 			setInstructorImage(scheduleJsonData.data.instructorImage);
 			setInstructorVehicleImage(scheduleJsonData.data.vehicleDetails.image);
-			const sortedBookedSlots = scheduleJsonData.data.bookedSlots.sort(function(a, b){
-				const nameA = a.startDate
-				const nameB = b.startDate
-				if(nameA < nameB){
-					return -1
-				}
-				if(nameA > nameB){
-					return 1
-				}
-				return 0;
-			})
-			setBookedSlots(sortedBookedSlots);
+			setBookedSlots(scheduleJsonData.data.bookedSlots);
 			// availableSlots();
 		} catch (error) {
 			setErrorRes(true);
@@ -211,44 +200,20 @@ function BookSession() {
 		const dayFirst2 = format(weekFirstDay, 'MMMM dd');
 		const dayLast2 = format(weekLastDay, 'MMMM dd');
 		const currentDate = new Data();
-		const currentDayFirstTest = format(weekFirstDay, 'dd')
-		const currentTestDate = format(curr, 'dd')
-		// if(bookedSlots != 0){
-		// 	let weekIndex = 4;
-		// 	if(Number(currentTestDate) >= Number(currentDayFirstTest) && Number(currentDayFirstTest)+7 > Number(currentTestDate)){
-		// 		weekIndex = Number(currentTestDate) - Number(currentDayFirstTest)
-		// 	}
-		// 	if(dayFirst === bookedSlots[0].startDate.slice(0,10)){
-		// 		daysInWeek[weekIndex] = {
-		// 			day: daysInWeek[weekIndex].day,
-		// 			isSlotAvailable: false,
-		// 		};
-		// 		console.log(daysInWeek[weekIndex])
-		// 	}
-		// 	else{
-		// 		daysInWeek[weekIndex] = {
-		// 			day: daysInWeek[weekIndex].day,
-		// 			isSlotAvailable: true,
-		// 		};
-		// 	}
-		// }
-		// if(bookedSlots != 0){
-		// 	outerloop: for(let k = 0; k < bookedSlots.length; k++){
-		// 		if(dayFirst === bookedSlots[k].startDate.slice(0,10)){
-		// 			daysInWeek[weekIndex] = {
-		// 				day: daysInWeek[weekIndex].day,
-		// 				isSlotAvailable: false,
-		// 			};
-		// 			console.log(daysInWeek)
-		// 			break outerloop;
-		// 		}
-		// 	}
-		// }
+		console.log(dayFirst)
+		if(bookedSlots != 0){
+			outerloop: for(let k = 0; k < bookedSlots.length; k++){
+				if(dayFirst === bookedSlots[k].startDate.slice(0,10)){
+					console.log("Hrllo")
+					break outerloop;
+				}
+			}
+		}
 		setFirstDay2(dayFirst2);
 		setLastDay2(dayLast2);
 		setFirstDay(dayFirst);
 		setLastDay(dayLast);
-	}, [week, bookedSlots]);
+	}, [week]);
 
 	const getBookedSlots = (staTime) => {
 		if (bookedSlots) {
@@ -286,7 +251,7 @@ function BookSession() {
 		}
 	};
 
-	const [activeIndex, setActiveIndex] = useState();
+	const [activeIndex, setActiveIndex] = useState(0);
 
 	const handleIndex = (index) => {
 		setActiveIndex(index);
@@ -302,7 +267,44 @@ function BookSession() {
 
 	useEffect(() => {
 		handleDateSelected(handleDate(weeks.findIndex((e) => e === slotDay)));
-	});
+		let bookedSlotsAnswer = 0;
+		let timeDifference = 0;
+		if(slots != 0){
+			for(let i = 0; i < daysInWeek.length; i++){
+				if(slots[`${daysInWeek[i].day.toLowerCase()}`].length > 0){
+					timeDifference = slots[`${daysInWeek[i].day.toLowerCase()}`][0].endTime - slots[`${daysInWeek[i].day.toLowerCase()}`][0].startTime
+				}
+			}
+		}
+
+		if(bookedSlots!= 0){
+			const newBookedSlots = bookedSlots.sort(function(a, b){
+				const nameA = a.startDate
+				const nameB = b.startDate
+				if(nameA < nameB){
+					return -1
+				}
+				if(nameA > nameB){
+					return 1
+				}
+				return 0;
+			})
+			outerloop: for(let k = 0; k < newBookedSlots.length; k++){
+				for(let i =0; i < daysInWeek.length; i++){
+					if(newBookedSlots[k][`${daysInWeek[i].day.toLowerCase()}`].length > 0 ){
+						bookedSlotsAnswer = newBookedSlots[k][`${daysInWeek[i].day.toLowerCase()}`].length
+						if(bookedSlotsAnswer !== timeDifference && bookedSlotsAnswer < timeDifference){
+							console.log(bookedSlotsAnswer, i)
+							// console.log(newBookedSlots[k].startDate.slice(0,10));
+							setFirstDay(newBookedSlots[k].startDate.slice(0,10))
+							setActiveIndex(i)
+							break outerloop;
+						}
+					}
+				}
+			}
+		}
+	}, [slots]);
 
 	function handleDateSelected(date) {
 		if (date !== '') {
@@ -316,13 +318,6 @@ function BookSession() {
 
 	const availableSlots = () => {
 		var totalTime;
-
-		let currentWeek = Number(week * 7);
-		var curr = new Date();
-		var currNext = new Date(curr.getTime() + currentWeek * 24 * 60 * 60 * 1000);
-		var weekFirstDay = new Date(currNext.setDate(currNext.getDate() - currNext.getDay() + 0));
-		const currentDayFirstTest = format(weekFirstDay, 'dd')
-		const currentTestDate = format(curr, 'dd')
 		daysInWeek.map((dayInWeek, index) => {
 			if (slots) {
 				slots[`${dayInWeek.day.toLowerCase()}`]?.map((slot, index) => {
@@ -340,16 +335,7 @@ function BookSession() {
 							slots[`${dayInWeek.day.toLowerCase()}`][0].startTime;
 					});
 				});
-				if(Number(currentTestDate) >= Number(currentDayFirstTest) && Number(currentDayFirstTest)+6 > Number(currentTestDate)){
-					weekIndex = Number(currentTestDate) - Number(currentDayFirstTest)
-					for(let i = 0; i < weekIndex+1; i++){
-						daysInWeek[i] = {
-							day: daysInWeek[i].day,
-							isSlotAvailable: false,
-						};
-					}
-				}
-				else if (
+				if (
 					slotsBooked[`${dayInWeek.day.toLowerCase()}`].length >= totalTime ||
 					slots[`${dayInWeek.day.toLowerCase()}`].length === 0
 				) {
@@ -366,28 +352,6 @@ function BookSession() {
 			}
 		});
 	};
-
-	useEffect(() => {
-		let currentWeek = Number(week * 7);
-		var curr = new Date();
-		var currNext = new Date(curr.getTime() + currentWeek * 24 * 60 * 60 * 1000);
-		var weekFirstDay = new Date(currNext.setDate(currNext.getDate() - currNext.getDay() + 0));
-		const currentDayFirstTest = format(weekFirstDay, 'dd')
-		const currentTestDate = format(curr, 'dd')
-		if(Number(currentTestDate) >= Number(currentDayFirstTest) && Number(currentDayFirstTest)+6 > Number(currentTestDate)){
-			weekIndex = Number(currentTestDate) - Number(currentDayFirstTest)	
-		}
-		if(weekIndex !== undefined){
-			for(let i = 0; i < weekIndex+1; i++){
-				daysInWeek[i] = {
-					day: daysInWeek[i].day,
-					isSlotAvailable: false,
-				};
-			}
-			setSlotDay(daysInWeek[weekIndex+1].day)
-			setActiveIndex(weekIndex+1)
-		}
-	}, [])
 
 	useEffect(() => {
 		slots[`${slotDay.toLowerCase()}`]?.map((slot, index) => {
@@ -457,21 +421,12 @@ function BookSession() {
 										</div> */}
 										{/* <div className="col-0"></div> */}
 										<div className="">
-											{week === 0 ? 
-											<button className="opacity-03 time-slot-btn disabled left-time-btn">
-												<img
-													src={process.env.PUBLIC_URL + '/images/left.svg'}
-													alt="right-img"
-												/>
-											</button>
-											:
 											<button className="time-slot-btn left-time-btn" onClick={previousWeek}>
 												<img
 													src={process.env.PUBLIC_URL + '/images/left.svg'}
 													alt="right-img"
 												/>
 											</button>
-											}
 										</div>
 										{/* <div className="col-3 flex-end">
 											<button
@@ -495,8 +450,12 @@ function BookSession() {
 										</div>
 									</div>
 									<div className="time-slot-spacing" style={{ width: '100%' }}>
-										{availableSlots()}
 										{daysInWeek.map((dayInWeek, index) => {
+											availableSlots();
+											// const currentDates = new Date();
+											// console.log('date', handleDate(index));
+											// console.log('currentDates', currentDates.getDay());
+											// console.log('Week start Date', firstDay);
 
 											return slots[`${dayInWeek.day.toLowerCase()}`]?.length !== 0 &&
 												dayInWeek.isSlotAvailable === true ? (
@@ -515,7 +474,13 @@ function BookSession() {
 																handleTimeSlot(index, false);
 															}}
 														>
-															<p className={`date`} style={{ fontWeight: '400 !important', marginTop: '2px', }}>
+															<p
+																className={`date`}
+																style={{
+																	fontWeight: '400 !important',
+																	marginTop: '2px',
+																}}
+															>
 																{handleDate(index).slice(8, 10)}
 															</p>
 														</div>
@@ -523,9 +488,22 @@ function BookSession() {
 												</React.Fragment>
 											) : (
 												<React.Fragment key={index}>
-													<button className="week color-gray700" style={{ cursor: 'default' }} >
+													<button
+														className="week color-gray700"
+														style={{ cursor: 'default' }}
+													>
 														{dayInWeek.day.slice(0, 3)}
-														<div className={`date-box  disabled ${'lcx'}`}>
+														<div
+															className={`date-box  disabled ${
+																// activeIndex === index ? 'blue-date-box' : 'white-date-box'
+																'lcx'
+															}`}
+															// onClick={() => {
+															// 	setSlotDay(dayInWeek.day);
+															// 	handleIndex(index);
+															// 	handleTimeSlot(index, false);
+															// }}
+														>
 															<p className={`date`} style={{ color: '#bfc4c7' }}>
 																{handleDate(index).slice(8, 10)}
 															</p>
@@ -765,4 +743,4 @@ function BookSession() {
 	);
 }
 
-export default BookSession;
+export default BookSessionTest3;
