@@ -386,8 +386,9 @@ function BookSession() {
 			}
 			setSlotDay(daysInWeek[weekIndex+1].day)
 			setActiveIndex(weekIndex+1)
+			setBtn(false)
 		}
-	}, [])
+	}, [week])
 
 	useEffect(() => {
 		slots[`${slotDay.toLowerCase()}`]?.map((slot, index) => {
