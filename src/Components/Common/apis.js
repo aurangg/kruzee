@@ -123,8 +123,7 @@ export const addStudentPayment = async (studentData) => {
 
 export const studentLessons = async (userLoginData) => {
 	try {
-		const data = await axios.get(`${BASE_URL}/api/student/getMyLessons?studentId=${userLoginData?.data?._id}`);
-
+		const data = await axios.get(`${process.env.REACT_APP_BASE_URL2}/api/student/getMyLessons?studentId=${userLoginData?.data?._id}`);
 		return data;
 	} catch (error) {
 		console.log(error);
@@ -133,7 +132,7 @@ export const studentLessons = async (userLoginData) => {
 
 export const amazonEmails = async (email) => {
 	try {
-		const data = await axios.post(`${BASE_URL}/api/student/amazon/email`, {
+		const data = await axios.post(`${process.env.REACT_APP_BASE_URL2}/api/student/amazon/email`, {
 			email: email,
 		});
 

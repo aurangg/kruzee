@@ -110,6 +110,7 @@ function Payment() {
 	const [disable, setDisable] = useState(true);
 	const [spanLoading, setSpanLoading] = useState(false);
 	const [nav, setNav] = useState(false);
+	const [errors, setErrors] = useState(false)
 
 	// const userName = localStorage.getItem("name")
 	const [paymentIntent, setPaymentIntent] = useState();
@@ -209,7 +210,7 @@ function Payment() {
 		setLoading(true);
 		setSpanLoading(true);
 		setDisable(true);
-		const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/createStripeCustomer`, {
+		const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/createStripeCustomer`, {
 			method: 'POST',
 			body: JSON.stringify({ email }),
 		});
@@ -223,7 +224,7 @@ function Payment() {
 			email: email,
 		};
 		const cardNumberElement = elements.getElement(CardNumberElement);
-		const PaymentData = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/makeStripePayment`, {
+		const PaymentData = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/makeStripePayment`, {
 			method: 'POST',
 			body: JSON.stringify({ ...bodyData }),
 			headers: {
@@ -252,6 +253,8 @@ function Payment() {
 
 		if (error) {
 			setErrorBox(true);
+			setErrors(true)
+			setSpanLoading(false)
 			console.log(error.message);
 			return <p>{error.message} // Payment Error</p>;
 		} else {
@@ -471,12 +474,12 @@ function Payment() {
 									<div className="">
 										<img
 											className="instructor-img instructor-img-2"
-											src={`${process.env.REACT_APP_BASE_URL}${instructorImage}`}
+											src={`${process.env.REACT_APP_BASE_URL2}${instructorImage}`}
 											alt="driver-img"
 										/>
 										<img
 											className="instructor-img"
-											src={`${process.env.REACT_APP_BASE_URL}${instructorVehicleImage}`}
+											src={`${process.env.REACT_APP_BASE_URL2}${instructorVehicleImage}`}
 											alt="driver-car"
 										/>
 									</div>

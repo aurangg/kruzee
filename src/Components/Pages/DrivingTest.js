@@ -4,6 +4,7 @@ import LargeHeading from '../Common/LargeHeading';
 import ProgressBar from '../Common/ProgressBar';
 import Toolbar from '../Common/Toolbar';
 import { useIntercom } from 'react-use-intercom';
+import { ROAD_TEST_PACKAGE_PRICE } from '../Common/constants';
 
 function DrivingTest() {
 	const { boot } = useIntercom();
@@ -12,7 +13,7 @@ function DrivingTest() {
 	const [vehicle, setVehicle] = useState('');
 	const [disabled, setDisabled] = useState(true);
 
-	let roadTestVehicle = 245;
+	let roadTestVehicle = ROAD_TEST_PACKAGE_PRICE;
 
 	useEffect(() => {
 		localStorage.removeItem('instructorName');

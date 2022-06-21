@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import StudentPortalNavbar from '../Common/StudentPortalNavbar';
 import { useIntercom } from 'react-use-intercom';
+import './studentportal.css';
 
 import { useLocation } from 'react-router-dom';
 // import Analytics from '../common/analytics';
@@ -72,7 +73,7 @@ const StudentPortal = () => {
 			);
 			setStudentLessonsData(sortedData);
 			await axios
-				.get(`${BASE_URL}/api/student/getInstructorDetail?id=${data?.data?.data[0]?.instructor}`)
+				.get(`${process.env.REACT_APP_BASE_URL2}/api/student/getInstructorDetail?id=${data?.data?.data[0]?.instructor}`)
 				.then((res) => {
 					setStudentInstructor(res?.data?.data);
 				})
@@ -85,317 +86,313 @@ const StudentPortal = () => {
 		<div className="body_wrapper">
 			<StudentPortalNavbar />
 			{/* <CustomNavbar hbtnClass="new_btn" /> */}
-			<div className="row">
-				<div className="col-xl-12 mx-0 portal-table">
-					<div className="my-5 py-5 row justify-content-center" style={{ background: '#fbfbfb' }}>
-						<div className="col-md-9">
-							<div className="protal-header">
-								<div className="admin">
-									<div className="media-body">
-										<img
-											style={{
-												marginRight: '-30px',
-												zIndex: 1,
-												border: '5px white solid',
-											}}
-											src={`${process.env.REACT_APP_BASE_URL}${studentInstructor?.instructorImage}`}
-											width="105px"
-											height="105px"
-											alt=""
-										/>
-										<img
-											src={`${process.env.REACT_APP_BASE_URL}${studentInstructor?.vehicleDetails?.image}`}
-											width="100px"
-											height="100px"
-											alt=""
-										/>
-									</div>
-									<div className="pl-3 admin-details">
-										<h4 style={{ fontWeight: '800', color: 'black' }}>
+			<div className='container'>
+				<div className="row table-padding">
+					<div className='col-lg-4'>
+						<div className='next-lesson'>
+							<img className='next-lesson-img'
+								src={`${process.env.REACT_APP_BASE_URL2}${studentInstructor?.instructorImage}`}
+								alt=""
+							/>
+							<div className='next-lesson-time-body'>
+								<p className='next-lesson-heading'>
+									Next Lesson
+								</p>
+								<p className='next-lesson-time'>
+									In 3 days - 5:00 pm
+								</p>
+							</div>
+						</div>
+					</div>
+					<div className="col-lg-12">
+						<div className="protal-header">
+							<div className="admin">
+								<h2 className='student-portal-heading'>
+									Your Driving Lessons
+								</h2>
+								<div className="media-body">
+									<img className='media-body-driver-img'
+										src={`${process.env.REACT_APP_BASE_URL2}${studentInstructor?.instructorImage}`}
+										alt=""
+									/>
+									<div className="sp-instructor-body">
+										<h4 className='sp-instructor-name'>
 											{studentInstructor?.fullName}
 										</h4>
-										<p className="mb-0" style={{ fontSize: 14, lineHeight: 1.6 }}>
+										{/* <p className="mb-0" style={{ fontSize: 14, lineHeight: 1.6 }}>
 											Service Area(s):{' '}
 											{studentInstructor?.municipalities?.map((municipality) => {
 												return <>{municipality} </>;
 											})}
-										</p>
-										<p className="mb-0" style={{ fontSize: 14, lineHeight: 1.6 }}>
-											{studentInstructor?.phoneNumber}
+										</p> */}
+										<p className='sp-instructor-address'>
+										{studentInstructor?.address ? studentInstructor?.address : 'Address'} - {studentInstructor?.phoneNumber}
 										</p>
 										<a
-											className="cursor-pointer"
+											className="sp-leave-review"
 											onClick={toggleReviewPopup}
-											style={{
-												textDecoration: 'underline',
-												color: '#37a2d0',
-												fontSize: 14,
-												fontWeight: '500',
-											}}
 										>
 											Leave a review
 										</a>
 									</div>
 								</div>
 							</div>
+						</div>
 
-							<div className="mt-5" style={{ paddingLeft: '10px' }}>
-								<table
-									style={{
-										width: '100%',
-										display: 'block',
-										overflowX: 'auto',
-										whiteSpace: 'nowrap',
-									}}
-								>
-									<thead>
-										<tr style={{ color: 'black' }}>
-											<th style={{ width: '20%', paddingRight: '20px' }}>Lesson</th>
-											<th style={{ width: '20%', paddingRight: '45px' }}>Date</th>
-											<th style={{ width: '30%', paddingRight: '20px' }}>Pickup Location</th>
-											<th style={{ width: '20%', paddingRight: '20px' }}>Time</th>
-											<th style={{ width: '30%', paddingRight: '20px' }}>Status</th>
-											<th
+						<div className="mt-5" style={{ paddingLeft: '10px' }}>
+							<table
+								style={{
+									width: '100%',
+									display: 'block',
+									overflowX: 'auto',
+									whiteSpace: 'nowrap',
+								}}
+							>
+								<thead>
+									<tr style={{ color: 'black' }}>
+										<th className='sp-tr-styles' style={{ width: '20%', paddingRight: '20px' }}>Lesson</th>
+										<th className='sp-tr-styles' style={{ width: '20%', paddingRight: '45px' }}>Date</th>
+										<th className='sp-tr-styles' style={{ width: '30%', paddingRight: '20px' }}>Pickup Location</th>
+										<th className='sp-tr-styles' style={{ width: '20%', paddingRight: '20px' }}>Time</th>
+										<th className='sp-tr-styles' style={{ width: '30%', paddingRight: '20px' }}>Status</th>
+										<th className='sp-tr-styles'
+											style={{
+												width: '30%',
+												textAlign: 'right',
+												paddingRight: '20px',
+											}}
+										>
+											Action
+										</th>
+									</tr>
+									<tr>
+										<td className="mx-0 px-0">
+											<hr />
+										</td>
+										<td className="mx-0 px-0">
+											<hr />
+										</td>
+										<td className="mx-0 px-0">
+											<hr />
+										</td>
+										<td className="mx-0 px-0">
+											<hr />
+										</td>
+										<td className="mx-0 px-0">
+											<hr />
+										</td>
+										<td className="mx-0 px-0">
+											<hr />
+										</td>
+										<td className="mx-0 px-0">
+											<hr />
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+									{studentLessonsData.map((item, idx) => {
+										return (
+											<tr
 												style={{
-													width: '30%',
-													textAlign: 'right',
-													paddingRight: '20px',
+													color: item.date
+														? item.status === 'Completed'
+															? 'rgba(0,0,0,0.4)'
+															: 'black'
+														: 'black',
 												}}
 											>
-												Action
-											</th>
-										</tr>
-										<tr>
-											<td className="mx-0 px-0">
-												<hr />
-											</td>
-											<td className="mx-0 px-0">
-												<hr />
-											</td>
-											<td className="mx-0 px-0">
-												<hr />
-											</td>
-											<td className="mx-0 px-0">
-												<hr />
-											</td>
-											<td className="mx-0 px-0">
-												<hr />
-											</td>
-											<td className="mx-0 px-0">
-												<hr />
-											</td>
-											<td className="mx-0 px-0">
-												<hr />
-											</td>
-										</tr>
-									</thead>
-									<tbody>
-										{studentLessonsData.map((item, idx) => {
-											return (
-												<tr
-													style={{
-														color: item.date
-															? item.status === 'Completed'
-																? 'rgba(0,0,0,0.4)'
-																: 'black'
-															: 'black',
-													}}
-												>
-													<td style={{ fontWeight: '500', paddingRight: '20px' }}>
-														{idx + 1}
-													</td>
-													<td style={{ paddingRight: '20px' }}>
-														{item.date
-															? item.date.split('/')[1] === '01'
-																? 'January ' +
-																  item.date.split('/')[0] +
-																  ', 20' +
-																  item.date.split('/')[2]
-																: item.date.split('/')[1] === '02'
-																? 'Feburary ' +
-																  item.date.split('/')[0] +
-																  ', 20' +
-																  item.date.split('/')[2]
-																: item.date.split('/')[1] === '03'
-																? 'March ' +
-																  item.date.split('/')[0] +
-																  ', 20' +
-																  item.date.split('/')[2]
-																: item.date.split('/')[1] === '04'
-																? 'April ' +
-																  item.date.split('/')[0] +
-																  ', 20' +
-																  item.date.split('/')[2]
-																: item.date.split('/')[1] === '05'
-																? 'May ' +
-																  item.date.split('/')[0] +
-																  ', 20' +
-																  item.date.split('/')[2]
-																: item.date.split('/')[1] === '06'
-																? 'June ' +
-																  item.date.split('/')[0] +
-																  ', 20' +
-																  item.date.split('/')[2]
-																: item.date.split('/')[1] === '07'
-																? 'July ' +
-																  item.date.split('/')[0] +
-																  ', 20' +
-																  item.date.split('/')[2]
-																: item.date.split('/')[1] === '08'
-																? 'August ' +
-																  item.date.split('/')[0] +
-																  ', 20' +
-																  item.date.split('/')[2]
-																: item.date.split('/')[1] === '09'
-																? 'September ' +
-																  item.date.split('/')[0] +
-																  ', 20' +
-																  item.date.split('/')[2]
-																: item.date.split('/')[1] === '10'
-																? 'October ' +
-																  item.date.split('/')[0] +
-																  ', 20' +
-																  item.date.split('/')[2]
-																: item.date.split('/')[1] === '11'
-																? 'November ' +
-																  item.date.split('/')[0] +
-																  ', 20' +
-																  item.date.split('/')[2]
-																: 'December ' +
-																  item.date.split('/')[0] +
-																  ', 20' +
-																  item.date.split('/')[2]
-															: '-'}
-													</td>
-													<td className="d-flex" style={{ paddingRight: '20px' }}>
-														{item.pickupLocation ? item.pickupLocation.split(',')[0] : '-'}
-														{'  '}
-														{item.pickupLocation ? (
-															<a
-																className="d-flex align-items-center"
-																onClick={() => openAddressDetail(item.pickupLocation)}
-															>
-																<FontAwesomeIcon
-																	className="pr-1 cursor-pointer "
-																	icon={faCircleInfo}
-																	style={{
-																		color: 'rgba(0,0,0,0.4)',
-																		borderRadius: '100%',
-																		padding: 4,
-																		fontWeight: '600',
-																		fontSize: 12,
-																	}}
-																	size="3x"
-																/>
-															</a>
-														) : (
-															''
-														)}
-													</td>
-													<td style={{ paddingRight: '20px' }}>
-														{item.time
-															? item.time === 12
-																? item.time + ':00 pm'
-																: item.time === 0
-																? item.time + ':00 am'
-																: item.time < 12
-																? item.time + ':00 am'
-																: item.time - 12 + ':00 pm'
-															: '-'}
-													</td>
-													<td style={{ paddingRight: '20px' }}>
-														{item.status === 'Scheduled' ? (
-															<div className="d-flex align-items-center">
-																<FontAwesomeIcon
-																	className="text-white pr-1 "
-																	icon={faCheck}
-																	style={{
-																		borderRadius: '100%',
-																		padding: 4,
-																		backgroundColor: '#5C9D7A',
-																		fontWeight: '600',
-																		fontSize: 10,
-																	}}
-																/>
+												<td style={{ paddingRight: '20px' }} className="sp-td-styles">
+													{idx + 1}
+												</td>
+												<td style={{ paddingRight: '20px' }}>
+													{item.date
+														? item.date.split('/')[1] === '01'
+															? 'January ' +
+															item.date.split('/')[0] +
+															', 20' +
+															item.date.split('/')[2]
+															: item.date.split('/')[1] === '02'
+															? 'Feburary ' +
+															item.date.split('/')[0] +
+															', 20' +
+															item.date.split('/')[2]
+															: item.date.split('/')[1] === '03'
+															? 'March ' +
+															item.date.split('/')[0] +
+															', 20' +
+															item.date.split('/')[2]
+															: item.date.split('/')[1] === '04'
+															? 'April ' +
+															item.date.split('/')[0] +
+															', 20' +
+															item.date.split('/')[2]
+															: item.date.split('/')[1] === '05'
+															? 'May ' +
+															item.date.split('/')[0] +
+															', 20' +
+															item.date.split('/')[2]
+															: item.date.split('/')[1] === '06'
+															? 'June ' +
+															item.date.split('/')[0] +
+															', 20' +
+															item.date.split('/')[2]
+															: item.date.split('/')[1] === '07'
+															? 'July ' +
+															item.date.split('/')[0] +
+															', 20' +
+															item.date.split('/')[2]
+															: item.date.split('/')[1] === '08'
+															? 'August ' +
+															item.date.split('/')[0] +
+															', 20' +
+															item.date.split('/')[2]
+															: item.date.split('/')[1] === '09'
+															? 'September ' +
+															item.date.split('/')[0] +
+															', 20' +
+															item.date.split('/')[2]
+															: item.date.split('/')[1] === '10'
+															? 'October ' +
+															item.date.split('/')[0] +
+															', 20' +
+															item.date.split('/')[2]
+															: item.date.split('/')[1] === '11'
+															? 'November ' +
+															item.date.split('/')[0] +
+															', 20' +
+															item.date.split('/')[2]
+															: 'December ' +
+															item.date.split('/')[0] +
+															', 20' +
+															item.date.split('/')[2]
+														: '-'}
+												</td>
+												<td className="d-flex" style={{ paddingRight: '20px' }}>
+													{item.pickupLocation ? item.pickupLocation.split(',')[0] : '-'}
+													{'  '}
+													{item.pickupLocation ? (
+														<a
+															className="d-flex align-items-center"
+															onClick={() => openAddressDetail(item.pickupLocation)}
+														>
+															<FontAwesomeIcon
+																className="pr-1 cursor-pointer "
+																icon={faCircleInfo}
+																style={{
+																	color: 'rgba(0,0,0,0.4)',
+																	borderRadius: '100%',
+																	padding: 4,
+																	fontWeight: '600',
+																	fontSize: 12,
+																}}
+																size="3x"
+															/>
+														</a>
+													) : (
+														''
+													)}
+												</td>
+												<td style={{ paddingRight: '20px' }}>
+													{item.time
+														? item.time === 12
+															? item.time + ':00 pm'
+															: item.time === 0
+															? item.time + ':00 am'
+															: item.time < 12
+															? item.time + ':00 am'
+															: item.time - 12 + ':00 pm'
+														: '-'}
+												</td>
+												<td style={{ paddingRight: '20px' }} >
+													{item.status === 'Scheduled' ? (
+														<div className="d-flex align-items-center">
+															<FontAwesomeIcon
+																className="text-white pr-1 "
+																icon={faCheck}
+																style={{
+																	borderRadius: '100%',
+																	padding: 4,
+																	backgroundColor: '#5C9D7A',
+																	fontSize: 10,
+																}}
+															/>
+															<p className='sp-td-styles'>
 																{item.status}
-															</div>
-														) : item.status === 'Completed' ? (
-															<div>
-																<FontAwesomeIcon
-																	className="text-white pr-1 "
-																	icon={faCheck}
-																	style={{
-																		borderRadius: '100%',
-																		padding: 4,
-																		backgroundColor: '#5C9D7A',
-																		fontWeight: '600',
-																		fontSize: 10,
-																	}}
-																/>
-
+															</p>
+														</div>
+													) : item.status === 'Completed' ? (
+														<div>
+															<FontAwesomeIcon
+																className="text-white pr-1"
+																icon={faCheck}
+																style={{
+																	borderRadius: '100%',
+																	padding: 4,
+																	backgroundColor: '#5C9D7A',
+																	fontSize: 10,
+																}}
+															/>
+															<p className='sp-td-styles'>
 																{item.status}
-															</div>
-														) : (
-															<div>
-																<FontAwesomeIcon
-																	className="text-white pr-1 "
-																	icon={faCheck}
-																	style={{
-																		borderRadius: '100%',
-																		padding: 4,
-																		backgroundColor: '#37a2d0',
-																		fontWeight: '600',
-																		fontSize: 10,
-																	}}
-																/>
+															</p>
+														</div>
+													) : (
+														<div className='flex'>
+															<FontAwesomeIcon
+																className="text-white pr-1"
+																icon={faCheck}
+																style={{
+																	borderRadius: '100%',
+																	padding: 4,
+																	backgroundColor: '#37a2d0',
+																	fontSize: 10,
+																}}
+															/>
 
+															<p className='sp-td-styles'>
 																{'Awaiting'}
-															</div>
-														)}
-													</td>
-													<td style={{ textAlign: 'left', paddingRight: '20px' }}>
-														{item.status === 'Completed' ? (
-															''
-														) : item.status === 'Scheduled' ? (
-															<a
-																className="cursor-pointer"
-																onClick={() => openReschedule(item, true)}
-																style={{
-																	fontDecoration: 'underline',
-																	color: '#37a2d0',
-																	fontSize: 14,
-																	fontWeight: '500',
-																}}
-															>
-																Reschedule
-															</a>
-														) : (
-															<a
-																className="cursor-pointer"
-																onClick={() =>
-																	openReschedule(
-																		item,
-																		false,
-																		item.studentLessonNumber
-																	)
-																}
-																style={{
-																	fontDecoration: 'underline',
-																	color: '#37a2d0',
-																	fontSize: 14,
-																	fontWeight: '500',
-																}}
-															>
-																Schedule
-															</a>
-														)}
-													</td>
-												</tr>
-											);
-										})}
-									</tbody>
-								</table>
-							</div>
+															</p>
+														</div>
+													)}
+												</td>
+												<td style={{ textAlign: 'left', paddingRight: '20px' }} className="sp-td-styles">
+													{item.status === 'Completed' ? (
+														''
+													) : item.status === 'Scheduled' ? (
+														<a
+															className="cursor-pointer"
+															onClick={() => openReschedule(item, true)}
+															style={{
+																fontDecoration: 'underline',
+																color: '#37a2d0',
+															}}
+														>
+															Reschedule
+														</a>
+													) : (
+														<a
+															className="cursor-pointer"
+															onClick={() =>
+																openReschedule(
+																	item,
+																	false,
+																	item.studentLessonNumber
+																)
+															}
+															style={{
+																fontDecoration: 'underline',
+																color: '#37a2d0',
+															}}
+														>
+															Schedule
+														</a>
+													)}
+												</td>
+											</tr>
+										);
+									})}
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>

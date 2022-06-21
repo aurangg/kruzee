@@ -349,7 +349,7 @@ function BookSession() {
 						};
 					}
 				}
-				else if (
+				if (
 					slotsBooked[`${dayInWeek.day.toLowerCase()}`].length >= totalTime ||
 					slots[`${dayInWeek.day.toLowerCase()}`].length === 0
 				) {
@@ -372,10 +372,10 @@ function BookSession() {
 		var curr = new Date();
 		var currNext = new Date(curr.getTime() + currentWeek * 24 * 60 * 60 * 1000);
 		var weekFirstDay = new Date(currNext.setDate(currNext.getDate() - currNext.getDay() + 0));
-		const currentDayFirstTest = format(weekFirstDay, 'dd')
-		const currentTestDate = format(curr, 'dd')
-		if(Number(currentTestDate) >= Number(currentDayFirstTest) && Number(currentDayFirstTest)+6 > Number(currentTestDate)){
-			weekIndex = Number(currentTestDate) - Number(currentDayFirstTest)	
+		const weekStartDate = format(weekFirstDay, 'dd')
+		const currentDate = format(curr, 'dd')
+		if(Number(currentDate) >= Number(weekStartDate) && Number(weekStartDate)+6 > Number(currentDate)){
+			weekIndex = Number(currentDate) - Number(weekStartDate)	
 		}
 		if(weekIndex !== undefined){
 			for(let i = 0; i < weekIndex+1; i++){

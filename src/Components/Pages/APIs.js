@@ -1,3 +1,4 @@
+import { ROAD_TEST_PACKAGE_PRICE } from '../Common/constants';
 import {
 	// getUser,
 	getEmail,
@@ -34,7 +35,7 @@ export const studentLogin = async (email, password) => {
 			email: email,
 			password: password,
 		};
-		const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/login`, {
+		const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/login`, {
 			method: 'POST',
 			body: JSON.stringify({ loginData }),
 			headers: {
@@ -78,7 +79,7 @@ export const createStudent = async () => {
 		lessons: +lessons,
 		zip: zip.replace(/"/g, ''),
 	};
-	const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/signup`, {
+	const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/signup`, {
 		method: 'POST',
 		body: JSON.stringify({ ...createStudentBodyData }),
 		headers: {
@@ -104,6 +105,7 @@ export const addLessons = async (student) => {
 	const slot = getSlotSelected();
 	const day = getDaySelected();
 	const date = getDateSelected();
+	const roadTestVehicle = getRoadTestVehicle();
 	let weekStartDate = getWeekStartDate();
 
 	if (getInstructorId() !== null) {
@@ -124,14 +126,18 @@ export const addLessons = async (student) => {
 	let lessonId;
 	console.log(packageName);
 
-	if (packageName.replace(/"/g, '') === 'Road Test') {
+	if (roadTestVehicle === ROAD_TEST_PACKAGE_PRICE) {
 		const addLessonData = {
 			student: student._id,
 			studentName: student.fullName,
-			studentLessonNumber: 0 + 1,
+			studentLessonNumber: lessons + 1,
+			pickupLocation:'',
+			notes:'',
+			status:'Awaiting Schedule',
+			type:'Road Test Vehicle',
 			totalLessons: +lessons,
 		};
-		const roadTestPackageData = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addLesson`, {
+		const roadTestPackageData = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/addRoadTestLesson`, {
 			method: 'POST',
 			body: JSON.stringify({ ...addLessonData }),
 			headers: {
@@ -141,69 +147,47 @@ export const addLessons = async (student) => {
 		const roadTestPackageDataResponse = await roadTestPackageData.json();
 		console.log(roadTestPackageDataResponse);
 		return true;
-	} else {
-		lessonsArray.forEach(async (item, index) => {
-			if (index === 0) {
-				const addLessonData = {
-					student: student._id,
-					studentName: student.fullName,
-					studentLessonNumber: index + 1,
-					totalLessons: +lessons,
-					instructor: instructorId.replace(/"/g, ''),
-				};
-				const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addLesson`, {
-					method: 'POST',
-					body: JSON.stringify({ ...addLessonData }),
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				});
+	} 
+	const addLessonData = {
+		student: student._id,
+		studentName: student.fullName,
+		// studentLessonNumber: index + 1,
+		totalLessons: +lessons,
+		instructor: instructorId.replace(/"/g, ''),
+	};
+	const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/purcahseMoreLessons`, {
+		method: 'POST',
+		body: JSON.stringify({ ...addLessonData }),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
 
-				const resLessonArrayData = await data.json();
-				lessonId = resLessonArrayData.data?._id;
-				localStorage.setItem('lessonId', JSON.stringify(lessonId));
-				const bookedSlots = await instructorSlotBooked(instructorId);
-				const addBookingData = {
-					instructorId: instructorId.replace(/"/g, ''),
-					lessonId: lessonId.replace(/"/g, ''),
-					bookings: bookedSlots,
-					time: +slot,
-					day: day.replace(/"/g, ''),
-					latitude: Number(lat.replace(/"/g, '')),
-					longitude: Number(lng.replace(/"/g, '')),
-					date: newDate,
-					weekStartDate: weekStartDate.replace(/"/g, ''),
-					pickupLocation: pickupLoc.replace(/"/g, ''),
-					notes: '',
-				};
-				const dataForBooking = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addBooking`, {
-					method: 'POST',
-					body: JSON.stringify({ ...addBookingData }),
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				});
-				const resDataForBooking = await dataForBooking.json();
-			} else {
-				const addAllLessonData = {
-					student: student._id,
-					studentName: student.fullName,
-					studentLessonNumber: index + 1,
-					totalLessons: +lessons,
-					instructor: instructorId.replace(/"/g, ''),
-				};
-				const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addLesson`, {
-					method: 'POST',
-					body: JSON.stringify({ ...addAllLessonData }),
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				});
-
-				const resAddLesson = await data.json();
-			}
-		});
-	}
+	const resLessonArrayData = await data.json();
+	lessonId = resLessonArrayData.data?._id;
+	localStorage.setItem('lessonId', JSON.stringify(lessonId));
+	const bookedSlots = await instructorSlotBooked(instructorId);
+	const addBookingData = {
+		instructorId: instructorId.replace(/"/g, ''),
+		lessonId: lessonId.replace(/"/g, ''),
+		bookings: bookedSlots,
+		time: +slot,
+		day: day.replace(/"/g, ''),
+		latitude: Number(lat.replace(/"/g, '')),
+		longitude: Number(lng.replace(/"/g, '')),
+		date: newDate,
+		weekStartDate: weekStartDate.replace(/"/g, ''),
+		pickupLocation: pickupLoc.replace(/"/g, ''),
+		notes: '',
+	};
+	const dataForBooking = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/addBooking`, {
+		method: 'POST',
+		body: JSON.stringify({ ...addBookingData }),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+	const resDataForBooking = await dataForBooking.json();
 
 	return lessonId;
 };
@@ -218,7 +202,7 @@ export const addStudentPayment = async (studentData, sum) => {
 		totalStudentLessons: +lessons,
 		amount: sum,
 	};
-	const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addStudentPayments`, {
+	const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/addStudentPayments`, {
 		method: 'POST',
 		body: JSON.stringify({ ...addStudentPayment }),
 		headers: {
@@ -233,7 +217,7 @@ export const addStudentPayment = async (studentData, sum) => {
 export const studentLessons = async (userLoginData) => {
 	try {
 		const data = await fetch(
-			`${process.env.REACT_APP_BASE_URL}/api/student/getMyLessons?studentId=${userLoginData?.data?._id}`
+			`${process.env.REACT_APP_BASE_URL2}/api/student/getMyLessons?studentId=${userLoginData?.data?._id}`
 		);
 		const getStudent = data.json();
 
@@ -255,7 +239,7 @@ export const paymentSuccessNotification = async () => {
 	const roadTestVehicle = getRoadTestVehicle()?.replace(/"/g, '') || null;
 
 	try {
-		const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/sendAccountCreationNotification`, {
+		const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/sendAccountCreationNotification`, {
 			method: 'POST',
 			body: JSON.stringify({
 				name,
@@ -280,7 +264,7 @@ export const paymentSuccessNotification = async () => {
 
 // export const amazonEmails = async (email) => {
 //   try {
-//     const data = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/student/amazon/email`, {
+//     const data = await axios.post(`${process.env.REACT_APP_BASE_URL2}/api/student/amazon/email`, {
 //       email: email,
 //     });
 

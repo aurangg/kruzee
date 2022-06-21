@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
 html{
-  background-color: var(--blue50);
+  background-color: var(--blue50) !important;
   margin: 0px;
     padding: 0px;
 }
@@ -506,6 +506,7 @@ body {
 .body_wrapper {
   z-index: 2;
   overflow: hidden;
+  background: #F6FCFF;
 }
 
 a,

@@ -22,7 +22,7 @@ const SignInFrom = ({ history }) => {
 		setLoading(true);
 		localStorage.clear();
 		try {
-			const data = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/student/login`, {
+			const data = await axios.post(`${process.env.REACT_APP_BASE_URL2}/api/student/login`, {
 				email: email,
 				password: password,
 			});
