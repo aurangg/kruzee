@@ -41,7 +41,7 @@ function OtpCode({ email, password, verificationCode, phoneNumber }) {
 		setButtonLoading(true);
 		if (parseInt(otpCode) === verifyCode) {
 			try {
-				const data = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/student/changePassword`, {
+				const data = await axios.post(`${process.env.REACT_APP_BASE_URL2}/api/student/changePassword`, {
 					email: email.toLowerCase(),
 					password: password,
 				});
@@ -72,7 +72,7 @@ function OtpCode({ email, password, verificationCode, phoneNumber }) {
 			email: email.toLowerCase(),
 			verificationCode: verificationCodeGenerate,
 		};
-		const data = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/student/sendVerificationCode`, {
+		const data = await axios.post(`${process.env.REACT_APP_BASE_URL2}/api/student/sendVerificationCode`, {
 			...OtpCodeBody,
 		});
 		if (data.status === 200) {

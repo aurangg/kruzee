@@ -16,6 +16,7 @@ import { useIntercom } from 'react-use-intercom';
 import './studentportal.css';
 
 import { useLocation } from 'react-router-dom';
+import StudentPortalToolbar from '../Common/StudentPortalToolbar/StudentPortalToolbar';
 // import Analytics from '../common/analytics';
 
 const StudentPortal = () => {
@@ -84,7 +85,8 @@ const StudentPortal = () => {
 
 	return (
 		<div className="body_wrapper">
-			<StudentPortalNavbar />
+			{/* <StudentPortalNavbar /> */}
+			<StudentPortalToolbar />
 			{/* <CustomNavbar hbtnClass="new_btn" /> */}
 			<div className='container'>
 				<div className="row table-padding">

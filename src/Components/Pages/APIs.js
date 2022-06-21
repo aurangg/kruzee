@@ -147,47 +147,69 @@ export const addLessons = async (student) => {
 		const roadTestPackageDataResponse = await roadTestPackageData.json();
 		console.log(roadTestPackageDataResponse);
 		return true;
-	} 
-	const addLessonData = {
-		student: student._id,
-		studentName: student.fullName,
-		// studentLessonNumber: index + 1,
-		totalLessons: +lessons,
-		instructor: instructorId.replace(/"/g, ''),
-	};
-	const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/purcahseMoreLessons`, {
-		method: 'POST',
-		body: JSON.stringify({ ...addLessonData }),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
+	} else {
+		lessonsArray.forEach(async (item, index) => {
+			if (index === 0) {
+				const addLessonData = {
+					student: student._id,
+					studentName: student.fullName,
+					studentLessonNumber: index + 1,
+					totalLessons: +lessons,
+					instructor: instructorId.replace(/"/g, ''),
+				};
+				const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/addLesson`, {
+					method: 'POST',
+					body: JSON.stringify({ ...addLessonData }),
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				});
 
-	const resLessonArrayData = await data.json();
-	lessonId = resLessonArrayData.data?._id;
-	localStorage.setItem('lessonId', JSON.stringify(lessonId));
-	const bookedSlots = await instructorSlotBooked(instructorId);
-	const addBookingData = {
-		instructorId: instructorId.replace(/"/g, ''),
-		lessonId: lessonId.replace(/"/g, ''),
-		bookings: bookedSlots,
-		time: +slot,
-		day: day.replace(/"/g, ''),
-		latitude: Number(lat.replace(/"/g, '')),
-		longitude: Number(lng.replace(/"/g, '')),
-		date: newDate,
-		weekStartDate: weekStartDate.replace(/"/g, ''),
-		pickupLocation: pickupLoc.replace(/"/g, ''),
-		notes: '',
-	};
-	const dataForBooking = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/addBooking`, {
-		method: 'POST',
-		body: JSON.stringify({ ...addBookingData }),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
-	const resDataForBooking = await dataForBooking.json();
+				const resLessonArrayData = await data.json();
+				lessonId = resLessonArrayData.data?._id;
+				localStorage.setItem('lessonId', JSON.stringify(lessonId));
+				const bookedSlots = await instructorSlotBooked(instructorId);
+				const addBookingData = {
+					instructorId: instructorId.replace(/"/g, ''),
+					lessonId: lessonId.replace(/"/g, ''),
+					bookings: bookedSlots,
+					time: +slot,
+					day: day.replace(/"/g, ''),
+					latitude: Number(lat.replace(/"/g, '')),
+					longitude: Number(lng.replace(/"/g, '')),
+					date: newDate,
+					weekStartDate: weekStartDate.replace(/"/g, ''),
+					pickupLocation: pickupLoc.replace(/"/g, ''),
+					notes: '',
+				};
+				const dataForBooking = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/addBooking`, {
+					method: 'POST',
+					body: JSON.stringify({ ...addBookingData }),
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				});
+				const resDataForBooking = await dataForBooking.json();
+			} else {
+				const addAllLessonData = {
+					student: student._id,
+					studentName: student.fullName,
+					studentLessonNumber: index + 1,
+					totalLessons: +lessons,
+					instructor: instructorId.replace(/"/g, ''),
+				};
+				const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/addLesson`, {
+					method: 'POST',
+					body: JSON.stringify({ ...addAllLessonData }),
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				});
+
+				const resAddLesson = await data.json();
+			}
+		});
+	}
 
 	return lessonId;
 };
