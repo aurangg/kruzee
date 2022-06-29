@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/kruzee/static/css/main.eeb85b67.css",
-    "main.js": "/kruzee/static/js/main.82b38a09.js",
+    "main.css": "/kruzee/static/css/main.bfc295fc.css",
+    "main.js": "/kruzee/static/js/main.d9623c94.js",
     "static/js/787.369c2a4c.chunk.js": "/kruzee/static/js/787.369c2a4c.chunk.js",
     "static/media/HKGrotesk-SemiBoldItalic.otf": "/kruzee/static/media/HKGrotesk-SemiBoldItalic.d3bb3295c546da3bef5b.otf",
     "static/media/HKGrotesk-BoldLegacyItalic.otf": "/kruzee/static/media/HKGrotesk-BoldLegacyItalic.1591d47e8cb4f611d263.otf",
@@ -12,12 +12,12 @@
     "index.html": "/kruzee/index.html",
     "static/media/checkbox-tick.svg": "/kruzee/static/media/checkbox-tick.c90a049de772b2fcd7b6.svg",
     "static/media/onboarding.svg": "/kruzee/static/media/onboarding.8c1965545ac7e5cfe986.svg",
-    "main.eeb85b67.css.map": "/kruzee/static/css/main.eeb85b67.css.map",
-    "main.82b38a09.js.map": "/kruzee/static/js/main.82b38a09.js.map",
+    "main.bfc295fc.css.map": "/kruzee/static/css/main.bfc295fc.css.map",
+    "main.d9623c94.js.map": "/kruzee/static/js/main.d9623c94.js.map",
     "787.369c2a4c.chunk.js.map": "/kruzee/static/js/787.369c2a4c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.eeb85b67.css",
-    "static/js/main.82b38a09.js"
+    "static/css/main.bfc295fc.css",
+    "static/js/main.d9623c94.js"
   ]
 }
