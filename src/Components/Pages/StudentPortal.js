@@ -15,8 +15,14 @@ import StudentPortalNavbar from '../Common/StudentPortalNavbar';
 import { useIntercom } from 'react-use-intercom';
 import './studentportal.css';
 
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import StudentPortalToolbar from '../Common/StudentPortalToolbar/StudentPortalToolbar';
+import StudentPortalNavMain from '../Common/StudentPortalToolbar/StudentPortalNavMain';
+import GetCode from './GetCode';
+import BookSession from './BookSession';
+import Pricing from './Pricing';
+import PortalPricing from './Portal/PortalPricing';
+import MainPortal from './Portal/MainPortal';
 // import Analytics from '../common/analytics';
 
 const StudentPortal = () => {
@@ -83,10 +89,103 @@ const StudentPortal = () => {
 		getStudentLessons();
 	}, [isOpen]);
 
+	const overlayFunctionOn = () => {
+		document.getElementById("form-overlay-box").style.display = "flex"
+	}
+
+	const overlayFunctionOff = () => {
+		document.getElementById("form-overlay-box").style.display = "none"
+	}
+
+
+	
+
+	const [location, setLocation] = useState('')
+	const [status, setStatus] = useState('')
+	const [item, setItems] = useState()
+
+	const updateData = (location, status, item) => {
+		setLocation(location)
+		setItems(item)
+		setStatus(status)
+	}
+
 	return (
+		<React.Fragment>
+			<div className='container'>
+				<div className='row'>
+					<div className='col-lg-8 offset-lg-2'>
+						<div className='form-overlay-box' id='form-overlay-box' onClick={overlayFunctionOff}>
+							<div className='table-information'>
+								<h3 className='table-detail-heading'>
+									Details
+								</h3>
+								{location === undefined ? <></> : <div className='table-data-line'>
+									<p className='table-data-name'>
+										Pickup Location: 
+									</p>
+									<p className='table-data'>
+										{location}
+									</p>
+								</div> }
+								<div className='table-data-line'>
+									<p className='table-data-name'>
+										Status: 
+									</p>
+									<p className='table-data'>
+										{status === 'Scheduled' ? <FontAwesomeIcon
+											className="text-white pr-1 "
+											icon={faCheck}
+											style={{
+												borderRadius: '100%',
+												padding: 4,
+												backgroundColor: '#5C9D7A',
+												fontSize: 10,
+												marginRight:"10px"
+											}}
+										/> : <></>}
+											{status}
+									</p>
+								</div>
+								<div className='table-buttons-body'>
+									{item?.status === 'Completed' ? (
+										''
+									) : item?.status === 'Scheduled' ? (
+										<React.Fragment>
+											<div
+												className="table-button"
+												onClick={() => openReschedule(item, true)}
+											>
+												Reschedule
+											</div>
+											<div className='table-button outline-table-button'>
+												Change Location
+											</div>
+										</React.Fragment>
+									) : (
+										<div
+											className="table-button"
+											onClick={() =>
+												openReschedule(
+													item,
+													false,
+													item?.studentLessonNumber
+												)
+											}
+										>
+											Schedule
+										</div>
+									)}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		<div className="body_wrapper">
 			{/* <StudentPortalNavbar /> */}
-			<StudentPortalToolbar />
+			{/* <StudentPortalToolbar /> */}
+			<StudentPortalNavMain />
 			{/* <CustomNavbar hbtnClass="new_btn" /> */}
 			<div className='container'>
 				<div className="row table-padding">
@@ -151,20 +250,20 @@ const StudentPortal = () => {
 								}}
 							>
 								<thead>
-									<tr style={{ color: 'black' }}>
-										<th className='sp-tr-styles' style={{ width: '20%', paddingRight: '20px' }}>Lesson</th>
+									<tr>
+										<th className='sp-tr-styles' style={{ width: '10%', paddingRight: '20px' }}>#</th>
 										<th className='sp-tr-styles' style={{ width: '20%', paddingRight: '45px' }}>Date</th>
-										<th className='sp-tr-styles' style={{ width: '30%', paddingRight: '20px' }}>Pickup Location</th>
 										<th className='sp-tr-styles' style={{ width: '20%', paddingRight: '20px' }}>Time</th>
-										<th className='sp-tr-styles' style={{ width: '30%', paddingRight: '20px' }}>Status</th>
+										<th className='sp-tr-styles desktop-only-table' style={{ width: '30%', paddingRight: '20px' }}>Pickup Location</th>
+										<th className='sp-tr-styles desktop-only-table' style={{ width: '20%', paddingRight: '20px' }}>Status</th>
 										<th className='sp-tr-styles'
 											style={{
-												width: '30%',
+												width:"20%",
 												textAlign: 'right',
 												paddingRight: '20px',
 											}}
 										>
-											Action
+											
 										</th>
 									</tr>
 									<tr>
@@ -195,18 +294,25 @@ const StudentPortal = () => {
 									{studentLessonsData.map((item, idx) => {
 										return (
 											<tr
+												key={idx}
+												// style={{
+												// 	color: item.date
+												// 		? item.status !== 'Completed'
+												// 			? 'rgba(0,0,0,0.1)'
+												// 			: 'black'
+												// 		: 'black',
+												// }}
 												style={{
-													color: item.date
-														? item.status === 'Completed'
-															? 'rgba(0,0,0,0.4)'
-															: 'black'
-														: 'black',
+													color:'black',
+													opacity: item.status !== 'Completed' ? '1' : '0.3' 
 												}}
+												className="tr-body"
+												// onClick={item.status !== 'Completed' ? () => {overlayFunctionOn(); updateData(item.pickupLocation, item.status, item)} : ''}
 											>
 												<td style={{ paddingRight: '20px' }} className="sp-td-styles">
 													{idx + 1}
 												</td>
-												<td style={{ paddingRight: '20px' }}>
+												<td style={{ paddingRight: '20px' }} className="sp-td-styles">
 													{item.date
 														? item.date.split('/')[1] === '01'
 															? 'January ' +
@@ -269,32 +375,7 @@ const StudentPortal = () => {
 															item.date.split('/')[2]
 														: '-'}
 												</td>
-												<td className="d-flex" style={{ paddingRight: '20px' }}>
-													{item.pickupLocation ? item.pickupLocation.split(',')[0] : '-'}
-													{'  '}
-													{item.pickupLocation ? (
-														<a
-															className="d-flex align-items-center"
-															onClick={() => openAddressDetail(item.pickupLocation)}
-														>
-															<FontAwesomeIcon
-																className="pr-1 cursor-pointer "
-																icon={faCircleInfo}
-																style={{
-																	color: 'rgba(0,0,0,0.4)',
-																	borderRadius: '100%',
-																	padding: 4,
-																	fontWeight: '600',
-																	fontSize: 12,
-																}}
-																size="3x"
-															/>
-														</a>
-													) : (
-														''
-													)}
-												</td>
-												<td style={{ paddingRight: '20px' }}>
+												<td style={{ paddingRight: '20px' }} className="sp-td-styles">
 													{item.time
 														? item.time === 12
 															? item.time + ':00 pm'
@@ -305,9 +386,37 @@ const StudentPortal = () => {
 															: item.time - 12 + ':00 pm'
 														: '-'}
 												</td>
-												<td style={{ paddingRight: '20px' }} >
+												<td className="sp-td-styles desktop-only-table" style={{ paddingRight: '20px' }}>
+													<div className='d-flex'>
+														{item.pickupLocation ? item.pickupLocation.split(',')[0] : '-'}
+														{'  '}
+														{item.pickupLocation ? (
+															<a
+																className="d-flex align-items-center"
+																onClick={() => openAddressDetail(item.pickupLocation)}
+															>
+																<FontAwesomeIcon
+																	className="pr-1 cursor-pointer "
+																	icon={faCircleInfo}
+																	style={{
+																		color: 'rgba(0,0,0,0.4)',
+																		borderRadius: '100%',
+																		padding: 4,
+																		fontWeight: '600',
+																		fontSize: 12,
+																		display:"flex"
+																	}}
+																	size="3x"
+																/>
+															</a>
+														) : (
+															''
+														)}
+													</div>
+												</td>
+												<td style={{ paddingRight: '20px' }} className="desktop-only-table sp-td-styles">
 													{item.status === 'Scheduled' ? (
-														<div className="d-flex align-items-center">
+														<div className="align-items-flex-start">
 															<FontAwesomeIcon
 																className="text-white pr-1 "
 																icon={faCheck}
@@ -316,14 +425,13 @@ const StudentPortal = () => {
 																	padding: 4,
 																	backgroundColor: '#5C9D7A',
 																	fontSize: 10,
+																	marginRight:"10px"
 																}}
 															/>
-															<p className='sp-td-styles'>
 																{item.status}
-															</p>
 														</div>
 													) : item.status === 'Completed' ? (
-														<div>
+														<div className='sp-td-styles'>
 															<FontAwesomeIcon
 																className="text-white pr-1"
 																icon={faCheck}
@@ -332,14 +440,13 @@ const StudentPortal = () => {
 																	padding: 4,
 																	backgroundColor: '#5C9D7A',
 																	fontSize: 10,
+																	marginRight:"10px"
 																}}
 															/>
-															<p className='sp-td-styles'>
-																{item.status}
-															</p>
+															{item.status}
 														</div>
 													) : (
-														<div className='flex'>
+														<div className='flex sp-td-styles'>
 															<FontAwesomeIcon
 																className="text-white pr-1"
 																icon={faCheck}
@@ -348,47 +455,61 @@ const StudentPortal = () => {
 																	padding: 4,
 																	backgroundColor: '#37a2d0',
 																	fontSize: 10,
+																	marginRight:"10px"
 																}}
 															/>
 
-															<p className='sp-td-styles'>
 																{'Awaiting'}
-															</p>
 														</div>
 													)}
 												</td>
-												<td style={{ textAlign: 'left', paddingRight: '20px' }} className="sp-td-styles">
-													{item.status === 'Completed' ? (
-														''
-													) : item.status === 'Scheduled' ? (
-														<a
-															className="cursor-pointer"
-															onClick={() => openReschedule(item, true)}
-															style={{
-																fontDecoration: 'underline',
-																color: '#37a2d0',
-															}}
-														>
-															Reschedule
-														</a>
-													) : (
-														<a
-															className="cursor-pointer"
-															onClick={() =>
-																openReschedule(
-																	item,
-																	false,
-																	item.studentLessonNumber
-																)
-															}
-															style={{
-																fontDecoration: 'underline',
-																color: '#37a2d0',
-															}}
-														>
-															Schedule
-														</a>
-													)}
+												<td style={{ textAlign: 'right' }} className="sp-td-styles no-right-padding">
+													<div className='desktop-only-table'>
+														{item.status === 'Completed' ? (
+															''
+														) : item.status === 'Scheduled' ? (
+															<>
+															<a
+																className="cursor-pointer"
+																onClick={() => openReschedule(item, true)}
+																style={{
+																	fontDecoration: 'underline',
+																	color: '#37a2d0',
+																}}
+															>
+																Reschedule
+															</a>
+														</>
+														) : (
+															<a
+																className="cursor-pointer"
+																onClick={() =>
+																	openReschedule(
+																		item,
+																		false,
+																		item.studentLessonNumber
+																	)
+																}
+																style={{
+																	fontDecoration: 'underline',
+																	color: '#37a2d0',
+																}}
+															>
+																Schedule
+															</a>
+														)}
+													</div>
+													<div className='mobile-only-table' >
+														<div style={{display:"flex", justifyContent:"flex-end"}}>
+
+															<div 
+																className='action-btn' 
+																// onClick={() => {overlayFunctionOn(); updateData(item.pickupLocation, item.status, item)}}>
+																onClick={item.status !== 'Completed' ? () => {overlayFunctionOn(); updateData(item.pickupLocation, item.status, item)} : () => {return true}}>
+																{item.status === 'Completed' ? <img src={process.env.PUBLIC_URL + '/images/check.svg'} /> : <img src={process.env.PUBLIC_URL + '/images/dots.svg'} />}
+															</div>
+														</div>
+													</div>
 												</td>
 											</tr>
 										);
@@ -396,6 +517,15 @@ const StudentPortal = () => {
 								</tbody>
 							</table>
 						</div>
+						
+					</div>
+					<div className='col-lg-8'></div>
+					<div className='col-lg-4 flex-end'>
+						<Link to="/portalPricing">
+							<div className='submit-btn opacity-01'>
+								Buy More Lessons
+							</div>
+						</Link>
 					</div>
 				</div>
 			</div>
@@ -422,6 +552,7 @@ const StudentPortal = () => {
 
 			{isOpenAddress && <Address address={addressDetail} handleClose={toggleAddressPopup} />}
 		</div>
+		</React.Fragment>
 	);
 };
 

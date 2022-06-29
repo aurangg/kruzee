@@ -52,7 +52,6 @@ export const instructorRescheduleSlotBooked = async (instructorId, lessonDetails
 	const getOldSlot = await instructorSlots?.bookedSlots?.find((item) => {
 		return item.startDate.split('T')[0] === oldDate;
 	});
-
 	await getSlots[slots.day].push(+slots.slot);
 
 	let idx = getOldSlot[dayToPop].indexOf(timeToPop);
