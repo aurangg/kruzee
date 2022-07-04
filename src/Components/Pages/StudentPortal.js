@@ -74,7 +74,9 @@ const StudentPortal = () => {
 			);
 			setStudentLessonsData(sortedData);
 			await axios
-				.get(`${process.env.REACT_APP_BASE_URL2}/api/student/getInstructorDetail?id=${data?.data?.data[0]?.instructor}`)
+				.get(
+					`${process.env.REACT_APP_BASE_URL}/api/student/getInstructorDetail?id=${data?.data?.data[0]?.instructor}`
+				)
 				.then((res) => {
 					setStudentInstructor(res?.data?.data);
 				})
@@ -86,14 +88,14 @@ const StudentPortal = () => {
 	return (
 		<div className="body_wrapper">
 			{/* <StudentPortalNavbar /> */}
-			<StudentPortalToolbar />
+			{/* <StudentPortalToolbar /> */}
 			{/* <CustomNavbar hbtnClass="new_btn" /> */}
-			<div className='container'>
+			<div className="container">
 				<div className="row table-padding">
-					<div className='col-lg-4'>
+					{/* <div className='col-lg-4'>
 						<div className='next-lesson'>
 							<img className='next-lesson-img'
-								src={`${process.env.REACT_APP_BASE_URL2}${studentInstructor?.instructorImage}`}
+								src={`${process.env.REACT_APP_BASE_URL}${studentInstructor?.instructorImage}`}
 								alt=""
 							/>
 							<div className='next-lesson-time-body'>
@@ -105,35 +107,30 @@ const StudentPortal = () => {
 								</p>
 							</div>
 						</div>
-					</div>
+					</div> */}
 					<div className="col-lg-12">
 						<div className="protal-header">
 							<div className="admin">
-								<h2 className='student-portal-heading'>
-									Your Driving Lessons
-								</h2>
+								<h2 className="student-portal-heading">Your Driving Lessons</h2>
 								<div className="media-body">
-									<img className='media-body-driver-img'
-										src={`${process.env.REACT_APP_BASE_URL2}${studentInstructor?.instructorImage}`}
+									<img
+										className="media-body-driver-img"
+										src={`${process.env.REACT_APP_BASE_URL}${studentInstructor?.instructorImage}`}
 										alt=""
 									/>
 									<div className="sp-instructor-body">
-										<h4 className='sp-instructor-name'>
-											{studentInstructor?.fullName}
-										</h4>
+										<h4 className="sp-instructor-name">{studentInstructor?.fullName}</h4>
 										{/* <p className="mb-0" style={{ fontSize: 14, lineHeight: 1.6 }}>
 											Service Area(s):{' '}
 											{studentInstructor?.municipalities?.map((municipality) => {
 												return <>{municipality} </>;
 											})}
 										</p> */}
-										<p className='sp-instructor-address'>
-										{studentInstructor?.address ? studentInstructor?.address : 'Address'} - {studentInstructor?.phoneNumber}
+										<p className="sp-instructor-address">
+											{studentInstructor?.address ? studentInstructor?.address : 'Address'} -{' '}
+											{studentInstructor?.phoneNumber}
 										</p>
-										<a
-											className="sp-leave-review"
-											onClick={toggleReviewPopup}
-										>
+										<a className="sp-leave-review" onClick={toggleReviewPopup}>
 											Leave a review
 										</a>
 									</div>
@@ -152,12 +149,23 @@ const StudentPortal = () => {
 							>
 								<thead>
 									<tr style={{ color: 'black' }}>
-										<th className='sp-tr-styles' style={{ width: '20%', paddingRight: '20px' }}>Lesson</th>
-										<th className='sp-tr-styles' style={{ width: '20%', paddingRight: '45px' }}>Date</th>
-										<th className='sp-tr-styles' style={{ width: '30%', paddingRight: '20px' }}>Pickup Location</th>
-										<th className='sp-tr-styles' style={{ width: '20%', paddingRight: '20px' }}>Time</th>
-										<th className='sp-tr-styles' style={{ width: '30%', paddingRight: '20px' }}>Status</th>
-										<th className='sp-tr-styles'
+										<th className="sp-tr-styles" style={{ width: '20%', paddingRight: '20px' }}>
+											Lesson
+										</th>
+										<th className="sp-tr-styles" style={{ width: '20%', paddingRight: '45px' }}>
+											Date
+										</th>
+										<th className="sp-tr-styles" style={{ width: '30%', paddingRight: '20px' }}>
+											Pickup Location
+										</th>
+										<th className="sp-tr-styles" style={{ width: '20%', paddingRight: '20px' }}>
+											Time
+										</th>
+										<th className="sp-tr-styles" style={{ width: '30%', paddingRight: '20px' }}>
+											Status
+										</th>
+										<th
+											className="sp-tr-styles"
 											style={{
 												width: '30%',
 												textAlign: 'right',
@@ -210,63 +218,63 @@ const StudentPortal = () => {
 													{item.date
 														? item.date.split('/')[1] === '01'
 															? 'January ' +
-															item.date.split('/')[0] +
-															', 20' +
-															item.date.split('/')[2]
+															  item.date.split('/')[0] +
+															  ', 20' +
+															  item.date.split('/')[2]
 															: item.date.split('/')[1] === '02'
 															? 'Feburary ' +
-															item.date.split('/')[0] +
-															', 20' +
-															item.date.split('/')[2]
+															  item.date.split('/')[0] +
+															  ', 20' +
+															  item.date.split('/')[2]
 															: item.date.split('/')[1] === '03'
 															? 'March ' +
-															item.date.split('/')[0] +
-															', 20' +
-															item.date.split('/')[2]
+															  item.date.split('/')[0] +
+															  ', 20' +
+															  item.date.split('/')[2]
 															: item.date.split('/')[1] === '04'
 															? 'April ' +
-															item.date.split('/')[0] +
-															', 20' +
-															item.date.split('/')[2]
+															  item.date.split('/')[0] +
+															  ', 20' +
+															  item.date.split('/')[2]
 															: item.date.split('/')[1] === '05'
 															? 'May ' +
-															item.date.split('/')[0] +
-															', 20' +
-															item.date.split('/')[2]
+															  item.date.split('/')[0] +
+															  ', 20' +
+															  item.date.split('/')[2]
 															: item.date.split('/')[1] === '06'
 															? 'June ' +
-															item.date.split('/')[0] +
-															', 20' +
-															item.date.split('/')[2]
+															  item.date.split('/')[0] +
+															  ', 20' +
+															  item.date.split('/')[2]
 															: item.date.split('/')[1] === '07'
 															? 'July ' +
-															item.date.split('/')[0] +
-															', 20' +
-															item.date.split('/')[2]
+															  item.date.split('/')[0] +
+															  ', 20' +
+															  item.date.split('/')[2]
 															: item.date.split('/')[1] === '08'
 															? 'August ' +
-															item.date.split('/')[0] +
-															', 20' +
-															item.date.split('/')[2]
+															  item.date.split('/')[0] +
+															  ', 20' +
+															  item.date.split('/')[2]
 															: item.date.split('/')[1] === '09'
 															? 'September ' +
-															item.date.split('/')[0] +
-															', 20' +
-															item.date.split('/')[2]
+															  item.date.split('/')[0] +
+															  ', 20' +
+															  item.date.split('/')[2]
 															: item.date.split('/')[1] === '10'
 															? 'October ' +
-															item.date.split('/')[0] +
-															', 20' +
-															item.date.split('/')[2]
+															  item.date.split('/')[0] +
+															  ', 20' +
+															  item.date.split('/')[2]
 															: item.date.split('/')[1] === '11'
 															? 'November ' +
-															item.date.split('/')[0] +
-															', 20' +
-															item.date.split('/')[2]
+															  item.date.split('/')[0] +
+															  ', 20' +
+															  item.date.split('/')[2]
 															: 'December ' +
-															item.date.split('/')[0] +
-															', 20' +
-															item.date.split('/')[2]
+															  item.date.split('/')[0] +
+															  ', 20' +
+															  item.date.split('/')[2]
 														: '-'}
 												</td>
 												<td className="d-flex" style={{ paddingRight: '20px' }}>
@@ -305,7 +313,7 @@ const StudentPortal = () => {
 															: item.time - 12 + ':00 pm'
 														: '-'}
 												</td>
-												<td style={{ paddingRight: '20px' }} >
+												<td style={{ paddingRight: '20px' }}>
 													{item.status === 'Scheduled' ? (
 														<div className="d-flex align-items-center">
 															<FontAwesomeIcon
@@ -318,9 +326,7 @@ const StudentPortal = () => {
 																	fontSize: 10,
 																}}
 															/>
-															<p className='sp-td-styles'>
-																{item.status}
-															</p>
+															<p className="sp-td-styles">{item.status}</p>
 														</div>
 													) : item.status === 'Completed' ? (
 														<div>
@@ -334,12 +340,10 @@ const StudentPortal = () => {
 																	fontSize: 10,
 																}}
 															/>
-															<p className='sp-td-styles'>
-																{item.status}
-															</p>
+															<p className="sp-td-styles">{item.status}</p>
 														</div>
 													) : (
-														<div className='flex'>
+														<div className="flex">
 															<FontAwesomeIcon
 																className="text-white pr-1"
 																icon={faCheck}
@@ -351,13 +355,14 @@ const StudentPortal = () => {
 																}}
 															/>
 
-															<p className='sp-td-styles'>
-																{'Awaiting'}
-															</p>
+															<p className="sp-td-styles">{'Awaiting'}</p>
 														</div>
 													)}
 												</td>
-												<td style={{ textAlign: 'left', paddingRight: '20px' }} className="sp-td-styles">
+												<td
+													style={{ textAlign: 'left', paddingRight: '20px' }}
+													className="sp-td-styles"
+												>
 													{item.status === 'Completed' ? (
 														''
 													) : item.status === 'Scheduled' ? (
@@ -375,11 +380,7 @@ const StudentPortal = () => {
 														<a
 															className="cursor-pointer"
 															onClick={() =>
-																openReschedule(
-																	item,
-																	false,
-																	item.studentLessonNumber
-																)
+																openReschedule(item, false, item.studentLessonNumber)
 															}
 															style={{
 																fontDecoration: 'underline',

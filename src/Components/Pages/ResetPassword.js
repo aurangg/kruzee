@@ -127,7 +127,7 @@ function Account() {
 			email: email.toLowerCase(),
 			verificationCode: verificationCodeGenerate,
 		};
-		const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/sendVerificationCode`, {
+		const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/sendVerificationCode`, {
 			method: 'POST',
 			body: JSON.stringify({ ...OtpCodeBody }),
 			headers: {

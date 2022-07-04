@@ -29,10 +29,10 @@ function App() {
 				<Toaster />
 				<Routes>
 					<Route path="/" element={<GetCode />} />
-					<Route path="/book-session" element={<BookSession />} />
-					<Route path="/indiviual-lesson" element={<IndivialLesson />} />
 					<Route path="/pricing" element={<Pricing />} />
+					<Route path="/indiviual-lesson" element={<IndivialLesson />} />
 					<Route path="/driving-test" element={<DrivingTest />} />
+					<Route path="/book-session" element={<BookSession />} />
 					<Route path="/pick-up" element={<Pickup />} />
 					<Route path="/test" element={<Test />} />
 					<Route path="/payment-information" element={<Payment />} />

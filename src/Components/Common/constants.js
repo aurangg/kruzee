@@ -31,4 +31,4 @@ export const CORE_PACKAGE_PRICE = {
 
 export const INTERCOM_APP_ID = 'wla5vdcu';
 
-export const ROAD_TEST_PACKAGE_PRICE = 245
+export const ROAD_TEST_PACKAGE_PRICE = 245;

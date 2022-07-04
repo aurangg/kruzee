@@ -35,7 +35,7 @@ export const studentLogin = async (email, password) => {
 			email: email,
 			password: password,
 		};
-		const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/login`, {
+		const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/login`, {
 			method: 'POST',
 			body: JSON.stringify({ loginData }),
 			headers: {
@@ -62,15 +62,15 @@ export const createStudent = async () => {
 	const weekStartDate = getWeekStartDate();
 	const slot = getSlotSelected();
 	const zip = getPostalCode();
-	let instructorId = '';
-	if (getInstructorId() !== null) {
-		instructorId = getInstructorId().replace(/"/g, '');
-	} else {
-		instructorId = '';
-	}
+	let instructorId = getInstructorId();
+	// if (getInstructorId() !== null) {
+	// 	instructorId = getInstructorId().replace(/"/g, '');
+	// } else {
+	// 	instructorId = '';
+	// }
 
 	const createStudentBodyData = {
-		instructorId: instructorId.replace(/"/g, ''),
+		instructorId: [instructorId],
 		fullName: fullName.replace(/"/g, ''),
 		phoneNumber: phoneNumber.replace(/"/g, ''),
 		email: email.replace(/"/g, ''),
@@ -79,7 +79,7 @@ export const createStudent = async () => {
 		lessons: +lessons,
 		zip: zip.replace(/"/g, ''),
 	};
-	const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/signup`, {
+	const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/signup`, {
 		method: 'POST',
 		body: JSON.stringify({ ...createStudentBodyData }),
 		headers: {
@@ -131,13 +131,13 @@ export const addLessons = async (student) => {
 			student: student._id,
 			studentName: student.fullName,
 			studentLessonNumber: lessons + 1,
-			pickupLocation:'',
-			notes:'',
-			status:'Awaiting Schedule',
-			type:'Road Test Vehicle',
+			pickupLocation: '',
+			notes: '',
+			status: 'Awaiting Schedule',
+			type: 'Road Test Vehicle',
 			totalLessons: +lessons,
 		};
-		const roadTestPackageData = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/addRoadTestLesson`, {
+		const roadTestPackageData = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addRoadTestLesson`, {
 			method: 'POST',
 			body: JSON.stringify({ ...addLessonData }),
 			headers: {
@@ -157,7 +157,7 @@ export const addLessons = async (student) => {
 					totalLessons: +lessons,
 					instructor: instructorId.replace(/"/g, ''),
 				};
-				const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/addLesson`, {
+				const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addLesson`, {
 					method: 'POST',
 					body: JSON.stringify({ ...addLessonData }),
 					headers: {
@@ -182,7 +182,7 @@ export const addLessons = async (student) => {
 					pickupLocation: pickupLoc.replace(/"/g, ''),
 					notes: '',
 				};
-				const dataForBooking = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/addBooking`, {
+				const dataForBooking = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addBooking`, {
 					method: 'POST',
 					body: JSON.stringify({ ...addBookingData }),
 					headers: {
@@ -198,7 +198,7 @@ export const addLessons = async (student) => {
 					totalLessons: +lessons,
 					instructor: instructorId.replace(/"/g, ''),
 				};
-				const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/addLesson`, {
+				const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addLesson`, {
 					method: 'POST',
 					body: JSON.stringify({ ...addAllLessonData }),
 					headers: {
@@ -224,7 +224,7 @@ export const addStudentPayment = async (studentData, sum) => {
 		totalStudentLessons: +lessons,
 		amount: sum,
 	};
-	const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/addStudentPayments`, {
+	const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/addStudentPayments`, {
 		method: 'POST',
 		body: JSON.stringify({ ...addStudentPayment }),
 		headers: {
@@ -239,7 +239,7 @@ export const addStudentPayment = async (studentData, sum) => {
 export const studentLessons = async (userLoginData) => {
 	try {
 		const data = await fetch(
-			`${process.env.REACT_APP_BASE_URL2}/api/student/getMyLessons?studentId=${userLoginData?.data?._id}`
+			`${process.env.REACT_APP_BASE_URL}/api/student/getMyLessons?studentId=${userLoginData?.data?._id}`
 		);
 		const getStudent = data.json();
 
@@ -261,7 +261,7 @@ export const paymentSuccessNotification = async () => {
 	const roadTestVehicle = getRoadTestVehicle()?.replace(/"/g, '') || null;
 
 	try {
-		const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/sendAccountCreationNotification`, {
+		const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/sendAccountCreationNotification`, {
 			method: 'POST',
 			body: JSON.stringify({
 				name,
@@ -286,7 +286,7 @@ export const paymentSuccessNotification = async () => {
 
 // export const amazonEmails = async (email) => {
 //   try {
-//     const data = await axios.post(`${process.env.REACT_APP_BASE_URL2}/api/student/amazon/email`, {
+//     const data = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/student/amazon/email`, {
 //       email: email,
 //     });
 

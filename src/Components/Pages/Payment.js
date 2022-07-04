@@ -110,7 +110,7 @@ function Payment() {
 	const [disable, setDisable] = useState(true);
 	const [spanLoading, setSpanLoading] = useState(false);
 	const [nav, setNav] = useState(false);
-	const [errors, setErrors] = useState(false)
+	const [errors, setErrors] = useState(false);
 
 	// const userName = localStorage.getItem("name")
 	const [paymentIntent, setPaymentIntent] = useState();
@@ -123,7 +123,7 @@ function Payment() {
 
 	useEffect(() => {
 		checkDisable();
-	});
+	}, [cardName, card, month, cvc]);
 
 	useEffect(() => {
 		if (paymentIntent && paymentIntent.status === 'succeeded') {
@@ -210,7 +210,7 @@ function Payment() {
 		setLoading(true);
 		setSpanLoading(true);
 		setDisable(true);
-		const data = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/createStripeCustomer`, {
+		const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/createStripeCustomer`, {
 			method: 'POST',
 			body: JSON.stringify({ email }),
 		});
@@ -224,7 +224,7 @@ function Payment() {
 			email: email,
 		};
 		const cardNumberElement = elements.getElement(CardNumberElement);
-		const PaymentData = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/makeStripePayment`, {
+		const PaymentData = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/makeStripePayment`, {
 			method: 'POST',
 			body: JSON.stringify({ ...bodyData }),
 			headers: {
@@ -252,9 +252,10 @@ function Payment() {
 		});
 
 		if (error) {
+			setDisable(false);
 			setErrorBox(true);
-			setErrors(true)
-			setSpanLoading(false)
+			setErrors(true);
+			setSpanLoading(false);
 			console.log(error.message);
 			return <p>{error.message} // Payment Error</p>;
 		} else {
@@ -345,6 +346,7 @@ function Payment() {
 							<div className="email-container">
 								<button
 									className={`pay-btn ${disable ? 'opacity-03' : 'opacity-01'}`}
+									// onClick={() => setDisable(true)}
 									disabled={disable}
 								>
 									Pay ${sum} CAD
@@ -474,12 +476,12 @@ function Payment() {
 									<div className="">
 										<img
 											className="instructor-img instructor-img-2"
-											src={`${process.env.REACT_APP_BASE_URL2}${instructorImage}`}
+											src={`${process.env.REACT_APP_BASE_URL}${instructorImage}`}
 											alt="driver-img"
 										/>
 										<img
 											className="instructor-img"
-											src={`${process.env.REACT_APP_BASE_URL2}${instructorVehicleImage}`}
+											src={`${process.env.REACT_APP_BASE_URL}${instructorVehicleImage}`}
 											alt="driver-car"
 										/>
 									</div>

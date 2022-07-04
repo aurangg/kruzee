@@ -43,6 +43,31 @@ function IndiviualLesson() {
 	const [disabled, setDisable] = useState(true);
 	const [radioValue, setRadioValue] = useState('Value 1');
 	const handleChange = useCallback((index, lesson, price) => {
+		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+		window.dataLayer.push({
+			event: 'package_viewed',
+			ecommerce: {
+				currency: 'USD',
+				value: 1005.0,
+				items: [
+					{
+						item_id: 'item_id',
+						item_name: 'Driving Practice Lessons',
+						affiliation: 'Kruzee',
+						currency: 'USD',
+						index: 1,
+						item_brand: 'Kruzee',
+						item_category: 'In-car lessons with an MTO-certified Kruzee instructor',
+						item_list_id: 'item_list_id',
+						item_list_name: 'Landing Page Offer',
+						item_variant: '',
+						price: price,
+						quantity: lesson,
+					},
+				],
+			},
+		});
 		return (e) => {
 			setRadioValue(e.target.value);
 			setActiveClass(index);

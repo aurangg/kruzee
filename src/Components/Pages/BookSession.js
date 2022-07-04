@@ -91,7 +91,7 @@ function BookSession() {
 	const fetchTopThreeInstructor = async () => {
 		try {
 			const instructorData = await fetch(
-				`${process.env.REACT_APP_BASE_URL2}/api/student/searchTopThreeInstructors`,
+				`${process.env.REACT_APP_BASE_URL}/api/student/searchTopThreeInstructors`,
 				{
 					method: 'POST',
 					body: JSON.stringify({ postalCode }),
@@ -128,7 +128,7 @@ function BookSession() {
 	const fetchSchedule = async () => {
 		try {
 			const scheduleData = await fetch(
-				`${process.env.REACT_APP_BASE_URL2}/api/student/getInstructorDetail?id=${instructor}`,
+				`${process.env.REACT_APP_BASE_URL}/api/student/getInstructorDetail?id=${instructor}`,
 				{
 					method: 'GET',
 					headers: {
@@ -141,17 +141,17 @@ function BookSession() {
 			setSlots(scheduleJsonData.data.slots);
 			setInstructorImage(scheduleJsonData.data.instructorImage);
 			setInstructorVehicleImage(scheduleJsonData.data.vehicleDetails.image);
-			const sortedBookedSlots = scheduleJsonData.data.bookedSlots.sort(function(a, b){
-				const nameA = a.startDate
-				const nameB = b.startDate
-				if(nameA < nameB){
-					return -1
+			const sortedBookedSlots = scheduleJsonData.data.bookedSlots.sort(function (a, b) {
+				const nameA = a.startDate;
+				const nameB = b.startDate;
+				if (nameA < nameB) {
+					return -1;
 				}
-				if(nameA > nameB){
-					return 1
+				if (nameA > nameB) {
+					return 1;
 				}
 				return 0;
-			})
+			});
 			setBookedSlots(sortedBookedSlots);
 			// availableSlots();
 		} catch (error) {
@@ -211,8 +211,8 @@ function BookSession() {
 		const dayFirst2 = format(weekFirstDay, 'MMMM dd');
 		const dayLast2 = format(weekLastDay, 'MMMM dd');
 		const currentDate = new Data();
-		const currentDayFirstTest = format(weekFirstDay, 'dd')
-		const currentTestDate = format(curr, 'dd')
+		const currentDayFirstTest = format(weekFirstDay, 'dd');
+		const currentTestDate = format(curr, 'dd');
 		// if(bookedSlots != 0){
 		// 	let weekIndex = 4;
 		// 	if(Number(currentTestDate) >= Number(currentDayFirstTest) && Number(currentDayFirstTest)+7 > Number(currentTestDate)){
@@ -223,7 +223,6 @@ function BookSession() {
 		// 			day: daysInWeek[weekIndex].day,
 		// 			isSlotAvailable: false,
 		// 		};
-		// 		console.log(daysInWeek[weekIndex])
 		// 	}
 		// 	else{
 		// 		daysInWeek[weekIndex] = {
@@ -239,7 +238,6 @@ function BookSession() {
 		// 				day: daysInWeek[weekIndex].day,
 		// 				isSlotAvailable: false,
 		// 			};
-		// 			console.log(daysInWeek)
 		// 			break outerloop;
 		// 		}
 		// 	}
@@ -321,8 +319,8 @@ function BookSession() {
 		var curr = new Date();
 		var currNext = new Date(curr.getTime() + currentWeek * 24 * 60 * 60 * 1000);
 		var weekFirstDay = new Date(currNext.setDate(currNext.getDate() - currNext.getDay() + 0));
-		const currentDayFirstTest = format(weekFirstDay, 'dd')
-		const currentTestDate = format(curr, 'dd')
+		const currentDayFirstTest = format(weekFirstDay, 'dd');
+		const currentTestDate = format(curr, 'dd');
 		daysInWeek.map((dayInWeek, index) => {
 			if (slots) {
 				slots[`${dayInWeek.day.toLowerCase()}`]?.map((slot, index) => {
@@ -340,29 +338,41 @@ function BookSession() {
 							slots[`${dayInWeek.day.toLowerCase()}`][0].startTime;
 					});
 				});
-				if(Number(currentTestDate) >= Number(currentDayFirstTest) && Number(currentDayFirstTest)+6 > Number(currentTestDate)){
-					weekIndex = Number(currentTestDate) - Number(currentDayFirstTest)
-					for(let i = 0; i < weekIndex+1; i++){
+				if (
+					Number(currentTestDate) >= Number(currentDayFirstTest) &&
+					Number(currentDayFirstTest) + 6 > Number(currentTestDate)
+				) {
+					weekIndex = Number(currentTestDate) - Number(currentDayFirstTest);
+					for (let i = 0; i < weekIndex + 1; i++) {
 						daysInWeek[i] = {
 							day: daysInWeek[i].day,
 							isSlotAvailable: false,
 						};
 					}
 				}
-				if (
-					slotsBooked[`${dayInWeek.day.toLowerCase()}`].length >= totalTime ||
-					slots[`${dayInWeek.day.toLowerCase()}`].length === 0
-				) {
-					daysInWeek[index] = {
-						day: dayInWeek.day,
-						isSlotAvailable: false,
-					};
-				} else {
-					daysInWeek[index] = {
-						day: dayInWeek.day,
-						isSlotAvailable: true,
-					};
-				}
+				slotsBooked[`${dayInWeek.day.toLowerCase()}`].map((slotBooked) => {
+					slots[`${dayInWeek.day.toLowerCase()}`].map((slot) => {
+						if (
+							Math.min(slot.startTime, slot.endTime) <= slotBooked &&
+							Math.max(slot.startTime, slot.endTime) >= slotBooked
+						) {
+							if (
+								slotsBooked[`${dayInWeek.day.toLowerCase()}`].length >= totalTime ||
+								slots[`${dayInWeek.day.toLowerCase()}`].length === 0
+							) {
+								daysInWeek[index] = {
+									day: dayInWeek.day,
+									isSlotAvailable: false,
+								};
+							}
+						} else {
+							daysInWeek[index] = {
+								day: dayInWeek.day,
+								isSlotAvailable: true,
+							};
+						}
+					});
+				});
 			}
 		});
 	};
@@ -372,23 +382,23 @@ function BookSession() {
 		var curr = new Date();
 		var currNext = new Date(curr.getTime() + currentWeek * 24 * 60 * 60 * 1000);
 		var weekFirstDay = new Date(currNext.setDate(currNext.getDate() - currNext.getDay() + 0));
-		const weekStartDate = format(weekFirstDay, 'dd')
-		const currentDate = format(curr, 'dd')
-		if(Number(currentDate) >= Number(weekStartDate) && Number(weekStartDate)+6 > Number(currentDate)){
-			weekIndex = Number(currentDate) - Number(weekStartDate)	
+		const weekStartDate = format(weekFirstDay, 'dd');
+		const currentDate = format(curr, 'dd');
+		if (Number(currentDate) >= Number(weekStartDate) && Number(weekStartDate) + 6 > Number(currentDate)) {
+			weekIndex = Number(currentDate) - Number(weekStartDate);
 		}
-		if(weekIndex !== undefined){
-			for(let i = 0; i < weekIndex+1; i++){
+		if (weekIndex !== undefined) {
+			for (let i = 0; i < weekIndex + 1; i++) {
 				daysInWeek[i] = {
 					day: daysInWeek[i].day,
 					isSlotAvailable: false,
 				};
 			}
-			setSlotDay(daysInWeek[weekIndex+1].day)
-			setActiveIndex(weekIndex+1)
-			setBtn(false)
+			setSlotDay(daysInWeek[weekIndex + 1].day);
+			setActiveIndex(weekIndex + 1);
+			setBtn(false);
 		}
-	}, [week])
+	}, [week]);
 
 	useEffect(() => {
 		slots[`${slotDay.toLowerCase()}`]?.map((slot, index) => {
@@ -434,7 +444,7 @@ function BookSession() {
 										<div className="align-items">
 											<img
 												className="time-slot-driver-img"
-												src={`${process.env.REACT_APP_BASE_URL2}${instructorImage}`}
+												src={`${process.env.REACT_APP_BASE_URL}${instructorImage}`}
 												alt="driver-img"
 											/>
 											{/* <img className='time-slot-driver-img' src="https://kruzeee.tk/uploads/image-1650487578785.JPG" alt="driver-img" /> */}
@@ -458,21 +468,21 @@ function BookSession() {
 										</div> */}
 										{/* <div className="col-0"></div> */}
 										<div className="">
-											{week === 0 ? 
-											<button className="opacity-03 time-slot-btn disabled left-time-btn">
-												<img
-													src={process.env.PUBLIC_URL + '/images/left.svg'}
-													alt="right-img"
-												/>
-											</button>
-											:
-											<button className="time-slot-btn left-time-btn" onClick={previousWeek}>
-												<img
-													src={process.env.PUBLIC_URL + '/images/left.svg'}
-													alt="right-img"
-												/>
-											</button>
-											}
+											{week === 0 ? (
+												<button className="opacity-03 time-slot-btn disabled left-time-btn">
+													<img
+														src={process.env.PUBLIC_URL + '/images/left.svg'}
+														alt="right-img"
+													/>
+												</button>
+											) : (
+												<button className="time-slot-btn left-time-btn" onClick={previousWeek}>
+													<img
+														src={process.env.PUBLIC_URL + '/images/left.svg'}
+														alt="right-img"
+													/>
+												</button>
+											)}
 										</div>
 										{/* <div className="col-3 flex-end">
 											<button
@@ -498,7 +508,6 @@ function BookSession() {
 									<div className="time-slot-spacing" style={{ width: '100%' }}>
 										{availableSlots()}
 										{daysInWeek.map((dayInWeek, index) => {
-
 											return slots[`${dayInWeek.day.toLowerCase()}`]?.length !== 0 &&
 												dayInWeek.isSlotAvailable === true ? (
 												<React.Fragment key={index}>
@@ -516,7 +525,13 @@ function BookSession() {
 																handleTimeSlot(index, false);
 															}}
 														>
-															<p className={`date`} style={{ fontWeight: '400 !important', marginTop: '2px', }}>
+															<p
+																className={`date`}
+																style={{
+																	fontWeight: '400 !important',
+																	marginTop: '2px',
+																}}
+															>
 																{handleDate(index).slice(8, 10)}
 															</p>
 														</div>
@@ -524,7 +539,10 @@ function BookSession() {
 												</React.Fragment>
 											) : (
 												<React.Fragment key={index}>
-													<button className="week color-gray700" style={{ cursor: 'default' }} >
+													<button
+														className="week color-gray700"
+														style={{ cursor: 'default' }}
+													>
 														{dayInWeek.day.slice(0, 3)}
 														<div className={`date-box  disabled ${'lcx'}`}>
 															<p className={`date`} style={{ color: '#bfc4c7' }}>
@@ -674,12 +692,12 @@ function BookSession() {
 								<div className="instructor-start-info">
 									<img
 										className="instructor-picture"
-										src={`${process.env.REACT_APP_BASE_URL2}${i.instructorImage}`}
+										src={`${process.env.REACT_APP_BASE_URL}${i.instructorImage}`}
 										alt="driver-img"
 									/>
 									<img
 										className="instructor-picture instructor-picture-2"
-										src={`${process.env.REACT_APP_BASE_URL2}${i.vehicleDetails.image}`}
+										src={`${process.env.REACT_APP_BASE_URL}${i.vehicleDetails.image}`}
 										alt="driver-car"
 									/>
 									<h6 className="instructor-name color-gray900">{i.fullName}</h6>
