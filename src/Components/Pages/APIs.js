@@ -70,7 +70,7 @@ export const createStudent = async () => {
 	// }
 
 	const createStudentBodyData = {
-		instructorId: [instructorId],
+		instructorId: instructorId.replace(/"/g, ''),
 		fullName: fullName.replace(/"/g, ''),
 		phoneNumber: phoneNumber.replace(/"/g, ''),
 		email: email.replace(/"/g, ''),
@@ -124,7 +124,6 @@ export const addLessons = async (student) => {
 	const lessonsArray = Array.from(Array(+lessons).keys());
 
 	let lessonId;
-	console.log(packageName);
 
 	if (roadTestVehicle === ROAD_TEST_PACKAGE_PRICE) {
 		const addLessonData = {

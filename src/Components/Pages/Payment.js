@@ -262,7 +262,18 @@ function Payment() {
 			setPaymentIntent(paymentIntent);
 		}
 	};
-
+	function initPayMonthly() {
+		window.Uplift.Payments.init({
+			apiKey: 3432432423424243223,
+			locale: 'en-CA',
+			currency: 'CAD',
+			checkout: true,
+			channel: 'desktop',
+			container: '#up-pay-monthly-container', //it will be covered later
+			//   onChange:             //it will be covered later
+		});
+	}
+	console.log('initPayMonthly() ', initPayMonthly());
 	return (
 		<section className="simple-bg h-100vh">
 			<div className="container">

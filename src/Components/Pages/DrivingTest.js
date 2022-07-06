@@ -26,11 +26,103 @@ function DrivingTest() {
 		document.title = 'Select A Vehicle | Kruzee';
 	}, []);
 
+	useEffect(() => {
+		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+		window.dataLayer.push({
+			event: 'vehicle_options_viewed',
+			ecommerce: {
+				currency: 'CAD',
+				value: 245.0,
+				items: [
+					{
+						item_id: 'item_id',
+						item_name: 'Vehicle Opt-In',
+						affiliation: 'Kruzee',
+						currency: 'CAD',
+						index: 0,
+						item_brand: 'Kruzee',
+						item_category: "Kruzee's MTO-approved certificate course",
+						item_list_id: 'item_list_id',
+						item_list_name: 'Vehicle Options',
+						item_variant: '',
+						price: 245.0,
+						quantity: 1,
+					},
+					{
+						item_id: 'item_id',
+						item_name: 'Vehicle Opt-Out',
+						affiliation: 'Kruzee',
+						currency: 'CAD',
+						index: 0,
+						item_brand: 'Kruzee',
+						item_category: "Kruzee's MTO-approved certificate course",
+						item_list_id: 'item_list_id',
+						item_list_name: 'Vehicle Options',
+						item_variant: '',
+						price: 0.0,
+						quantity: 1,
+					},
+				],
+			},
+		});
+	}, []);
+
 	const handleClick = useCallback((k) => {
 		return () => {
 			if (k === 'yes') {
+				window.dataLayer = window.dataLayer || [];
+				window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+				window.dataLayer.push({
+					event: 'vehicle_options_selected',
+					ecommerce: {
+						currency: 'CAD',
+						value: 245.0,
+						items: [
+							{
+								item_id: 'item_id',
+								item_name: 'Vehicle Opt-In',
+								affiliation: 'Kruzee',
+								currency: 'CAD',
+								index: 0,
+								item_brand: 'Kruzee',
+								item_category: "Kruzee's MTO-approved certificate course",
+								item_list_id: 'item_list_id',
+								item_list_name: 'Vehicle Options',
+								item_variant: '',
+								price: 245.0,
+								quantity: 1,
+							},
+						],
+					},
+				});
 				localStorage.setItem('roadTestVehicle', JSON.stringify(roadTestVehicle));
 			} else {
+				window.dataLayer = window.dataLayer || [];
+				window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+				window.dataLayer.push({
+					event: 'vehicle_options_selected',
+					ecommerce: {
+						currency: 'CAD',
+						value: 0.0,
+						items: [
+							{
+								item_id: 'item_id',
+								item_name: 'Vehicle Opt-In',
+								affiliation: 'Kruzee',
+								currency: 'CAD',
+								index: 0,
+								item_brand: 'Kruzee',
+								item_category: "Kruzee's MTO-approved certificate course",
+								item_list_id: 'item_list_id',
+								item_list_name: 'Vehicle Options',
+								item_variant: '',
+								price: 0.0,
+								quantity: 1,
+							},
+						],
+					},
+				});
 				localStorage.removeItem('roadTestVehicle');
 			}
 			setVehicle(k);

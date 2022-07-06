@@ -228,6 +228,22 @@ function Account() {
 			setErrorBox(true);
 			setButtonLoading(false);
 		}
+		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push({
+			event: 'signup',
+			status: uniqueStudentData.status === 200 ? 'success' : 'error', // “failed” if the form return with an error
+			user_data: {
+				user_id: 'USER ID', // Add the unique User ID here
+				phone_number: phoneNumber,
+				email_address: email,
+				address: {
+					postal_code: 'ZIP CODE',
+					fullName: fullname,
+					// pickUp
+					country: 'Canada',
+				},
+			},
+		});
 	};
 
 	return (

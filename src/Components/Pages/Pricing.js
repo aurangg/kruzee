@@ -72,19 +72,7 @@ function Pricing() {
 		},
 	];
 
-	useEffect(() => {});
-
 	useEffect(() => {
-		localStorage.removeItem('price');
-		localStorage.removeItem('perks');
-		localStorage.removeItem('lesson');
-		localStorage.removeItem('packageName');
-		localStorage.removeItem('package');
-		localStorage.removeItem('locationScreenHeading');
-		document.title = 'Select A Package | Kruzee';
-	}, []);
-
-	function handleFullPackage() {
 		window.dataLayer = window.dataLayer || [];
 		window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
 		window.dataLayer.push({
@@ -107,34 +95,72 @@ function Pricing() {
 						price: 695.0,
 						quantity: 1,
 					},
-					// {
-					// 	item_id: 'item_id',
-					// 	item_name: 'Driving Practice Lessons',
-					// 	affiliation: 'Kruzee',
-					// 	currency: 'USD',
-					// 	index: 1,
-					// 	item_brand: 'Kruzee',
-					// 	item_category: 'In-car lessons with an MTO-certified Kruzee instructor',
-					// 	item_list_id: 'item_list_id',
-					// 	item_list_name: 'Landing Page Offer',
-					// 	item_variant: '',
-					// 	price: 65.0,
-					// 	quantity: 1,
-					// },
-					// {
-					// 	item_id: 'item_id',
-					// 	item_name: 'Vehicle for Road Test and Simulation',
-					// 	affiliation: 'Kruzee',
-					// 	currency: 'USD',
-					// 	index: 2,
-					// 	item_brand: 'Kruzee',
-					// 	item_category: 'Use a Kruzee instructor’s vehicle for your exam',
-					// 	item_list_id: 'item_list_id',
-					// 	item_list_name: 'Landing Page Offer',
-					// 	item_variant: '',
-					// 	price: 245.0,
-					// 	quantity: 1,
-					// },
+					{
+						item_id: 'item_id',
+						item_name: 'Driving Practice Lessons',
+						affiliation: 'Kruzee',
+						currency: 'USD',
+						index: 1,
+						item_brand: 'Kruzee',
+						item_category: 'In-car lessons with an MTO-certified Kruzee instructor',
+						item_list_id: 'item_list_id',
+						item_list_name: 'Landing Page Offer',
+						item_variant: '',
+						price: 65.0,
+						quantity: 1,
+					},
+					{
+						item_id: 'item_id',
+						item_name: 'Vehicle for Road Test and Simulation',
+						affiliation: 'Kruzee',
+						currency: 'USD',
+						index: 2,
+						item_brand: 'Kruzee',
+						item_category: 'Use a Kruzee instructor’s vehicle for your exam',
+						item_list_id: 'item_list_id',
+						item_list_name: 'Landing Page Offer',
+						item_variant: '',
+						price: 245.0,
+						quantity: 1,
+					},
+				],
+			},
+		});
+	}, []);
+
+	useEffect(() => {
+		localStorage.removeItem('price');
+		localStorage.removeItem('perks');
+		localStorage.removeItem('lesson');
+		localStorage.removeItem('packageName');
+		localStorage.removeItem('package');
+		localStorage.removeItem('locationScreenHeading');
+		document.title = 'Select A Package | Kruzee';
+	}, []);
+
+	function handleFullPackage() {
+		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+		window.dataLayer.push({
+			event: 'package_selected',
+			ecommerce: {
+				currency: 'CAD',
+				value: 695.0,
+				items: [
+					{
+						item_id: 'item_id',
+						item_name: 'Full Package',
+						affiliation: 'Kruzee',
+						currency: 'CAD',
+						index: 0,
+						item_brand: 'Kruzee',
+						item_category: "Kruzee's MTO-approved certificate course",
+						item_list_id: 'item_list_id',
+						item_list_name: 'Landing Page Offer',
+						item_variant: '',
+						price: 695.0,
+						quantity: 1,
+					},
 				],
 			},
 		});
@@ -160,44 +186,16 @@ function Pricing() {
 		window.dataLayer = window.dataLayer || [];
 		window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
 		window.dataLayer.push({
-			event: 'package_viewed',
+			event: 'package_selected',
 			ecommerce: {
-				currency: 'USD',
-				value: 1005.0,
+				currency: 'CAD',
+				value: 245.0,
 				items: [
-					// {
-					// 	item_id: 'item_id',
-					// 	item_name: 'Full Package',
-					// 	affiliation: 'Kruzee',
-					// 	currency: 'USD',
-					// 	index: 0,
-					// 	item_brand: 'Kruzee',
-					// 	item_category: "Kruzee's MTO-approved certificate course",
-					// 	item_list_id: 'item_list_id',
-					// 	item_list_name: 'Landing Page Offer',
-					// 	item_variant: '',
-					// 	price: 695.0,
-					// 	quantity: 1,
-					// },
-					// {
-					// 	item_id: 'item_id',
-					// 	item_name: 'Driving Practice Lessons',
-					// 	affiliation: 'Kruzee',
-					// 	currency: 'USD',
-					// 	index: 1,
-					// 	item_brand: 'Kruzee',
-					// 	item_category: 'In-car lessons with an MTO-certified Kruzee instructor',
-					// 	item_list_id: 'item_list_id',
-					// 	item_list_name: 'Landing Page Offer',
-					// 	item_variant: '',
-					// 	price: 65.0,
-					// 	quantity: 1,
-					// },
 					{
 						item_id: 'item_id',
 						item_name: 'Vehicle for Road Test and Simulation',
 						affiliation: 'Kruzee',
-						currency: 'USD',
+						currency: 'CAD',
 						index: 2,
 						item_brand: 'Kruzee',
 						item_category: 'Use a Kruzee instructor’s vehicle for your exam',

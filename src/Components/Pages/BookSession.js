@@ -72,6 +72,8 @@ function BookSession() {
 	const [timeLoader, setTimeLoader] = useState(false);
 
 	const [bookedStatus, setBookedStatus] = useState(false);
+	const [selectedInstructorDetail, setSelectedInstructorDetail] = useState();
+	const [bookInstructorSlot, setBookInstructorSlot] = useState(0);
 
 	const [instructorImage, setInstructorImage] = useState('');
 	const [instructorVehicleImage, setInstructorVehicleImage] = useState('');
@@ -125,6 +127,33 @@ function BookSession() {
 		return () => {};
 	}, [instructor]);
 
+	useEffect(() => {
+		if (data) {
+			data.map((instructorDetail, index) => {
+				window.dataLayer = window.dataLayer || [];
+				window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+				window.dataLayer.push({ instructors_details: null });
+				window.dataLayer.push({
+					event: 'driving_instructor_list_viewed',
+					total_instructors: data.length,
+					instructors_details: {
+						instructors: [
+							{
+								instructor_id: instructorDetail._id,
+								instructor_name: instructorDetail.fullName,
+								instructor_language: instructorDetail.languages[0],
+								instructor_vehicle: `${instructorDetail.vehicleDetails.year} ${instructorDetail.vehicleDetails.make} ${instructorDetail.vehicleDetails.model}`,
+								instructor_vehicle_type: instructorDetail.vehicleDetails.transmission,
+								instructor_rating: 5,
+								index: 0,
+							},
+						],
+					},
+				});
+			});
+		}
+	}, [data]);
+
 	const fetchSchedule = async () => {
 		try {
 			const scheduleData = await fetch(
@@ -141,6 +170,7 @@ function BookSession() {
 			setSlots(scheduleJsonData.data.slots);
 			setInstructorImage(scheduleJsonData.data.instructorImage);
 			setInstructorVehicleImage(scheduleJsonData.data.vehicleDetails.image);
+			setSelectedInstructorDetail(scheduleJsonData.data);
 			const sortedBookedSlots = scheduleJsonData.data.bookedSlots.sort(function (a, b) {
 				const nameA = a.startDate;
 				const nameB = b.startDate;
@@ -153,6 +183,28 @@ function BookSession() {
 				return 0;
 			});
 			setBookedSlots(sortedBookedSlots);
+			// data.map((scheduleJsonData.data, index) => {
+			window.dataLayer = window.dataLayer || [];
+			window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+			window.dataLayer.push({ instructors_details: null });
+			window.dataLayer.push({
+				event: 'driving_instructor_viewed',
+				total_instructors: data.length,
+				instructors_details: {
+					instructors: [
+						{
+							instructor_id: scheduleJsonData.data._id,
+							instructor_name: scheduleJsonData.data.fullName,
+							instructor_language: scheduleJsonData.data.languages[0],
+							instructor_vehicle: `${scheduleJsonData.data.vehicleDetails.year} ${scheduleJsonData.data.vehicleDetails.make} ${scheduleJsonData.data.vehicleDetails.model}`,
+							instructor_vehicle_type: scheduleJsonData.data.vehicleDetails.transmission,
+							instructor_rating: 5,
+							index: 0,
+						},
+					],
+				},
+			});
+			// });
 			// availableSlots();
 		} catch (error) {
 			setErrorRes(true);
@@ -188,6 +240,7 @@ function BookSession() {
 		} else {
 			setBtn(true);
 		}
+		setBookInstructorSlot(index);
 		localStorage.setItem('day', JSON.stringify(slotDay.toLowerCase()));
 		localStorage.setItem('slot', JSON.stringify(index));
 	};
@@ -294,6 +347,33 @@ function BookSession() {
 		localStorage.setItem('instructorName', JSON.stringify(instructorName));
 		localStorage.setItem('instructorImage', JSON.stringify(instructorImage));
 		localStorage.setItem('instructorVehicleImage', JSON.stringify(instructorVehicleImage));
+
+		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push({ instructors_details: null });
+		window.dataLayer.push({
+			event: 'driving_date_time_selected',
+			schedule_details: {
+				day: slotDay,
+				date: date.split('-')[2],
+				month: date.split('-')[1],
+				year: date.split('-')[0],
+				start_time: bookInstructorSlot,
+				end_time: bookInstructorSlot + 1,
+			},
+			instructors_details: {
+				instructors: [
+					{
+						instructor_id: selectedInstructorDetail._id,
+						instructor_name: instructorName,
+						instructor_language: selectedInstructorDetail.languages[0],
+						instructor_vehicle: `${selectedInstructorDetail.vehicleDetails.year} ${selectedInstructorDetail.vehicleDetails.make} ${selectedInstructorDetail.vehicleDetails.model}`,
+						instructor_vehicle_type: selectedInstructorDetail.vehicleDetails.transmission,
+						instructor_rating: 5,
+						index: 0,
+					},
+				],
+			},
+		});
 	}
 
 	const [dateSelected, setDateSelected] = useState('');
@@ -305,6 +385,7 @@ function BookSession() {
 	function handleDateSelected(date) {
 		if (date !== '') {
 			setDateSelected(date);
+			setDate(date);
 			localStorage.setItem('date', JSON.stringify(date));
 			localStorage.setItem('weekStartDate', JSON.stringify(firstDay));
 		}
