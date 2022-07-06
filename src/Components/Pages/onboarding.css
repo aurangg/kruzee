@@ -1,6 +1,17 @@
 .simple-bg{
     background-color: var(--blue50);
 }
+.adjusted-overlay{
+    border-radius: 10px;
+    overflow: scroll;
+    /* margin-top:15vh; */
+    height: calc(100vh - 15%);
+    background-color: white;
+    position: relative;
+}
+.border-radius-10{
+    border-radius: 10px;
+}
 .no-index-padding{
     padding:0px;
 }
@@ -745,6 +756,13 @@
     justify-content: flex-start;
     align-items: center;
 }
+.indiviual-lesson .lesson-count-2{
+    display: flex;
+    flex-direction: column;
+    padding-left:34px;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
 .indiviual-lesson .lesson-count .lesson-number{
     font-family: 'Merriweather', serif;
     font-style: italic;
@@ -1442,6 +1460,13 @@
     margin-bottom: 100px;
 }
 
+.desktop-only-table{
+    display: table-cell;
+}
+.mobile-only-table{
+    display: none;
+}
+
 @media (max-width:1400px){
     .pricing-box{
         height: 100%;
@@ -1451,7 +1476,7 @@
 @media (max-width:990px) {
     .pricing-box{
         height: auto;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }
     .order-summary{
         margin-top: 60px;
@@ -1503,7 +1528,7 @@
         margin-top: 40px;
     }
     .pricing-box{
-        height: 550px;
+        height: auto;
     }
     .pricing-box .pricing{
         font-size: 38.39px;
@@ -1630,5 +1655,11 @@
     }
     .payment-form .payment-form-heading{
         display: none;
+    }
+    .desktop-only-table{
+        display: none;
+    }
+    .mobile-only-table{
+        display: block;
     }
 }

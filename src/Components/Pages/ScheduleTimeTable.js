@@ -103,124 +103,123 @@ const TimeTable = ({ name, slots, bookedSlots, isReschedule, showPickup, lessonN
 	}, [firstDay, lastDay, week, handleFirstDay]);
 
 	return (
-		<section className="">
+		<div className='schedule-lesson-padding'>
 			<div
-				className="my-4 mx-md-5 px-md-5 py-md-4"
+				className="row py-2"
 				style={{
-					borderRadius: 8,
-					border: '1px #EFEFEF Solid',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'space-between',
+					borderBottom: '1px #EFEFEF Solid',
+					marginBottom: '50px',
 				}}
 			>
+				<div className="col-md-8">
+					<h2 className="schedule-lesson-heading">
+						Schedule lesson with&#160;
+						<span className='schedule-lesson-heading-span'>{name}.</span>
+					</h2>
+				</div>
+
 				<div
-					className="row py-2"
-					style={{
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'space-between',
-						borderBottom: '1px #EFEFEF Solid',
-						marginBottom: '50px',
-					}}
+					className="col-md-4"
+					// style={{
+					// 	textAlign: 'right',
+					// 	alignSelf: 'flex-start',
+					// 	fontWeight: 600,
+					// 	color: 'black',
+					// }}
 				>
-					<div className="col-md-8">
-						<h2 className="f_p f_600 f_size_24 t_color3">
-							<div className="row  mx-2">
-								Schedule lesson with&#160;
-								<div style={{ textDecoration: 'underline' }}>{name}.</div>
-							</div>
-						</h2>
-					</div>
-
-					<div
-						className="col-md-4"
-						style={{
-							textAlign: 'right',
-							alignSelf: 'flex-start',
-							fontWeight: 600,
-							color: 'black',
-						}}
-					>
-						{`${firstDay2} - ${lastDay2}`}
-						{week > 0 && (
-							<span onClick={weekHandleMin} className="weekAction">
-								<FontAwesomeIcon style={{ zIndex: '5px' }} icon={faChevronCircleLeft} />
-								{/* &#10094; */}
-							</span>
-						)}
-
+					<div className='sp-time-plan'>
+					{
+						week === 0 ? 
+						<button className='sp-time-button opacity-03' onClick={weekHandleMin} disabled>
+							<img src={process.env.PUBLIC_URL + '/images/left.svg'} alt="" />
+						</button>
+						:
+						<button className='sp-time-button' onClick={weekHandleMin}>
+							<img src={process.env.PUBLIC_URL + '/images/left.svg'} alt="" />
+						</button>
+					}
+						<p className='sp-dates-available'>
+							{`${firstDay2} - ${lastDay2}`}
+						</p>
 						{week < 23 && (
-							<span onClick={weekHandlePlus} className="weekAction">
-								<FontAwesomeIcon style={{ zIndex: '5px' }} icon={faChevronCircleRight} />
-								{/* &#10095; */}
-							</span>
+							<button className='sp-time-button' onClick={weekHandlePlus}>
+								<img src={process.env.PUBLIC_URL + '/images/right.svg'} alt="" />
+							</button>
 						)}
 					</div>
 				</div>
+			</div>
 
-				<div className="row" style={{ justifyContent: 'center' }}>
-					{daysInWeek.map((dayInWeek, index) => {
-						return (
-							<div id={index} className="col-md-1 mx-md-4 px-md-0">
-								<p
-									className="mb-0"
-									style={{
-										textAlign: 'center',
-										fontSize: 14,
-										fontWeight: 400,
-									}}
-								>
-									{dayInWeek.DAY}
-								</p>
-								<p
-									style={{
-										textAlign: 'center',
-										fontWeight: 'bold',
-										fontSize: '22px',
-										color: 'black',
-									}}
-								>
-									{handleDate(index)[0]}
-								</p>
+			<div className="row" style={{ justifyContent: 'center' }}>
+				{daysInWeek.map((dayInWeek, index) => {
+					return (
+						<div id={index} className="col-md-1 mx-md-4 px-md-0">
+							<p
+								className="mb-0"
+								style={{
+									textAlign: 'center',
+									fontSize: 14,
+									fontWeight: 400,
+								}}
+							>
+								{dayInWeek.DAY}
+							</p>
+							<p
+								style={{
+									textAlign: 'center',
+									fontWeight: 'bold',
+									fontSize: '22px',
+									color: 'black',
+								}}
+							>
+								{handleDate(index)[0]}
+							</p>
 
-								{slots[`${dayInWeek.DAY.toLowerCase()}`]?.map((slot, ind) => {
-									const numSlot = Math.abs(slot.startTime - slot.endTime);
-									const numSlotArray = Array.from(Array(numSlot).keys());
-									return numSlotArray.map((item) => {
-										const time = slot.startTime + item;
-										var booked = '';
-										if (slotsBooked) {
-											booked = slotsBooked[`${dayInWeek.DAY.toLowerCase()}`];
-										}
+							{slots[`${dayInWeek.DAY.toLowerCase()}`]?.map((slot, ind) => {
+								const numSlot = Math.abs(slot.startTime - slot.endTime);
+								const numSlotArray = Array.from(Array(numSlot).keys());
+								let keys = ind
+								return numSlotArray.map((item) => {
+									const time = slot.startTime + item;
+									var booked = '';
+									if (slotsBooked) {
+										booked = slotsBooked[`${dayInWeek.DAY.toLowerCase()}`];
+									}
 
-										const isBooked = booked?.includes(time);
-										const key = `${dayInWeek.DAY.toLowerCase()}-${time}`;
+									const isBooked = booked?.includes(time);
+									const key = `${dayInWeek.DAY.toLowerCase()}-${time}`;
 
-										const isPrevious = currentDate() >= handleDate(index)[1];
+									const isPrevious = currentDate() >= handleDate(index)[1];
 
-										return (
-											<p
-												key={key}
-												className={selected === key ? 'active-blocks' : 'slot-blocks'}
-												onClick={() => onPackageClick(key, index, isBooked, isPrevious)}
-												style={{
-													color: isBooked || isPrevious ? '#e8b0a8' : '#CE8379',
-													textDecoration: isBooked || isPrevious ? 'line-through' : '',
-													textAlign: 'center',
-													backgroundColor: isBooked || isPrevious ? '#FFFFFF' : '#FDF0F4',
-												}}
-											>
-												{calTime(time)}
-											</p>
-										);
-									});
-								})}
-							</div>
-						);
-					})}
-				</div>
+									return (
+										<p
+											key={key}
+											className={selected === key ? 'active-blocks' : 'slot-blocks'}
+											onClick={() => onPackageClick(key, index, isBooked, isPrevious)}
+											style={{
+												color: isBooked || isPrevious ? '#e8b0a8' : '#CE8379',
+												textDecoration: isBooked || isPrevious ? 'line-through' : '',
+												textAlign: 'center',
+												backgroundColor: isBooked || isPrevious ? '#FFFFFF' : '#FDF0F4',
+											}}
+										>
+											{calTime(time)}
+										</p>
+									);
+								});
+							})}
+						</div>
+					);
+				})}
+			</div>
 
-				<div className="row pt-3 d-flex justify-content-end mx-2" style={{ justifyContent: 'flex-end' }}>
+			<div className="row pt-3">
+				<div className='col-lg-4 offset-lg-4'>
 					{selected ? (
-						<button className="er_btn er_btn_two mt-0 col-12 col-xl-3 col-md-5" onClick={showPickup}>
+						<button className="continue-schedule-btn" onClick={showPickup}>
 							Schedule class with {name.split(' ')[0]}
 						</button>
 					) : (
@@ -228,7 +227,7 @@ const TimeTable = ({ name, slots, bookedSlots, isReschedule, showPickup, lessonN
 					)}
 				</div>
 			</div>
-		</section>
+		</div>
 	);
 };
 export default TimeTable;

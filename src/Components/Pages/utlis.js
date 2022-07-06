@@ -32,7 +32,7 @@ export const instructorSlotBooked = async (instructorId) => {
 	let idOfInstructor = instructorId.replace(/"/g, '');
 
 	const instructorSlots = await fetch(
-		`${process.env.REACT_APP_BASE_URL}/api/student/getInstructorDetail?id=${idOfInstructor}`,
+		`${process.env.REACT_APP_BASE_URL2}/api/student/getInstructorDetail?id=${idOfInstructor}`,
 		{
 			method: 'GET',
 			headers: {
@@ -54,7 +54,7 @@ export const bookedInstructorSlot = async (instructorId) => {
 	const slots = getSlot();
 
 	const instructorSlots = await axios
-		.get(`${BASE_URL}/api/student/getInstructorDetail?id=${instructorId}`)
+		.get(`${process.env.REACT_APP_BASE_URL2}/api/student/getInstructorDetail?id=${instructorId}`)
 		.then((res) => {
 			return res?.data?.data;
 		})

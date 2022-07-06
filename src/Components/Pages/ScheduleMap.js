@@ -253,7 +253,7 @@ class Map extends Component {
 		this.state.isReschdule === true
 			? (bookedSlots = await instructorRescheduleSlotBooked(this.state.instructorId, this.state.oldLessonObject))
 			: (bookedSlots = await instructorSlotBooked(this.state.instructorId));
-		await axios.post(`${BASE_URL}api/student/addBooking`, {
+		await axios.post(`${process.env.REACT_APP_BASE_URL2}/api/student/addBooking`, {
 			instructorId: this.state.instructorId,
 			lessonId: this.state.lessonId,
 			bookings: bookedSlots,

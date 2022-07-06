@@ -19,8 +19,6 @@ const ChooseTime = (props) => {
 	const instructorDetails = props.instructorDetail;
 
 	return (
-		<div className={useStyles.root}>
-			<div className="col-lg-12">
 				<TimeTable
 					showPickup={props.showPickup}
 					name={instructorDetails.fullName}
@@ -30,8 +28,10 @@ const ChooseTime = (props) => {
 					handleClose={props.handleClose}
 					lessonNumber={props.lessonNumber}
 				/>
-			</div>
-		</div>
+		// <div className={useStyles.root}>
+		// 	<div className="col-lg-12">
+		// 	</div>
+		// </div>
 	);
 };
 

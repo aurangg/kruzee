@@ -85,7 +85,7 @@ const SignInFrom = ({ history }) => {
 											className="email-input"
 											value={email}
 											onChange={(e) => setEmail(e.target.value)}
-											type="text"
+											type="email"
 											placeholder="Email"
 										/>
 									</div>

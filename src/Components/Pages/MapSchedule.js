@@ -131,11 +131,11 @@ function Search({ setPlace, instructorId, lessonDetails, lessonId, handleClose, 
 		const date = getDate();
 		const newDate = date.replaceAll('-', '/');
 		let bookedSlots;
-
+		console.log(isReschedule)
 		isReschedule === true
 			? (bookedSlots = await instructorRescheduleSlotBooked(instructorId, lessonDetails))
 			: (bookedSlots = await bookedInstructorSlot(instructorId));
-		const updateSchedule = await axios.post(`${BASE_URL}/api/student/addBooking`, {
+		const updateSchedule = await axios.post(`${process.env.REACT_APP_BASE_URL2}/api/student/addBooking`, {
 			instructorId: instructorId,
 			lessonId: lessonId,
 			bookings: bookedSlots,
@@ -155,8 +155,8 @@ function Search({ setPlace, instructorId, lessonDetails, lessonId, handleClose, 
 	return (
 		<div className="container">
 			<div className="row">
-				<div className="col-lg-4 map-search-box">
-					<div className="map-box">
+				<div className="col-lg-4">
+					<div className="map-box map-box-schedule">
 						<Combobox
 							onSelect={async (address) => {
 								setValue(address, false);
