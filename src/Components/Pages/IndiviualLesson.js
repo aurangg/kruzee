@@ -6,6 +6,7 @@ import Toolbar from '../Common/Toolbar';
 import './onboarding.css';
 import './radio-button.css';
 import { useIntercom } from 'react-use-intercom';
+import { ONE_LESSON_PRICE } from '../Common/constants';
 
 function IndiviualLesson() {
 	const { boot } = useIntercom();
@@ -46,28 +47,29 @@ function IndiviualLesson() {
 		window.dataLayer = window.dataLayer || [];
 		window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
 		window.dataLayer.push({
-			event: 'package_viewed',
+			event: 'individual_lesson_viewed',
 			ecommerce: {
-				currency: 'USD',
-				value: 1005.0,
+				currency: 'CAD',
+				value: ONE_LESSON_PRICE.SINGLE_LESSON_PRICE * lesson,
 				items: [
 					{
 						item_id: 'item_id',
 						item_name: 'Driving Practice Lessons',
 						affiliation: 'Kruzee',
-						currency: 'USD',
+						currency: 'CAD',
 						index: 1,
 						item_brand: 'Kruzee',
 						item_category: 'In-car lessons with an MTO-certified Kruzee instructor',
 						item_list_id: 'item_list_id',
 						item_list_name: 'Landing Page Offer',
 						item_variant: '',
-						price: price,
+						price: ONE_LESSON_PRICE.SINGLE_LESSON_PRICE * lesson,
 						quantity: lesson,
 					},
 				],
 			},
 		});
+		console.log('window.dataLayer', window.dataLayer);
 		return (e) => {
 			setRadioValue(e.target.value);
 			setActiveClass(index);

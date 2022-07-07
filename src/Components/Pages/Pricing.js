@@ -126,6 +126,7 @@ function Pricing() {
 				],
 			},
 		});
+		console.log('window.dataLayer package viewed', window.dataLayer);
 	}, []);
 
 	useEffect(() => {
@@ -164,6 +165,8 @@ function Pricing() {
 				],
 			},
 		});
+		console.log('window.dataLayer full package selected', window.dataLayer);
+
 		localStorage.setItem(
 			'locationScreenHeading',
 			JSON.stringify('Where can we pick you up for your first lesson?')
@@ -208,6 +211,8 @@ function Pricing() {
 				],
 			},
 		});
+		console.log('window.dataLayer road test selected', window.dataLayer);
+
 		localStorage.setItem('locationScreenHeading', JSON.stringify('Where can we pick you up for your road test?'));
 		localStorage.setItem('packageName', JSON.stringify('Road Test Support + Test Prep'));
 		const perks2 = [

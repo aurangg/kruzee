@@ -198,6 +198,10 @@ a, a:hover{
   margin-top: 70px !important;
 }
 
+.h-70vh{
+  height: 70vh !important;
+}
+
 .h-100vh{
   height: 100vh !important;
 }
@@ -27001,6 +27005,12 @@ a .h_head:hover {
 .ti-check-box:before {
 	content: "\e64d";
 }
+
+.error-heading{
+  font-size: 30px !important;
+  font-weight: 600 !important;
+}
+
 /*============= chat_clients_area css ===========*/
 
 /*====================================================*/

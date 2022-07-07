@@ -126,6 +126,74 @@ function Payment() {
 	}, [cardName, card, month, cvc]);
 
 	useEffect(() => {
+		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+		roadTestVehicleAvailable
+			? window.dataLayer.push({
+					event: 'view_cart',
+					ecommerce: {
+						currency: 'CAD',
+						value: sum,
+						tax: hst, //HST (13%)
+						items: [
+							{
+								item_id: 'item_id',
+								item_name: 'Full Package',
+								affiliation: 'Kruzee',
+								currency: 'CAD',
+								index: 0,
+								item_brand: 'Kruzee',
+								item_category: "Kruzee's MTO-approved certificate course",
+								item_list_id: 'item_list_id',
+								item_list_name: 'Landing Page Offer',
+								item_variant: '',
+								price: packagePrice,
+								quantity: 1,
+							},
+							{
+								item_id: 'item_id',
+								item_name: 'Vehicle Opt-In',
+								affiliation: 'Kruzee',
+								currency: 'CAD',
+								index: 0,
+								item_brand: 'Kruzee',
+								item_category: "Kruzee's MTO-approved certificate course",
+								item_list_id: 'item_list_id',
+								item_list_name: 'Vehicle Options',
+								item_variant: '',
+								price: 245.0,
+								quantity: 1,
+							},
+						],
+					},
+			  })
+			: window.dataLayer.push({
+					event: 'view_cart',
+					ecommerce: {
+						currency: 'CAD',
+						value: sum,
+						tax: hst, //HST (13%)
+						items: [
+							{
+								item_id: 'item_id',
+								item_name: 'Full Package',
+								affiliation: 'Kruzee',
+								currency: 'CAD',
+								index: 0,
+								item_brand: 'Kruzee',
+								item_category: "Kruzee's MTO-approved certificate course",
+								item_list_id: 'item_list_id',
+								item_list_name: 'Landing Page Offer',
+								item_variant: '',
+								price: packagePrice,
+								quantity: 1,
+							},
+						],
+					},
+			  });
+	}, [roadTestVehicleAvailable, hst, packagePrice, sum]);
+
+	useEffect(() => {
 		if (paymentIntent && paymentIntent.status === 'succeeded') {
 			const createStudentAndPayment = async () => {
 				if (getPackage === 'Road Test Support + Test Prep') {
@@ -210,6 +278,80 @@ function Payment() {
 		setLoading(true);
 		setSpanLoading(true);
 		setDisable(true);
+		if (roadTestVehicleAvailable) {
+			window.dataLayer = window.dataLayer || [];
+			window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+			window.dataLayer.push({
+				event: 'add_payment_info',
+				ecommerce: {
+					currency: 'CAD',
+					value: 1062.2,
+					tax: 122.2, //HST (13%)
+					coupon: 'SUMMER_FUN',
+					payment_type: 'Credit Card',
+					items: [
+						{
+							item_id: 'item_id',
+							item_name: 'Full Package',
+							affiliation: 'Kruzee',
+							currency: 'CAD',
+							index: 0,
+							item_brand: 'Kruzee',
+							item_category: "Kruzee's MTO-approved certificate course",
+							item_list_id: 'item_list_id',
+							item_list_name: 'Landing Page Offer',
+							item_variant: '',
+							price: 695.0,
+							quantity: 1,
+						},
+						{
+							item_id: 'item_id',
+							item_name: 'Vehicle Opt-In',
+							affiliation: 'Kruzee',
+							currency: 'CAD',
+							index: 0,
+							item_brand: 'Kruzee',
+							item_category: "Kruzee's MTO-approved certificate course",
+							item_list_id: 'item_list_id',
+							item_list_name: 'Vehicle Options',
+							item_variant: '',
+							price: 245.0,
+							quantity: 1,
+						},
+					],
+				},
+			});
+		} else {
+			window.dataLayer = window.dataLayer || [];
+			window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+			window.dataLayer.push({
+				event: 'add_payment_info',
+				ecommerce: {
+					currency: 'CAD',
+					value: packagePrice,
+					tax: hst, //HST (13%)
+					coupon: 'SUMMER_FUN',
+					payment_type: 'Credit Card',
+					items: [
+						{
+							item_id: 'item_id',
+							item_name: 'Full Package',
+							affiliation: 'Kruzee',
+							currency: 'CAD',
+							index: 0,
+							item_brand: 'Kruzee',
+							item_category: "Kruzee's MTO-approved certificate course",
+							item_list_id: 'item_list_id',
+							item_list_name: 'Landing Page Offer',
+							item_variant: '',
+							price: packagePrice,
+							quantity: 1,
+						},
+					],
+				},
+			});
+		}
+
 		const data = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/createStripeCustomer`, {
 			method: 'POST',
 			body: JSON.stringify({ email }),
@@ -262,18 +404,18 @@ function Payment() {
 			setPaymentIntent(paymentIntent);
 		}
 	};
-	function initPayMonthly() {
-		window.Uplift.Payments.init({
-			apiKey: 3432432423424243223,
-			locale: 'en-CA',
-			currency: 'CAD',
-			checkout: true,
-			channel: 'desktop',
-			container: '#up-pay-monthly-container', //it will be covered later
-			//   onChange:             //it will be covered later
-		});
-	}
-	console.log('initPayMonthly() ', initPayMonthly());
+	// function initPayMonthly() {
+	// 	window.Uplift.Payments.init({
+	// 		apiKey: 3432432423424243223,
+	// 		locale: 'en-CA',
+	// 		currency: 'CAD',
+	// 		checkout: true,
+	// 		channel: 'desktop',
+	// 		container: '#up-pay-monthly-container', //it will be covered later
+	// 		//   onChange:             //it will be covered later
+	// 	});
+	// }
+	// console.log('initPayMonthly() ', initPayMonthly());
 	return (
 		<section className="simple-bg h-100vh">
 			<div className="container">

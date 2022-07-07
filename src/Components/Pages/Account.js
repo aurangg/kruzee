@@ -237,9 +237,9 @@ function Account() {
 				phone_number: phoneNumber,
 				email_address: email,
 				address: {
-					postal_code: 'ZIP CODE',
+					postal_code: postalCode,
 					fullName: fullname,
-					// pickUp
+					pickUp: pickUp,
 					country: 'Canada',
 				},
 			},

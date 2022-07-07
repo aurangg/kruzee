@@ -64,6 +64,7 @@ function GetCode() {
 				},
 			},
 		});
+		console.log('window.dataLayer', window.dataLayer);
 		localStorage.setItem('postalCode', JSON.stringify(postalCode));
 	}
 	return (
