@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.a16d46ec.css",
-    "main.js": "/static/js/main.122935bf.js",
+    "main.css": "/static/css/main.6ddde1f7.css",
+    "main.js": "/static/js/main.562c9416.js",
     "static/js/787.369c2a4c.chunk.js": "/static/js/787.369c2a4c.chunk.js",
     "static/media/Terms of Use.pdf": "/static/media/Terms of Use.02716a9f95475df3196a.pdf",
     "static/media/HKGrotesk-SemiBoldItalic.otf": "/static/media/HKGrotesk-SemiBoldItalic.d3bb3295c546da3bef5b.otf",
@@ -16,12 +16,12 @@
     "index.html": "/index.html",
     "static/media/checkbox-tick.svg": "/static/media/checkbox-tick.20d6d30d94713e437cd8.svg",
     "static/media/onboarding.svg": "/static/media/onboarding.b1376cfd16fc590ee196.svg",
-    "main.a16d46ec.css.map": "/static/css/main.a16d46ec.css.map",
-    "main.122935bf.js.map": "/static/js/main.122935bf.js.map",
+    "main.6ddde1f7.css.map": "/static/css/main.6ddde1f7.css.map",
+    "main.562c9416.js.map": "/static/js/main.562c9416.js.map",
     "787.369c2a4c.chunk.js.map": "/static/js/787.369c2a4c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a16d46ec.css",
-    "static/js/main.122935bf.js"
+    "static/css/main.6ddde1f7.css",
+    "static/js/main.562c9416.js"
   ]
 }

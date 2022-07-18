@@ -402,6 +402,7 @@ function BookSession() {
 		var weekFirstDay = new Date(currNext.setDate(currNext.getDate() - currNext.getDay() + 0));
 		const currentDayFirstTest = format(weekFirstDay, 'dd');
 		const currentTestDate = format(curr, 'dd');
+		var isWeekBooked = false;
 		daysInWeek.map((dayInWeek, index) => {
 			if (slots) {
 				slots[`${dayInWeek.day.toLowerCase()}`]?.map((slot, index) => {
@@ -419,43 +420,54 @@ function BookSession() {
 							slots[`${dayInWeek.day.toLowerCase()}`][0].startTime;
 					});
 				});
-				if (
-					Number(currentTestDate) >= Number(currentDayFirstTest) &&
-					Number(currentDayFirstTest) + 6 > Number(currentTestDate)
-				) {
-					weekIndex = Number(currentTestDate) - Number(currentDayFirstTest);
-					for (let i = 0; i < weekIndex + 1; i++) {
-						daysInWeek[i] = {
-							day: daysInWeek[i].day,
-							isSlotAvailable: false,
-						};
-					}
-				}
+				// if (
+				// 	Number(currentTestDate) >= Number(currentDayFirstTest) &&
+				// 	Number(currentDayFirstTest) + 6 > Number(currentTestDate)
+				// ) {
+				// 	weekIndex = Number(currentTestDate) - Number(currentDayFirstTest);
+				// 	for (let i = 0; i < weekIndex + 1; i++) {
+				// 		console.log('daysInWeek[i]', daysInWeek[i]);
+				// 		daysInWeek[i] = {
+				// 			day: daysInWeek[i].day,
+				// 			isSlotAvailable: false,
+				// 		};
+				// 	}
+				// }
+				var countBookedSlots = totalTime;
 				slotsBooked[`${dayInWeek.day.toLowerCase()}`].map((slotBooked) => {
 					slots[`${dayInWeek.day.toLowerCase()}`].map((slot) => {
 						if (
 							Math.min(slot.startTime, slot.endTime) <= slotBooked &&
 							Math.max(slot.startTime, slot.endTime) >= slotBooked
 						) {
-							if (
-								slotsBooked[`${dayInWeek.day.toLowerCase()}`].length >= totalTime ||
-								slots[`${dayInWeek.day.toLowerCase()}`].length === 0
-							) {
-								daysInWeek[index] = {
-									day: dayInWeek.day,
-									isSlotAvailable: false,
-								};
-							}
-						} else {
-							daysInWeek[index] = {
-								day: dayInWeek.day,
-								isSlotAvailable: true,
-							};
+							countBookedSlots = countBookedSlots - 1;
 						}
 					});
 				});
+				if (countBookedSlots === 0) {
+					daysInWeek[index] = {
+						day: dayInWeek.day,
+						isSlotAvailable: false,
+					};
+				} else {
+					isWeekBooked = true;
+
+					daysInWeek[index] = {
+						day: dayInWeek.day,
+						isSlotAvailable: true,
+					};
+				}
+			} else {
+				daysInWeek[index] = {
+					day: dayInWeek.day,
+					isSlotAvailable: false,
+				};
 			}
 		});
+		// if (isWeekBooked) {
+		// 	setSlotsAvailable(true);
+		// }
+		// isWeekBooked = false;
 	};
 
 	useEffect(() => {
@@ -589,6 +601,7 @@ function BookSession() {
 									<div className="time-slot-spacing" style={{ width: '100%' }}>
 										{availableSlots()}
 										{daysInWeek.map((dayInWeek, index) => {
+											availableSlots();
 											return slots[`${dayInWeek.day.toLowerCase()}`]?.length !== 0 &&
 												dayInWeek.isSlotAvailable === true ? (
 												<React.Fragment key={index}>

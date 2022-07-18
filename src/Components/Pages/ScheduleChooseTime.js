@@ -33,9 +33,17 @@ const ChooseTime = (props) => {
 									&nbsp;Rescheduling under maintenance
 								</p>
 							</div>
-							<p className="four-o-four-text d-flex justify-content-center align-items-start">
-								Please Contact support to get your lesson rescheduled
+
+							<p
+								className="four-o-four-text d-flex justify-content-center align-items-start"
+								// style={{ height: '10px' }}
+							>
+								Please contact Kruzee support&nbsp;(support@kruzee.com) &nbsp;for <br />
+								<br />
+								{/* <span className="link-kruzee">(support@kruzee.com)</span> */}
+								assistance in rescheduling your lesson. Sorry for the inconvenience!
 							</p>
+							{/* <p className=" d-flex justify-content-center align-items-start"></p> */}
 						</div>
 					</>
 				) : (
