@@ -210,7 +210,7 @@ function Account() {
 			},
 			zip: postalCode,
 		};
-		const uniqueStudentData = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/studentUnique`, {
+		const uniqueStudentData = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/studentUnique`, {
 			method: 'POST',
 			body: JSON.stringify({ ...uniqueStudentDataBody }),
 			headers: {

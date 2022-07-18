@@ -1,4 +1,3 @@
-
 import React, { useCallback, useEffect, useState } from 'react';
 import './onboarding.css';
 import { Link } from 'react-router-dom';
@@ -90,7 +89,7 @@ function BookSessionTest3() {
 	const fetchTopThreeInstructor = async () => {
 		try {
 			const instructorData = await fetch(
-				`${process.env.REACT_APP_BASE_URL2}/api/student/searchTopThreeInstructors`,
+				`${process.env.REACT_APP_BASE_URL}/api/student/searchTopThreeInstructors`,
 				{
 					method: 'POST',
 					body: JSON.stringify({ postalCode }),
@@ -127,7 +126,7 @@ function BookSessionTest3() {
 	const fetchSchedule = async () => {
 		try {
 			const scheduleData = await fetch(
-				`${process.env.REACT_APP_BASE_URL2}/api/student/getInstructorDetail?id=${instructor}`,
+				`${process.env.REACT_APP_BASE_URL}/api/student/getInstructorDetail?id=${instructor}`,
 				{
 					method: 'GET',
 					headers: {
@@ -137,7 +136,7 @@ function BookSessionTest3() {
 			);
 			const scheduleJsonData = await scheduleData.json();
 			setSchedule(scheduleJsonData.data.bookings);
-			console.log(scheduleJsonData.data)
+			console.log(scheduleJsonData.data);
 			setSlots(scheduleJsonData.data.slots);
 			setInstructorImage(scheduleJsonData.data.instructorImage);
 			setInstructorVehicleImage(scheduleJsonData.data.vehicleDetails.image);
@@ -200,11 +199,11 @@ function BookSessionTest3() {
 		const dayFirst2 = format(weekFirstDay, 'MMMM dd');
 		const dayLast2 = format(weekLastDay, 'MMMM dd');
 		const currentDate = new Data();
-		console.log(dayFirst)
-		if(bookedSlots != 0){
-			outerloop: for(let k = 0; k < bookedSlots.length; k++){
-				if(dayFirst === bookedSlots[k].startDate.slice(0,10)){
-					console.log("Hrllo")
+		console.log(dayFirst);
+		if (bookedSlots != 0) {
+			outerloop: for (let k = 0; k < bookedSlots.length; k++) {
+				if (dayFirst === bookedSlots[k].startDate.slice(0, 10)) {
+					console.log('Hrllo');
 					break outerloop;
 				}
 			}
@@ -269,35 +268,37 @@ function BookSessionTest3() {
 		handleDateSelected(handleDate(weeks.findIndex((e) => e === slotDay)));
 		let bookedSlotsAnswer = 0;
 		let timeDifference = 0;
-		if(slots != 0){
-			for(let i = 0; i < daysInWeek.length; i++){
-				if(slots[`${daysInWeek[i].day.toLowerCase()}`].length > 0){
-					timeDifference = slots[`${daysInWeek[i].day.toLowerCase()}`][0].endTime - slots[`${daysInWeek[i].day.toLowerCase()}`][0].startTime
+		if (slots != 0) {
+			for (let i = 0; i < daysInWeek.length; i++) {
+				if (slots[`${daysInWeek[i].day.toLowerCase()}`].length > 0) {
+					timeDifference =
+						slots[`${daysInWeek[i].day.toLowerCase()}`][0].endTime -
+						slots[`${daysInWeek[i].day.toLowerCase()}`][0].startTime;
 				}
 			}
 		}
 
-		if(bookedSlots!= 0){
-			const newBookedSlots = bookedSlots.sort(function(a, b){
-				const nameA = a.startDate
-				const nameB = b.startDate
-				if(nameA < nameB){
-					return -1
+		if (bookedSlots != 0) {
+			const newBookedSlots = bookedSlots.sort(function (a, b) {
+				const nameA = a.startDate;
+				const nameB = b.startDate;
+				if (nameA < nameB) {
+					return -1;
 				}
-				if(nameA > nameB){
-					return 1
+				if (nameA > nameB) {
+					return 1;
 				}
 				return 0;
-			})
-			outerloop: for(let k = 0; k < newBookedSlots.length; k++){
-				for(let i =0; i < daysInWeek.length; i++){
-					if(newBookedSlots[k][`${daysInWeek[i].day.toLowerCase()}`].length > 0 ){
-						bookedSlotsAnswer = newBookedSlots[k][`${daysInWeek[i].day.toLowerCase()}`].length
-						if(bookedSlotsAnswer !== timeDifference && bookedSlotsAnswer < timeDifference){
-							console.log(bookedSlotsAnswer, i)
+			});
+			outerloop: for (let k = 0; k < newBookedSlots.length; k++) {
+				for (let i = 0; i < daysInWeek.length; i++) {
+					if (newBookedSlots[k][`${daysInWeek[i].day.toLowerCase()}`].length > 0) {
+						bookedSlotsAnswer = newBookedSlots[k][`${daysInWeek[i].day.toLowerCase()}`].length;
+						if (bookedSlotsAnswer !== timeDifference && bookedSlotsAnswer < timeDifference) {
+							console.log(bookedSlotsAnswer, i);
 							// console.log(newBookedSlots[k].startDate.slice(0,10));
-							setFirstDay(newBookedSlots[k].startDate.slice(0,10))
-							setActiveIndex(i)
+							setFirstDay(newBookedSlots[k].startDate.slice(0, 10));
+							setActiveIndex(i);
 							break outerloop;
 						}
 					}
@@ -397,7 +398,7 @@ function BookSessionTest3() {
 										<div className="align-items">
 											<img
 												className="time-slot-driver-img"
-												src={`${process.env.REACT_APP_BASE_URL2}${instructorImage}`}
+												src={`${process.env.REACT_APP_BASE_URL}${instructorImage}`}
 												alt="driver-img"
 											/>
 											{/* <img className='time-slot-driver-img' src="https://kruzeee.tk/uploads/image-1650487578785.JPG" alt="driver-img" /> */}
@@ -651,12 +652,12 @@ function BookSessionTest3() {
 								<div className="instructor-start-info">
 									<img
 										className="instructor-picture"
-										src={`${process.env.REACT_APP_BASE_URL2}${i.instructorImage}`}
+										src={`${process.env.REACT_APP_BASE_URL}${i.instructorImage}`}
 										alt="driver-img"
 									/>
 									<img
 										className="instructor-picture instructor-picture-2"
-										src={`${process.env.REACT_APP_BASE_URL2}${i.vehicleDetails.image}`}
+										src={`${process.env.REACT_APP_BASE_URL}${i.vehicleDetails.image}`}
 										alt="driver-car"
 									/>
 									<h6 className="instructor-name color-gray900">{i.fullName}</h6>

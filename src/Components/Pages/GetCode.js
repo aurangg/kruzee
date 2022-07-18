@@ -13,6 +13,17 @@ function GetCode() {
 	const [postalCode, setPostalCode] = useState('');
 	const [disabled, setDisable] = useState(true);
 	useEffect(() => {
+		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push({
+			event: 'postal_code',
+			user_data: {
+				address: {
+					postal_code: 'postal_code',
+				},
+			},
+		});
+	}, []);
+	useEffect(() => {
 		document.title = 'Enter Postal Code | Kruzee';
 		if (postalCode.length === 6) {
 			setDisable(false);
