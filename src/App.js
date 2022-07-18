@@ -21,10 +21,6 @@ import OtpSuccess from './Components/Pages/otpSuccess';
 import { IntercomProvider } from 'react-use-intercom';
 import { Toaster } from 'react-hot-toast';
 import { INTERCOM_APP_ID } from './Components/Common/constants';
-import PortalPricing from './Components/Pages/Portal/PortalPricing';
-import PortalDrivingTest from './Components/Pages/Portal/PortalDrivingTest';
-import PortalPayment from './Components/Pages/Portal/PortalPayment';
-import PortalIndiviualLesson from './Components/Pages/Portal/PortalIndiviualLesson';
 
 function App() {
 	return (
@@ -49,10 +45,12 @@ function App() {
 					<Route path="/verification-success" element={<OtpSuccess />} />
 					<Route path="/reset-password" element={<ResetPassword />} />
 					<Route path="*" element={<FourOFour />} />
-					<Route path="/portalPricing" element={<PortalPricing />} />
-					<Route path="/portalDrivingTest" element={<PortalDrivingTest />} />
-					<Route path="/portalPayment" element={<PortalPayment />} />
-					<Route path="/portalIndiviualLesson" element={<PortalIndiviualLesson />} />
+					{/* <Route path="/portalPricing" element={<PortalPricing />} /> */}
+					<Route path="/portalIndiviualLesson" element={<IndivialLesson />} />
+					<Route path="/portalPricing" element={<Pricing />} />
+					<Route exact path="/portalDrivingTest" element={<DrivingTest />} />
+					<Route path="/portalPayment" element={<Payment />} />
+					<Route path="/successPortal" element={<PaymentSuccess />} />
 				</Routes>
 			</BrowserRouter>
 		</IntercomProvider>

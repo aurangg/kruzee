@@ -3,11 +3,18 @@ import { useNavigate } from "react-router-dom";
 
 function PaymentSuccess(){
     const navigate = useNavigate()
-    
+    console.log(window.location.pathname)
     useEffect(() => {
-        setTimeout(() => {
-            navigate('/SignIn')
-        }, 3000)
+        if(window.location.pathname === '/successPortal'){
+            setTimeout(() => {
+                navigate('/StudentPortal')
+            }, 3000)
+        }
+        else{
+            setTimeout(() => {
+                navigate('/SignIn')
+            }, 3000)
+        }
     })
     return(
         <section className="simple-bg">

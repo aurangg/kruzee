@@ -7,7 +7,7 @@ import Review from './ReviewPopup';
 import Address from './AddressPopup';
 import axios from 'axios';
 import { BASE_URL } from '../Common/constants';
-import { getUserLogin } from '../Common/localStorage';
+import { getInstructorId, getUserLogin } from '../Common/localStorage';
 import { studentLessons } from '../Common/apis';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
@@ -21,8 +21,7 @@ import StudentPortalNavMain from '../Common/StudentPortalToolbar/StudentPortalNa
 import GetCode from './GetCode';
 import BookSession from './BookSession';
 import Pricing from './Pricing';
-import PortalPricing from './Portal/PortalPricing';
-import MainPortal from './Portal/MainPortal';
+import { getInstructorName, getInstructorVehicleImage } from '../localStorage';
 // import Analytics from '../common/analytics';
 
 const StudentPortal = () => {
@@ -73,6 +72,9 @@ const StudentPortal = () => {
 	// }
 
 	useEffect(() => {
+		document.title = "Student Portal | Kruzee"
+	})
+	useEffect(() => {
 		const getStudentLessons = async () => {
 			const data = await studentLessons(userLoginData);
 			const sortedData = data?.data?.data?.sort(
@@ -97,6 +99,15 @@ const StudentPortal = () => {
 		document.getElementById("form-overlay-box").style.display = "none"
 	}
 
+
+	useEffect(() => {
+		if(studentInstructor){
+			localStorage.setItem('instructorName', JSON.stringify(studentInstructor?.fullName));
+			localStorage.setItem('instructorImage', JSON.stringify(studentInstructor?.instructorImage));
+			localStorage.setItem('instructorVehicleImage', JSON.stringify(studentInstructor?.vehicleDetails?.image));
+			localStorage.setItem('instructorId', JSON.stringify(studentInstructor?._id));
+		}
+	}, [studentInstructor])
 
 	
 

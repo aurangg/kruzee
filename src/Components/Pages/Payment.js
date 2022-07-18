@@ -26,6 +26,7 @@ import {
 	getPackageName,
 	getInstructorImage,
 	getInstructorVehicleImage,
+	getInstructorId
 	// getIndividualPackage,
 	// setAccountCreatedMsg,
 } from '../localStorage';
@@ -37,7 +38,21 @@ function Payment() {
 
 	const navigate = useNavigate();
 
-	const email = localStorage.getItem('email').replace(/"/g, '');
+	let email = ''
+	let studentId = ''
+	let name = ''
+
+	if(window.location.pathname !== "/payment"){
+		let findEmail = JSON.parse(localStorage.getItem('userLogin'))
+		email = findEmail?.data?.email
+		studentId = findEmail?.data?._id
+		name = findEmail?.data?.fullName
+	}
+	else{
+		email = localStorage.getItem('email').replace(/"/g, '');
+		name = userName.replace(/"/g, '');
+	}
+
 	const password = getPassword();
 	const userName = getUserName();
 	const getPackage = getPackageName().replace(/"/g, '');
@@ -45,7 +60,7 @@ function Payment() {
 	const bde = getBDE();
 	const priceOfLesson = getPackagePrice();
 	const lesson = getLessons();
-
+	const instructorId = getInstructorId()
 	const [stripeCustomerId, setStripeCustomerId] = useState('');
 
 	const [instructorName, setInstructorName] = useState('');
@@ -126,7 +141,7 @@ function Payment() {
 	});
 
 	useEffect(() => {
-		if (paymentIntent && paymentIntent.status === 'succeeded') {
+		if (paymentIntent && paymentIntent.status === 'succeeded' && window.location.pathname === "/payment") {
 			const createStudentAndPayment = async () => {
 				if (getPackage === 'Road Test Support + Test Prep') {
 					const student = await createStudent();
@@ -154,7 +169,34 @@ function Payment() {
 			};
 			createStudentAndPayment();
 		}
+		else if(paymentIntent && paymentIntent.status === 'succeeded' && window.location.pathname === "/portalPayment"){
+			buyMoreLesson()
+		}
 	}, [paymentIntent]);
+
+	const buyMoreLesson = async () => {
+		const createBuyMoreLessonBody = {
+			instructor: instructorId.replace(/"/g, ''),
+			student: studentId,
+			studentName: name,
+			addLessons:Number(lesson.replace(/"/g, '')),
+			status:"Awaiting Schedule",
+		}
+		const buyMoreLessonRes = await fetch(
+			`${process.env.REACT_APP_BASE_URL2}/api/student/purcahseMoreLessons`,
+			{
+				method:"POST",
+				body:JSON.stringify({...createBuyMoreLessonBody}),
+				headers:{
+					'Content-Type':"application/json"
+				},
+			}
+		)
+
+		if(buyMoreLessonRes?.status === 200){
+			navigate('/successPortal');
+		}
+	}
 
 	if (!stripe || !elements) {
 		return '';
@@ -239,8 +281,6 @@ function Payment() {
 			// setLoading(false)
 			return <p>Internal Server Error</p>;
 		}
-
-		const name = userName.replace(/"/g, '');
 		let { error, paymentIntent } = await stripe.confirmCardPayment(resPaymentData.client_secret, {
 			payment_method: {
 				card: cardNumberElement,
@@ -267,33 +307,35 @@ function Payment() {
 			<div className="container">
 				<Toolbar path="/create-account" back_button="display" />
 				<div className="row">
-					<ProgressBar
-						location={[
-							{
-								progress: 'complete',
-							},
-						]}
-						packages={[
-							{
-								progress: 'complete',
-							},
-						]}
-						pickup={[
-							{
-								progress: 'complete',
-							},
-						]}
-						account={[
-							{
-								progress: 'complete',
-							},
-						]}
-						payment={[
-							{
-								progress: 'current',
-							},
-						]}
-					/>
+					{window.location.pathname === "/portalPayment" ? <></> :
+						<ProgressBar
+							location={[
+								{
+									progress: 'complete',
+								},
+							]}
+							packages={[
+								{
+									progress: 'complete',
+								},
+							]}
+							pickup={[
+								{
+									progress: 'complete',
+								},
+							]}
+							account={[
+								{
+									progress: 'complete',
+								},
+							]}
+							payment={[
+								{
+									progress: 'current',
+								},
+							]}
+						/>
+					}
 					<div className="col-lg-12 hide-on-desktop">
 						<LargeHeading large_heading="Payment Information" />
 					</div>
@@ -458,10 +500,12 @@ function Payment() {
 
 							<div className="gray-border-line"></div>
 
-							<div className="summary-pickup-box">
-								<h6 className="pickup-location color-gray900">Pickup Location</h6>
-								<p className="pickup-address color-gray900">{pickUp}</p>
-							</div>
+							{window.location.pathname === "/portalPayment" ? <></> : 
+								<div className="summary-pickup-box">
+									<h6 className="pickup-location color-gray900">Pickup Location</h6>
+									<p className="pickup-address color-gray900">{pickUp}</p>
+								</div>
+							}
 
 							<div className="gray-border-line"></div>
 
