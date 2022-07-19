@@ -253,7 +253,7 @@ function Payment() {
 			addLessons: Number(lesson.replace(/"/g, '')),
 			status: 'Awaiting Schedule',
 		};
-		const buyMoreLessonRes = await fetch(`${process.env.REACT_APP_BASE_URL2}/api/student/purcahseMoreLessons`, {
+		const buyMoreLessonRes = await fetch(`${process.env.REACT_APP_BASE_URL}/api/student/purcahseMoreLessons`, {
 			method: 'POST',
 			body: JSON.stringify({ ...createBuyMoreLessonBody }),
 			headers: {

@@ -18,7 +18,7 @@ export const instructorSlotBooked = async (instructorId) => {
 	const slots = getSlot();
 
 	const instructorSlots = await axios
-		.get(`${process.env.REACT_APP_BASE_URL2}/api/student/getInstructorDetail?id=${instructorId}`)
+		.get(`${process.env.REACT_APP_BASE_URL}/api/student/getInstructorDetail?id=${instructorId}`)
 		.then((res) => {
 			return res?.data?.data;
 		})
@@ -39,7 +39,7 @@ export const instructorRescheduleSlotBooked = async (instructorId, lessonDetails
 	const dayToPop = lessonDetails.day;
 
 	const instructorSlots = await axios
-		.get(`${process.env.REACT_APP_BASE_URL2}/api/student/getInstructorDetail?id=${instructorId}`)
+		.get(`${process.env.REACT_APP_BASE_URL}/api/student/getInstructorDetail?id=${instructorId}`)
 		.then((res) => {
 			return res?.data?.data;
 		})
