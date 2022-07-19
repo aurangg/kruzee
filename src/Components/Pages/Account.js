@@ -355,8 +355,7 @@ function Account() {
 									/>
 								</div>
 								<p className={`input-info-text ${invalid ? 'error-text-color' : ''}`}>
-									Must have at least 8 characters with at least one capital letter and a special
-									character
+									Must have at least 8 characters with at least one capital letter, one number, and a special character
 								</p>
 							</div>
 							<div className="email-container">
@@ -381,8 +380,7 @@ function Account() {
 									/>
 								</div>
 								<p className={`input-info-text ${invalidSecond ? 'error-text-color' : ''}`}>
-									Must have at least 8 characters with at least one capital letter and a special
-									character
+									Must have at least 8 characters with at least one capital letter, one number, and a special character
 								</p>
 							</div>
 							<div className="email-container">

@@ -3,11 +3,11 @@
 .toolbar{
     position:sticky;
     width:100%;
-    background-color:#161B22;
+    background-color:#F6FCFF;
     height:70px;
     top:0px;
     left:0px;
-    z-index:899;
+    z-index:11;
   }
   .toolbar .toolbar-navigation{
     display:flex;
@@ -15,6 +15,9 @@
     height:100%;
     padding:10px 25px;
   }
+  .toolbar .toolbar-navigation-items{
+        display: block;
+    }
   .toolbar .toolbar-navigation-items ul{
     list-style: none;
     margin:0;
@@ -29,7 +32,7 @@
   }
   .toggle-button{
     background-color:transparent;
-    display:flex;
+    display:none;
     flex-direction: column;
     border:none;
     cursor: pointer;
@@ -42,25 +45,22 @@
   }
   .toolbar .toolbar-navigation-items a{
     text-decoration: none;
-    color:#fff;
-    font-size:14px;
-    font-weight: 300;
+    font-family: 'HKGrotesk-Bold';
+    font-style: normal;
+    font-weight: 700;
+    color:#000000;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
     transition: 0.3s;
-    border-bottom:3px solid #161B22;
-  }
-  .toolbar .toolbar-navigation-items a:hover,
-  .toolbar .toolbar-navigation-items a:active{
-    border-bottom:3px solid #00D1A1;
-    /* color:#00D1A1; */
-    /* background:#0D5544; */
   }
   .side-drawer{
     height:100%;
-    background-color: #05080d;
+    background-color:#F6FCFF;
     position: fixed;
     top:0;
     left:0;
-    width:70%;
+    width:100%;
     max-width:400px;
     z-index:1000;
     transform: translateX(-100%);
@@ -68,7 +68,6 @@
   }
   .side-drawer.open{
     transform: translateX(0px);
-    box-shadow: 2px 0px 20px rgba(0,0,0,0.43);
   }
   .side-drawer ul{
     display:flex;
@@ -81,9 +80,19 @@
     margin:10px 0px;
   }
   .side-drawer a{
-    color:#d9d9d9;
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 28px;
+    text-align: center;
+    letter-spacing: 0.2px;
     text-decoration: none;
-  }
+    color: #37A2D0;
+}
+.active{
+    color: #CC8C7C !important;
+}
   .side-drawer a:hover,
   .side-drawer a:focus{
     color:#9c9c9c;
@@ -196,39 +205,163 @@
 .flex{
     display: flex;
 }
+tbody, td, th, thead, .tr-body{
+  margin-bottom: 5px;
+}
 .sp-tr-styles{
-    font-family: 'Montserrat', sans-serif;
+  font-family: 'HKGrotesk-Regular';
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
     line-height: 22px;
     color: #262626;
     margin-bottom: 0px;
+    padding-right: 20px;
 }
 .sp-td-styles{
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'HKGrotesk-Regular';
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
     line-height: 22px;
     color: #262626;
     margin-bottom: 0px;
-    margin-left: 10px;
 }
-
+.form-overlay-box{
+  display: none;
+}
+.schedule-lesson-main{
+  position: relative;
+  z-index: 2;
+  width: 85%;
+  top: 0px;
+  border-radius: 4px;
+  border: 1px solid #999;
+  overflow: auto;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 10px 10px 15px rgb(0 0 0 / 7%);
+}
+.close-button{
+  content: "x";
+  cursor: pointer;
+  z-index: 5;
+  position: absolute;
+  top:10px;
+  right:10px;
+  background: #ededed;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  line-height: 20px;
+  text-align: center;
+  border: 1px solid #999;
+  font-size: 16px;
+}
+.align-items-flex-start{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.normal-height{
+  height: auto;
+}
+.extra-height{
+  height: 100%;
+  max-height: 80vh;
+}
+.schedule-lesson-padding{
+  padding:40px 20px 20px 20px;
+}
+/* .schedule-lesson-pop-up{
+    position: relative;
+    z-index: 2;
+    width: 85%;
+    top: 0px;
+    height: 100%;
+    max-height: 80vh;
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #999;
+    overflow: auto;
+} */
+.schedule-lesson-heading{
+  font-size: 22px;
+  text-align: left;
+  margin: 0px;
+  font-family: 'HKGrotesk-Regular';
+  font-weight: 400;
+}
+.schedule-lesson-heading .schedule-lesson-heading-span{
+  color:var(--blue700);
+}
+.sp-time-plan{
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.sp-time-button{
+    background: var(--blue500);
+    border-radius: 3px;
+    outline: none;
+    border: none;
+    padding: 0px 2px 2px 2px;
+}
+.sp-dates-available{
+  font-family: 'HKGrotesk-Regular';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  margin:0px 10px;
+  color: #262626;
+  line-height: 16px;
+}
+.continue-schedule-btn{
+  border: 2px solid var(--blue700);
+  font-size: 16px;
+  font-weight: 500;
+  color:white;
+  background-color: var(--blue700);
+  font-family: "Hk Grotesk", sans-serif;
+  border-radius: 5px;
+  line-height: 26px;
+  padding: 8px 27px;
+  display: inline-block;
+  width: 100%;
+  margin-top: 0px;
+  -webkit-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+.map-box-schedule{
+  margin-top: 40px;
+}
 
 
 @media (max-width:460px) {
-    .toolbar-logo{
-        width:25px;
-        height:auto;
-      }
-      .toggle-button img{
-        width:25px;
-        height:auto;
-      }
+  .toolbar .toolbar-navigation-items{
+      display: none;
+  }
+  .toolbar-logo{
+      width:25px;
+      height:auto;
+    }
+    .toggle-button{
+      display: flex;
+    }
+    .toggle-button img{
+      width:25px;
+      height:auto;
+    }
     .next-lesson{
         width: 100%;
+        margin-top: 10px;
+    }
+    .table-padding{
+      padding-top: 0px;
+      padding-left:15px;
+      padding-right:15px;
     }
     .next-lesson .next-lesson-img{
         width: 47px;
@@ -241,8 +374,155 @@
         font-size: 16px;
     }
     .student-portal-heading{
-        text-align: center;
-        font-size: 30px;
-        line-height: 37px;
+        text-align: left;
+        font-size: 24px;
+        line-height: 30px;
+        margin-bottom: 30px;
     }
+    .media-body .sp-instructor-name{
+      font-size: 18px;
+      line-height: 24px;
+    }
+    .media-body .sp-instructor-address{
+      font-size: 16px;
+      line-height: 16px;
+    }
+    .media-body .sp-leave-review{
+      font-size: 16px;
+    }
+    .sp-tr-styles{
+      font-family: 'HKGrotesk-Regular';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 22px;
+      color: #262626;
+      margin-bottom: 0px;
+      padding-right: 10px;
+  }
+    .sp-td-styles{
+      font-family: 'HKGrotesk-Regular';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 22px;
+      color: #262626;
+      margin-bottom: 0px;
+      padding-right: 10px;
+  }
+  .no-right-padding{
+    padding-right: 0px;
+  }
+  .action-btn{
+    background: white;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.07);
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .form-overlay-box{
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 100000;
+    transition: 0.3s;
+    align-items: center;
+    justify-content: center;
+    padding:0px 10px;
+  }
+  .table-information{
+    background-color: white;
+    padding:20px;
+    border-radius: 10px;
+    width: 100%;
+  }
+  .table-information .table-detail-heading{
+    font-size: 18px;
+    font-weight: 600;
+    color: #262626;
+    margin: 0px;
+    text-align: center;
+    font-family: 'HKGrotesk-SemiBoldLegacy';
+    font-style: normal;
+  }
+  .table-information .table-data-line{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    padding:10px 0px;
+  }
+  .table-information .table-data-name{
+    font-size: 16px;
+    font-weight: 500;
+    color: #262626;
+    font-family: 'HKGrotesk-Medium';
+    font-style: normal;
+    margin: 0px;
+    text-align: left;
+  }
+  .table-information .table-data{
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0px;
+    font-family: 'HKGrotesk-Regular';
+    font-style: normal;
+    color: #262626;
+    text-align: left;
+  }
+  .table-buttons-body{
+    display:flex;
+    align-items:center;
+    justify-content:space-evenly;
+    margin-top: 15px;
+  }
+  .table-buttons-body .table-button{
+    background-color: var(--blue700);
+    border:1px solid var(--blue700);
+    padding:10px;
+    color:white;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0px;
+    font-family: 'HKGrotesk-Regular';
+    margin:0px 5px;
+    width: 100%;
+    border-radius: 5px;
+  }
+  .table-buttons-body .outline-table-button{
+    border:1px solid var(--blue700);
+    color:var(--blue700);
+    background-color: white;
+  }
+  .schedule-lesson-heading{
+    font-size: 20px;
+    text-align: center;
+  }
+  .sp-time-plan{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  .schedule-lesson-main{
+    width: 90%;
+  }
+  .normal-height{
+    max-height: 85vh;
+    height: 100%;
+  }
+  .extra-height{
+    height: 100%;
+    max-height: 85vh;
+  }
+  .schedule-lesson-padding{
+    padding:40px 20px 20px 20px;
+  }
 }

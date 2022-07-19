@@ -16,13 +16,21 @@ function DrivingTest() {
 	let roadTestVehicle = ROAD_TEST_PACKAGE_PRICE;
 
 	useEffect(() => {
-		localStorage.removeItem('instructorName');
-		localStorage.removeItem('date');
-		localStorage.removeItem('day');
-		localStorage.removeItem('slot');
-		localStorage.removeItem('instructorId');
-		localStorage.removeItem('weekStartDate');
-		localStorage.removeItem('roadTestVehicle');
+		if (window.location.pathname === '/portalDrivingTest') {
+			localStorage.removeItem('date');
+			localStorage.removeItem('day');
+			localStorage.removeItem('slot');
+			localStorage.removeItem('weekStartDate');
+			localStorage.removeItem('roadTestVehicle');
+		} else {
+			localStorage.removeItem('instructorName');
+			localStorage.removeItem('instructorId');
+			localStorage.removeItem('date');
+			localStorage.removeItem('day');
+			localStorage.removeItem('slot');
+			localStorage.removeItem('weekStartDate');
+			localStorage.removeItem('roadTestVehicle');
+		}
 		document.title = 'Select A Vehicle | Kruzee';
 	}, []);
 
@@ -67,6 +75,14 @@ function DrivingTest() {
 			},
 		});
 	}, []);
+
+	let nextURL = '';
+
+	if (window.location.pathname !== '/driving-test') {
+		nextURL = 'portalPayment';
+	} else {
+		nextURL = 'book-session';
+	}
 
 	const handleClick = useCallback((k) => {
 		return () => {
@@ -136,33 +152,37 @@ function DrivingTest() {
 				<Toolbar path="/pricing" back_button="display" />
 				<div className="row">
 					<div className="col-12"></div>
-					<ProgressBar
-						location={[
-							{
-								progress: 'complete',
-							},
-						]}
-						packages={[
-							{
-								progress: 'complete',
-							},
-						]}
-						pickup={[
-							{
-								progress: 'current',
-							},
-						]}
-						account={[
-							{
-								progress: 'incomplete',
-							},
-						]}
-						payment={[
-							{
-								progress: 'incomplete',
-							},
-						]}
-					/>
+					{window.location.pathname === '/portalDrivingTest' ? (
+						<></>
+					) : (
+						<ProgressBar
+							location={[
+								{
+									progress: 'complete',
+								},
+							]}
+							packages={[
+								{
+									progress: 'complete',
+								},
+							]}
+							pickup={[
+								{
+									progress: 'current',
+								},
+							]}
+							account={[
+								{
+									progress: 'incomplete',
+								},
+							]}
+							payment={[
+								{
+									progress: 'incomplete',
+								},
+							]}
+						/>
+					)}
 					<div className="col-lg-6 offset-lg-3">
 						<LargeHeading large_heading="Do you need a vehicle for your road test?" />
 					</div>
@@ -218,7 +238,7 @@ function DrivingTest() {
 						</div>
 					</div>
 					<div className="col-lg-4">
-						<Link to="/book-session" state={{ heading_name: 'Book your first driving lesson' }}>
+						<Link to={`/${nextURL}`} state={{ heading_name: 'Book your first driving lesson' }}>
 							<button
 								className={`submit-btn ${disabled === false ? 'opacity-01' : 'opacity-03'}`}
 								disabled={disabled}

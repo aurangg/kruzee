@@ -1,6 +1,17 @@
 .simple-bg{
     background-color: var(--blue50);
 }
+.adjusted-overlay{
+    border-radius: 10px;
+    overflow: scroll;
+    /* margin-top:15vh; */
+    height: calc(100vh - 15%);
+    background-color: white;
+    position: relative;
+}
+.border-radius-10{
+    border-radius: 10px;
+}
 .no-index-padding{
     padding:0px;
 }
@@ -162,6 +173,13 @@
     height:3px;
     margin:0px 6px;
     width: 50%;
+}
+.grey-line-2{
+    background-color: #CCCCCC;
+    height:3px;
+    border-radius:3px;
+    margin:20px 0px 0px 0px;
+    width: 100%;
 }
 .submit-btn{
     background-color: var(--blue500);
@@ -724,6 +742,31 @@
     width: 75%;
     line-height: 30px;
 }
+.indiviual-lesson-info-text{
+    font-family: 'HKGrotesk-Regular';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 0.1em;
+    margin:30px 0 20px;
+    text-align: center;
+    color:var(--gray800);
+    border-bottom:1px solid #CCCCCC;
+    width: 100%;
+}
+.indiviual-lesson-span{
+    background-color: var(--blue50);
+    padding:0px 10px;
+}
+.indiviual-lesson-info-text-2{
+    font-family: 'HKGrotesk-Regular';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    margin-bottom:20px;
+    text-align: center;
+    color:var(--gray800);
+}
 .indiviual-lesson{
     background: #FFFFFF;
     border: 1px solid var(--gray400);
@@ -745,12 +788,20 @@
     justify-content: flex-start;
     align-items: center;
 }
+.indiviual-lesson .lesson-count-2{
+    display: flex;
+    flex-direction: column;
+    padding-left:34px;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
 .indiviual-lesson .lesson-count .lesson-number{
     font-family: 'Merriweather', serif;
     font-style: italic;
     font-weight: 700;
     font-size: 32px;
-    line-height: 25px;
+    line-height: 32px;
+    padding:0px;
     text-align: center;
     font-feature-settings: 'pnum' on, 'lnum' on, 'liga' off;
     color: var(--gray900);
@@ -849,7 +900,7 @@
     border-radius: 4px;
     padding:50px 30px 25px 30px;
     margin-bottom:40px;
-    height: 650px;
+    height: 750px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -1442,6 +1493,13 @@
     margin-bottom: 100px;
 }
 
+.desktop-only-table{
+    display: table-cell;
+}
+.mobile-only-table{
+    display: none;
+}
+
 @media (max-width:1400px){
     .pricing-box{
         height: 100%;
@@ -1451,7 +1509,7 @@
 @media (max-width:990px) {
     .pricing-box{
         height: auto;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }
     .order-summary{
         margin-top: 60px;
@@ -1503,7 +1561,7 @@
         margin-top: 40px;
     }
     .pricing-box{
-        height: 550px;
+        height: auto;
     }
     .pricing-box .pricing{
         font-size: 38.39px;
@@ -1630,5 +1688,11 @@
     }
     .payment-form .payment-form-heading{
         display: none;
+    }
+    .desktop-only-table{
+        display: none;
+    }
+    .mobile-only-table{
+        display: block;
     }
 }

@@ -11,26 +11,36 @@ const TimeTablePopup = (props) => {
 
 	return (
 		<div className="map-overlay-box">
-			<div className="map-container">
-				<span className="close-icon" onClick={props.handleClose}>
+			{/* <div className="schedule-lesson-main"> */}
+				{/* <span className="close-icon" onClick={props.handleClose}>
 					x
-				</span>
+				</span> */}
 				{show === false ? (
-					<ChooseTime
-						isReschedule={props.isReschedule}
-						instructorDetail={props.instructorDetail}
-						showPickup={showMap}
-						lessonNumber={props.lessonNumber}
-					/>
+					<div className='schedule-lesson-main normal-height'>
+						<div className='close-button' onClick={props.handleClose}>
+							x
+						</div>
+						<ChooseTime
+							isReschedule={props.isReschedule}
+							instructorDetail={props.instructorDetail}
+							showPickup={showMap}
+							lessonNumber={props.lessonNumber}
+						/>
+					</div>
 				) : (
-					<MapSchedule
-						lessonDetails={props.lessonDetails}
-						instructorId={props.instructorDetail._id}
-						handleClose={props.handleClose}
-						isReschedule={props.isReschedule}
-					/>
+					<div className='schedule-lesson-main extra-height'>
+						<div className='close-button' onClick={props.handleClose}>
+							x
+						</div>
+						<MapSchedule
+							lessonDetails={props.lessonDetails}
+							instructorId={props.instructorDetail._id}
+							handleClose={props.handleClose}
+							isReschedule={props.isReschedule}
+						/>
+					</div>
 				)}
-			</div>
+			{/* </div> */}
 		</div>
 	);
 };

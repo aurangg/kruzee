@@ -45,6 +45,12 @@ function App() {
 					<Route path="/verification-success" element={<OtpSuccess />} />
 					<Route path="/reset-password" element={<ResetPassword />} />
 					<Route path="*" element={<FourOFour />} />
+					{/* <Route path="/portalPricing" element={<PortalPricing />} /> */}
+					<Route path="/portalIndiviualLesson" element={<IndivialLesson />} />
+					<Route path="/portalPricing" element={<Pricing />} />
+					<Route exact path="/portalDrivingTest" element={<DrivingTest />} />
+					<Route path="/portalPayment" element={<Payment />} />
+					<Route path="/successPortal" element={<PaymentSuccess />} />
 				</Routes>
 			</BrowserRouter>
 		</IntercomProvider>

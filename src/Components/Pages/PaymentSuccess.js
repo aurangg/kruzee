@@ -81,9 +81,15 @@ function PaymentSuccess() {
 		}
 	});
 	useEffect(() => {
-		setTimeout(() => {
-			navigate('/SignIn');
-		}, 3000);
+		if (window.location.pathname === '/successPortal') {
+			setTimeout(() => {
+				navigate('/StudentPortal');
+			}, 3000);
+		} else {
+			setTimeout(() => {
+				navigate('/SignIn');
+			}, 3000);
+		}
 	});
 	return (
 		<section className="simple-bg">

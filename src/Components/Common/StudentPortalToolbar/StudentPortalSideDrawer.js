@@ -9,31 +9,36 @@ const StudentPortalSideDrawer = props => {
     return(
         <nav className={drawerClasses} onClick={props.drawerClickHandler}>
             <ul>
-            <li>
-                        <Link to="/">
-                            Home
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/portfolio">
-                            Portfolio
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/about">
-                            About
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/careers">
-                            Careers
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/contact">
-                            Contact
-                        </Link>
-                    </li>
+                <li>
+                    <Link to="/" className='active'>
+                        My Lessons
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/">
+                        Home
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/portfolio">
+                        Pricing
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/about">
+                        Contact
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/careers">
+                        Blog
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/contact">
+                        Logout
+                    </Link>
+                </li>
             </ul>
         </nav>
     )

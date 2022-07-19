@@ -95,6 +95,7 @@ function MapSchedule({ lessonDetails, instructorId, handleClose, isReschedule })
 
 function Search({ setPlace, instructorId, lessonDetails, lessonId, handleClose, isReschedule }) {
 	const [loadingClass, setLoadingClass] = useState(false);
+	const [createNewBookingLoader, setCreateNewBookingLoader] = useState(false)
 	const [mapButton, setMapButton] = useState(true);
 	useEffect(() => {
 		localStorage.removeItem('pick-up');
@@ -126,16 +127,16 @@ function Search({ setPlace, instructorId, lessonDetails, lessonId, handleClose, 
 		SetSelected(false);
 	};
 	const createNewBooking = async () => {
+		setCreateNewBookingLoader(true)
 		const slots = getSlot();
 		// const date = new Date();
 		const date = getDate();
 		const newDate = date.replaceAll('-', '/');
 		let bookedSlots;
-
 		isReschedule === true
 			? (bookedSlots = await instructorRescheduleSlotBooked(instructorId, lessonDetails))
 			: (bookedSlots = await bookedInstructorSlot(instructorId));
-		const updateSchedule = await axios.post(`${BASE_URL}/api/student/addBooking`, {
+		const updateSchedule = await axios.post(`${process.env.REACT_APP_BASE_URL2}/api/student/addBooking`, {
 			instructorId: instructorId,
 			lessonId: lessonId,
 			bookings: bookedSlots,
@@ -148,15 +149,17 @@ function Search({ setPlace, instructorId, lessonDetails, lessonId, handleClose, 
 			pickupLocation: pickupLocation,
 			notes: '',
 		});
-
+		if(updateSchedule?.status === 200){
+			setCreateNewBookingLoader(false)
+		}
 		handleClose();
 	};
 
 	return (
 		<div className="container">
 			<div className="row">
-				<div className="col-lg-4 map-search-box">
-					<div className="map-box">
+				<div className="col-lg-4">
+					<div className="map-box map-box-schedule">
 						<Combobox
 							onSelect={async (address) => {
 								setValue(address, false);
@@ -220,9 +223,10 @@ function Search({ setPlace, instructorId, lessonDetails, lessonId, handleClose, 
 							>
 								Continue
 								<span
-									className={`${loadingClass === false ? '' : 'spinner-border spinner-border-sm'} `}
+									className={`${loadingClass === false ? '' : 'spinner-border spinner-border-sm'} ${createNewBookingLoader === false ? '' : 'spinner-border spinner-border-sm'}`}
 									style={{ marginLeft: '5px' }}
-								></span>
+								>
+								</span>
 							</button>
 						</Link>
 					</div>

@@ -18,7 +18,7 @@ export const instructorSlotBooked = async (instructorId) => {
 	const slots = getSlot();
 
 	const instructorSlots = await axios
-		.get(`${BASE_URL}/api/student/getInstructorDetail?id=${instructorId}`)
+		.get(`${process.env.REACT_APP_BASE_URL2}/api/student/getInstructorDetail?id=${instructorId}`)
 		.then((res) => {
 			return res?.data?.data;
 		})
@@ -39,7 +39,7 @@ export const instructorRescheduleSlotBooked = async (instructorId, lessonDetails
 	const dayToPop = lessonDetails.day;
 
 	const instructorSlots = await axios
-		.get(`${BASE_URL}/api/student/getInstructorDetail?id=${instructorId}`)
+		.get(`${process.env.REACT_APP_BASE_URL2}/api/student/getInstructorDetail?id=${instructorId}`)
 		.then((res) => {
 			return res?.data?.data;
 		})
@@ -52,7 +52,6 @@ export const instructorRescheduleSlotBooked = async (instructorId, lessonDetails
 	const getOldSlot = await instructorSlots?.bookedSlots?.find((item) => {
 		return item.startDate.split('T')[0] === oldDate;
 	});
-
 	await getSlots[slots.day].push(+slots.slot);
 
 	let idx = getOldSlot[dayToPop].indexOf(timeToPop);
