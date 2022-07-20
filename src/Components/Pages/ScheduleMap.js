@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import { BASE_URL } from '../Common/constants';
 import { setLatLong, setPickup, getPickup, getDate, getSlot } from '../Common/localStorage';
 import { instructorSlotBooked, instructorRescheduleSlotBooked } from '../Common/utils';
 import { withGoogleMap, GoogleMap, withScriptjs, Marker } from 'react-google-maps';

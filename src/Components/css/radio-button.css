@@ -1,0 +1,62 @@
+.my-container {
+    position: relative;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: 0.3s;
+  }
+  .my-container.special-active{
+    border: 3px solid #37A2D0;
+}
+  /* Hide the browser's default radio button */
+  .my-container .radio-buttons {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    background-color: #fff;
+    border: 1px solid #ECECEC;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  /* .my-container:hover .radio-buttons ~ .checkmark {
+    background-color: #ccc;
+  } */
+  
+  /* When the radio button is checked, add a blue background */
+  .my-container .radio-buttons:checked ~ .checkmark {
+    background-color: #37A2D0;
+    border: 1px solid #37A2D0;
+  }
+  
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the indicator (dot/circle) when checked */
+  .my-container .radio-buttons:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the indicator (dot/circle) */
+  .my-container .checkmark:after {
+      content: url(/public/images/checkbox-tick.svg);
+      top:-2px;
+      left:4px;
+  }

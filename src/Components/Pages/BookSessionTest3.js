@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import './onboarding.css';
+import '../css/onboarding.css';
 import { Link } from 'react-router-dom';
 import Toolbar from '../Common/Toolbar';
 import LargeHeading from '../Common/LargeHeading';
@@ -11,18 +11,15 @@ import { format, getMonth } from 'date-fns';
 import { callTime } from '../Common/utils';
 import SmallLoader from '../Common/SmallLoader';
 import FourOFour from '../Common/404';
-import { getPostalCode } from '../localStorage';
+import { getPostalCode } from '../utils/localStorage';
 import { Data } from '@react-google-maps/api';
 import { useIntercom } from 'react-use-intercom';
 
 function BookSessionTest3() {
 	const { boot } = useIntercom();
 	boot();
-	const [dateId, setDateId] = useState(0);
 	const [activeState, setActiveState] = useState(false);
 	const [btn, setBtn] = useState(false);
-	const [start, setStart] = useState('');
-	const [end, setEnd] = useState('');
 	const [week, setWeek] = useState(0);
 
 	const [slots, setSlots] = useState(0);

@@ -1,12 +1,3 @@
-// export const BASE_URL = 'http://localhost:5000';
-
-// export const BASE_URL = "https://kruzee-backend.herokuapp.com";
-
-// export const BASE_URL = "https://3.97.140.209:5000";
-
-// export const BASE_URL = 'https://kruzeee.tk';
-export const BASE_URL = 'https://kruzee-backend.herokuapp.com';
-
 export const ONE_LESSON_PRICE = {
 	SINGLE_LESSON_PRICE: 65,
 };
@@ -28,7 +19,5 @@ export const BASIC_PACKAGE_PRICE = {
 export const CORE_PACKAGE_PRICE = {
 	TOTAL_PRICE: 845,
 };
-
-export const INTERCOM_APP_ID = 'wla5vdcu';
 
 export const ROAD_TEST_PACKAGE_PRICE = 245;

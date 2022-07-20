@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import './onboarding.css';
+import '../css/onboarding.css';
 import { Link } from 'react-router-dom';
 import Toolbar from '../Common/Toolbar';
 import LargeHeading from '../Common/LargeHeading';

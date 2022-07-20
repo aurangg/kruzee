@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { format, getMonth } from 'date-fns';
-import { callTime } from '../Common/utils';
+import { callTime } from '../utils/utils';
 import Loader from '../Common/Loader';
 import { useIntercom } from 'react-use-intercom';
 
